@@ -1,7 +1,7 @@
 const EVENTS_URL = "data/events.json";
 
 let currentCsvUrl = null;
-let rows = [];
+let currentRows = null;
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
@@ -10,9 +10,14 @@ function parseCSV(text) {
   return { headers, data };
 }
 
-function toNumber(v) {
+function num(v) {
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
+}
+
+function getIdx(headers, name) {
+  const i = headers.indexOf(name);
+  return i >= 0 ? i : null;
 }
 
 function renderTable(headers, data) {
@@ -21,50 +26,111 @@ function renderTable(headers, data) {
   thead.innerHTML = "";
   tbody.innerHTML = "";
 
-  // choose columns to display in a consistent order if present
-  const preferred = [
-    "Place","Player","Total",
-    "Aces","Albatrosses","Eagles","Birdies","Pars","Bogeys+",
-    "Ace Points","Albatross Points","Eagle Points","Birdie Points","Bogey+ Points","Place Points","Total Points"
-  ];
-
-  const headerIndex = new Map(headers.map((h,i)=>[h,i]));
-  const displayCols = preferred.filter(h => headerIndex.has(h));
-  // if file has other columns, append them
-  headers.forEach(h => { if (!displayCols.includes(h)) displayCols.push(h); });
-
-  // header
-  const trh = document.createElement("tr");
-  displayCols.forEach(h=>{
-    const th = document.createElement("th");
-    th.textContent = h;
-    if (/(Points|Aces|Albatrosses|Eagles|Birdies|Pars|Bogeys\+|Total)$/i.test(h)) th.classList.add("num");
-    trh.appendChild(th);
-  });
-  thead.appendChild(trh);
-
-  // body
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  const filtered = data.filter(r => {
-    const player = (r[headerIndex.get("Player")] ?? "").toLowerCase();
+  const playerIdx = getIdx(headers, "Player");
+
+  // Identify columns we care about (if present)
+  const totalIdx = getIdx(headers, "Total");
+  const pointsIdx = getIdx(headers, "Total Points");
+  const placeIdx = getIdx(headers, "Place");
+  const avgFinishIdx = getIdx(headers, "Avg Finish");     // totals view suggested
+  const eventsPlayedIdx = getIdx(headers, "Events Played"); // totals view suggested
+
+  // Sort by Total Points desc (fallback 0)
+  const sorted = [...data].sort((a,b) => (num(b[pointsIdx] ?? 0) ?? 0) - (num(a[pointsIdx] ?? 0) ?? 0));
+
+  // Filter by search
+  const filtered = sorted.filter(r => {
+    const player = (playerIdx != null ? (r[playerIdx] ?? "") : "").toLowerCase();
     return !q || player.includes(q);
   });
 
-  for (const r of filtered) {
-    const tr = document.createElement("tr");
-    displayCols.forEach(h=>{
-      const td = document.createElement("td");
-      const v = r[headerIndex.get(h)] ?? "";
-      td.textContent = v;
-      if (h === "Place") td.classList.add("place");
-      if (/(Points|Aces|Albatrosses|Eagles|Birdies|Pars|Bogeys\+|Total)$/i.test(h)) td.classList.add("num");
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
+  // Build DISPLAY columns in the exact order you asked for
+  // MDGFL Ranking (derived) replaces Place
+  // Finish (derived): Avg Finish if exists, else Place
+  const display = [
+    "MDGFL Ranking",
+    "Player",
+    "Total",
+    "Finish",
+    "Aces",
+    "Albatrosses",
+    "Eagles",
+    "Birdies",
+    "Pars",
+    "Bogeys+",
+    "Ace Points",
+    "Albatross Points",
+    "Eagle Points",
+    "Birdie Points",
+    "Bogey+ Points",
+    "Place Points",
+    "Total Points",
+    "Events Played",
+    "Rounds"
+  ];
+
+  // Only show columns that exist in this CSV, except derived ones which always show
+  const exists = new Set(headers);
+  const showCols = display.filter(c => c === "MDGFL Ranking" || c === "Finish" || c === "Events Played" || exists.has(c));
+
+  // Header row
+  const trh = document.createElement("tr");
+  for (const col of showCols) {
+    const th = document.createElement("th");
+    th.textContent = col;
+    if (/Points$|Aces|Albatrosses|Eagles|Birdies|Pars|Bogeys\+|Total|Finish|Rounds|Events Played/.test(col)) {
+      th.classList.add("num");
+    }
+    trh.appendChild(th);
   }
+  thead.appendChild(trh);
+
+  // Body rows
+  filtered.forEach((r, i) => {
+    const tr = document.createElement("tr");
+
+    // derived fields
+    const mdgflRank = i + 1;
+
+    // Finish: totals uses Avg Finish if present, otherwise Place
+    let finishVal = "";
+    if (avgFinishIdx != null) finishVal = r[avgFinishIdx] ?? "";
+    else if (placeIdx != null) finishVal = r[placeIdx] ?? "";
+
+    // Events Played: show if present, else blank
+    let eventsPlayedVal = "";
+    if (eventsPlayedIdx != null) eventsPlayedVal = r[eventsPlayedIdx] ?? "";
+
+    for (const col of showCols) {
+      const td = document.createElement("td");
+
+      let val = "";
+      if (col === "MDGFL Ranking") val = String(mdgflRank);
+      else if (col === "Finish") val = finishVal;
+      else if (col === "Events Played") val = eventsPlayedVal;
+      else {
+        const idx = getIdx(headers, col);
+        val = idx != null ? (r[idx] ?? "") : "";
+      }
+
+      td.textContent = val;
+
+      if (col === "MDGFL Ranking") td.classList.add("place"); // gold styling
+      if (/Points$|Aces|Albatrosses|Eagles|Birdies|Pars|Bogeys\+|Total|Finish|Rounds|Events Played/.test(col)) {
+        td.classList.add("num");
+      }
+
+      tr.appendChild(td);
+    }
+
+    tbody.appendChild(tr);
+  });
 
   document.getElementById("footer").textContent =
-    `Rows: ${filtered.length} • Updated: ${new Date().toLocaleString()}`;
+    `Rows: ${filtered.length} • Sorted by Total Points • Updated: ${new Date().toLocaleString()}`;
+
+  currentRows = { headers, data: filtered };
 }
 
 async function loadCsv(url) {
@@ -77,8 +143,11 @@ async function loadCsv(url) {
   const text = await res.text();
 
   const { headers, data } = parseCSV(text);
-  rows = { headers, data };
   renderTable(headers, data);
+
+  document.getElementById("downloadBtn").onclick = () => {
+    if (currentCsvUrl) window.location.href = currentCsvUrl;
+  };
 }
 
 async function loadEvents() {
@@ -88,27 +157,24 @@ async function loadEvents() {
 
   const sel = document.getElementById("eventSelect");
   sel.innerHTML = "";
-  events.forEach((e, idx)=>{
+  events.forEach(e => {
     const opt = document.createElement("option");
     opt.value = e.csv;
     opt.textContent = e.name;
     sel.appendChild(opt);
   });
 
-  sel.addEventListener("change", ()=> loadCsv(sel.value));
-  document.getElementById("refreshBtn").addEventListener("click", ()=> loadCsv(sel.value));
-  document.getElementById("searchInput").addEventListener("input", ()=>{
-    if (rows.headers) renderTable(rows.headers, rows.data);
-  });
-  document.getElementById("downloadBtn").addEventListener("click", ()=>{
-    if (currentCsvUrl) window.location.href = currentCsvUrl;
+  sel.addEventListener("change", () => loadCsv(sel.value));
+  document.getElementById("refreshBtn").addEventListener("click", () => loadCsv(sel.value));
+  document.getElementById("searchInput").addEventListener("input", () => {
+    // re-render from latest loaded CSV by reloading (simple + safe)
+    if (currentCsvUrl) loadCsv(currentCsvUrl);
   });
 
-  // load first option (Totals by default if you put it first in events.json)
   await loadCsv(sel.value);
 }
 
-loadEvents().catch(err=>{
+loadEvents().catch(err => {
   console.error(err);
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = `<tr><td class="muted">Error: ${String(err)}</td></tr>`;
