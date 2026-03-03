@@ -3,228 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Disc Golf Fantasy — 2026 Season</title>
-  <meta name="description" content="Supreme Flight Open — 2026 | Disc Golf Fantasy League standings and stats." />
-  <style>
-    :root{
-      --bg:#0f1724; --card:#111827; --accent:#D4AF37; --muted:#9CA3AF; --panel:#0b1220;
-      --glass: rgba(255,255,255,0.03);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071126 0%, #0b1220 100%); color:#fff;}
-    .wrap{max-width:1100px;margin:28px auto;padding:20px;}
-    header{display:flex;gap:16px;align-items:center;margin-bottom:18px;}
-    .logo{width:68px;height:68px;border-radius:8px;background:linear-gradient(135deg,#12263b,#183343);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);box-shadow:0 6px 20px rgba(0,0,0,0.6)}
-    h1{margin:0;font-size:28px;letter-spacing:0.4px}
-    p.lead{color:var(--muted);margin:6px 0 0}
-    section.grid{display:grid;grid-template-columns: 1fr 420px; gap:18px;align-items:start}
-    @media(max-width:980px){section.grid{grid-template-columns:1fr} .sidebar{order:2}}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px;border-radius:12px;box-shadow: 0 6px 24px rgba(2,6,23,0.6)}
-    .leaderboard{width:100%;border-collapse:collapse}
-    .leaderboard th{font-weight:600;text-align:left;padding:10px 12px;color:var(--muted);font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04)}
-    .leaderboard td{padding:10px 12px;border-bottom:1px dashed rgba(255,255,255,0.02)}
-    .place{width:54px;color:var(--accent);font-weight:700}
-    .player{font-weight:600}
-    .pts{font-weight:700;color:var(--accent);text-align:right}
-    .small{font-size:12px;color:var(--muted)}
-    .topbar{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer}
-    .sidebar .card{position:sticky;top:24px}
-    .statrow{display:flex;gap:10px;flex-wrap:wrap}
-    .stat{background:var(--glass);padding:12px;border-radius:8px;min-width:120px;text-align:center}
-    .stat b{display:block;font-size:20px;color:var(--accent)}
-    footer{margin-top:20px;color:var(--muted);font-size:13px}
-  </style>
+  <title>Disc Golf Fantasy — 2026</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <div class="logo">SFO</div>
+    <header class="header">
+      <div class="logo">DG</div>
       <div>
         <h1>Disc Golf Fantasy • 2026</h1>
-        <p class="lead">Supreme Flight Open — Olympus — final event stats and fantasy points</p>
+        <p class="muted">Filter by event, or view Total Stats.</p>
       </div>
     </header>
 
-    <section class="grid">
-      <main>
-        <div class="card">
-          <div class="topbar">
-            <strong>Event: Supreme Flight Open (SFO)</strong>
-            <div>
-              <button class="btn" id="refreshBtn">Refresh</button>
-              <button class="btn" id="downloadCsv">Download CSV</button>
-            </div>
-          </div>
+    <div class="bar card">
+      <div class="bar-left">
+        <label class="muted" for="eventSelect">View:</label>
+        <select id="eventSelect"></select>
+        <input id="searchInput" placeholder="Search player…" />
+      </div>
+      <div class="bar-right">
+        <button id="refreshBtn">Refresh</button>
+        <button id="downloadBtn">Download CSV</button>
+      </div>
+    </div>
 
-          <div style="margin-top:12px;overflow:auto">
-            <table class="leaderboard" id="standingsTable" aria-live="polite">
-              <thead>
-                <tr>
-                  <th class="place">#</th>
-                  <th>Player</th>
-                  <th style="text-align:right">Total</th>
-                  <th style="text-align:right">Aces</th>
-                  <th style="text-align:right">Alb</th>
-                  <th style="text-align:right">Eagles</th>
-                  <th style="text-align:right">Birdies</th>
-                  <th style="text-align:right">Pars</th>
-                  <th style="text-align:right">Bogey+</th>
-                  <th style="text-align:right">Points</th>
-                </tr>
-              </thead>
-              <tbody id="standingsBody">
-                <tr><td colspan="10" class="small">Loading standings…</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+    <div class="card table-wrap">
+      <table id="statsTable">
+        <thead id="thead"></thead>
+        <tbody id="tbody">
+          <tr><td class="muted">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-        <div style="height:18px"></div>
-
-        <div class="card" id="notes">
-          <h3 style="margin:0 0 8px">Notes</h3>
-          <div class="small">
-            - Point rules: Ace 10, Albatross 10, Eagle 5, Birdie 1, Bogey+ -1. Place stacking applied.<br>
-            - Data is pulled from a CSV (replace the CSV_URL in the script below with your published CSV).<br>
-            - To make this a multi-event site, add pages/tabs per event and update Total Stats.
-          </div>
-        </div>
-      </main>
-
-      <aside class="sidebar">
-        <div class="card">
-          <h4 style="margin:0 0 10px">Event Summary</h4>
-          <div class="statrow" id="summaryStats">
-            <div class="stat">
-              <span class="small">Winner</span>
-              <b id="winnerName">-</b>
-            </div>
-            <div class="stat">
-              <span class="small">Top Points</span>
-              <b id="winnerPts">-</b>
-            </div>
-            <div class="stat">
-              <span class="small">Total Players</span>
-              <b id="totalPlayers">-</b>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div class="card">
-          <h4 style="margin:0 0 10px">Quick Links</h4>
-          <div class="small">
-            • Edit site via GitHub Pages<br>
-            • Replace CSV_URL with your published Google Sheet CSV or raw GitHub CSV<br>
-            • Ask me to wire up automatic totals across multiple events
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <footer class="small">Built for your Disc Golf Fantasy League • <span id="now"></span></footer>
+    <footer class="muted footer" id="footer"></footer>
   </div>
 
-  <script>
-    // === CONFIG: replace this with your CSV-public URL ===
-    // Example: Google Sheets published CSV or raw GitHub raw URL
-    const CSV_URL = https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7P0dLbWCfdoMrPwXMN5E4OFR_Ytr29k_dECzOHTc4kUiUDXtln91lt57Q-78zA/pub?output=csv;
-
-    // Helper: parse CSV (simple)
-    function parseCSV(text) {
-      const lines = text.trim().split(/\r?\n/);
-      const headers = lines.shift().split(",").map(h=>h.trim().replace(/^"|"$/g,""));
-      return lines.map(line=>{
-        // naive split (works if commas are not embedded in fields)
-        const cols = line.split(",").map(c=>c.trim().replace(/^"|"$/g,""));
-        const obj = {};
-        headers.forEach((h,i)=>obj[h]=cols[i]??"");
-        return obj;
-      });
-    }
-
-    async function loadAndRender(){
-      const tbody = document.getElementById("standingsBody");
-      tbody.innerHTML = '<tr><td colspan="10" class="small">Loading…</td></tr>';
-      try {
-        const res = await fetch(CSV_URL);
-        if(!res.ok) throw new Error("Unable to fetch CSV: " + res.status);
-        const txt = await res.text();
-        const rows = parseCSV(txt);
-
-        // normalize column names - try to support common variants
-        const norm = r => {
-          const copy = {};
-          for(const k in r){
-            const nk = k.trim().toLowerCase();
-            copy[nk] = r[k];
-          }
-          return copy;
-        };
-
-        const data = rows.map(r => norm(r));
-
-        // transform numbers
-        data.forEach(d=>{
-          d.total_points = Number(d["total points"] ?? d["total_points"] ?? d["totalpoints"] ?? d["total"] ?? 0);
-          d.total = d["total"] ?? d["total_points"] ?? d["total points"] ?? d["totalpoints"] ?? d["total"];
-          d.aces = Number(d["aces"] ?? d["ace"] ?? 0);
-          d.alb = Number(d["albatrosses"] ?? d["albatross"] ?? d["alb"] ?? 0);
-          d.eagles = Number(d["eagles"] ?? 0);
-          d.birdies = Number(d["birdies"] ?? 0);
-          d.pars = Number(d["pars"] ?? 0);
-          d.bogeys = Number(d["bogey+ points"] ? 0 : d["bogeys+"] ?? d["bogeys"] ?? d["bogey+"] ?? d["bogeys_or_worse"] ?? 0) || Number(d["bogeys+"] ?? d["bogeys"] ?? d["bogey+"] ?? 0);
-          d.standing = d["place"] ?? d["place " ] ?? d["place"];
-          d.player = d["player"] ?? d["player " ] ?? d["player"];
-        });
-
-        // sort by total_points (desc). If total_points missing try Total Points variants, otherwise fallback to total_points field
-        data.sort((a,b)=> (b.total_points||0) - (a.total_points||0));
-
-        // render
-        tbody.innerHTML = "";
-        data.forEach((d,i)=>{
-          const tr = document.createElement("tr");
-          const place = i+1;
-          tr.innerHTML = `
-            <td class="place">${place}</td>
-            <td class="player">${d.player || "-"}</td>
-            <td class="pts">${d.total_points ?? 0}</td>
-            <td style="text-align:right">${d.aces ?? 0}</td>
-            <td style="text-align:right">${d.alb ?? 0}</td>
-            <td style="text-align:right">${d.eagles ?? 0}</td>
-            <td style="text-align:right">${d.birdies ?? 0}</td>
-            <td style="text-align:right">${d.pars ?? 0}</td>
-            <td style="text-align:right">${d.bogeys ?? 0}</td>
-            <td style="text-align:right">${d.total_points ?? 0}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        // summary
-        document.getElementById("winnerName").textContent = data[0]?.player ?? "-";
-        document.getElementById("winnerPts").textContent = data[0]?.total_points ?? "-";
-        document.getElementById("totalPlayers").textContent = data.length;
-        document.getElementById("now").textContent = new Date().toLocaleString();
-
-        // download CSV link
-        document.getElementById("downloadCsv").onclick = ()=> location.href = CSV_URL;
-      } catch(err){
-        tbody.innerHTML = `<tr><td colspan="10" class="small">Error loading CSV: ${String(err)}</td></tr>`;
-        console.error(err);
-      }
-    }
-
-    document.getElementById("refreshBtn").addEventListener("click", loadAndRender);
-
-    // load once on start
-    if (CSV_URL && CSV_URL !== "REPLACE_WITH_PUBLISHED_CSV_URL") {
-      loadAndRender();
-    } else {
-      document.getElementById("standingsBody").innerHTML = '<tr><td colspan="10" class="small">No CSV_URL configured. Edit index.html and set CSV_URL to your published CSV link.</td></tr>';
-    }
-  </script>
+  <script src="assets/app.js"></script>
 </body>
 </html>
