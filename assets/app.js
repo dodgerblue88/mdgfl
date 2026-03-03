@@ -49,25 +49,23 @@ function renderTable(headers, data) {
   // MDGFL Ranking (derived) replaces Place
   // Finish (derived): Avg Finish if exists, else Place
   const display = [
-    "MDGFL Ranking",
-    "Player",
-    "Total",
-    "Finish",
-    "Aces",
-    "Albatrosses",
-    "Eagles",
-    "Birdies",
-    "Pars",
-    "Bogeys+",
-    "Ace Points",
-    "Albatross Points",
-    "Eagle Points",
-    "Birdie Points",
-    "Bogey+ Points",
-    "Place Points",
-    "Total Points",
-    "Events Played",
-    "Rounds"
+  "MDGFL Ranking",
+  "Player",
+  "Total",
+  "Finish",
+  "Aces",
+  "Albatrosses",
+  "Eagles",
+  "Birdies",
+  "Pars",
+  "Bogeys+",
+  "Total Points",
+  "Events Played",
+  "Top 20s",
+  "Top 10s",
+  "Top 3s",
+  "Wins",
+  "Rounds"
   ];
 
   // Only show columns that exist in this CSV, except derived ones which always show
