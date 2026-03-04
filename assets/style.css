@@ -35,4 +35,22 @@ tbody td{padding:10px 10px;border-bottom:1px dashed rgba(255,255,255,.04);font-s
 td.num, th.num{text-align:right}
 td.place{color:var(--accent);font-weight:800}
 .footer{margin-top:12px;font-size:12px}
+.subnav {
+  display: flex;
+  gap: 20px;
+  padding: 12px 20px;
+  background: #111;
+  border-bottom: 1px solid #222;
+}
+
+.subnav a {
+  text-decoration: none;
+  color: #ccc;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.subnav a:hover {
+  color: white;
+}
 
