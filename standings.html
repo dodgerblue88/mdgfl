@@ -6,6 +6,14 @@
   <title>The Mediocre Disc Golf Fantasy League — 2026</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
+<script>
+  const links = document.querySelectorAll(".nav-link");
+  links.forEach(link => {
+    if (link.href === window.location.href) {
+      link.classList.add("active");
+    }
+  });
+</script>
 <body>
 <nav class="subnav">
   <a href="standings.html" class="nav-link">Standings</a>
