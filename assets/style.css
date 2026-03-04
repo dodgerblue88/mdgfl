@@ -10,7 +10,7 @@ body{margin:0;background:linear-gradient(180deg,#071126,#0b1220);color:var(--txt
   align-items:center;
   gap:10px;}
 .logo-img{
-  width:28px;
+  width:84px;
   height:auto;
   object-fit:contain;
 }
