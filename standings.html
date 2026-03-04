@@ -1,1 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Mediocre Disc Golf Fantasy League — 2026</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<nav class="subnav">
+  <a href="standings.html" class="nav-link">Standings</a>
+  <a href="stats.html" class="nav-link">Stats</a>
+</nav>
+  <div class="wrap">
+    <header class="header">
+      <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+      <div>
+        <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+        <p class="muted">Filter by event, or view Total Stats.</p>
+      </div>
+    </header>
 
+    <div class="bar card">
+      <div class="bar-left">
+        <label class="muted" for="eventSelect">View:</label>
+        <select id="eventSelect"></select>
+        <input id="searchInput" placeholder="Search player…" />
+      </div>
+      <div class="bar-right">
+        <button id="refreshBtn">Refresh</button>
+        <button id="downloadBtn">Download CSV</button>
+      </div>
+    </div>
+
+    <div class="card table-wrap">
+      <table id="statsTable">
+        <thead id="thead"></thead>
+        <tbody id="tbody">
+          <tr><td class="muted">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="muted footer" id="footer"></footer>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
