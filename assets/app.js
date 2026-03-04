@@ -104,6 +104,11 @@ function buildTotals(allEvents) {
         PDGA: p.PDGA,
         Player: p.Player,
 
+        Total: 0,
+        Rounds: 0,
+        _hasTotal: false,
+        _hasRounds: false,
+
         // totals
         "Total Points": 0,
         Aces: 0,
