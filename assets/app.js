@@ -91,9 +91,15 @@ function renderTable(headers, data) {
     const mdgflRank = i + 1;
 
     // Finish: totals uses Avg Finish if present, otherwise Place
-    let finishVal = "";
-    if (avgFinishIdx != null) finishVal = r[avgFinishIdx] ?? "";
-    else if (placeIdx != null) finishVal = r[placeIdx] ?? "";
+let finishVal = "";
+
+if (avgFinishIdx != null && r[avgFinishIdx] !== "") {
+  const n = Number(r[avgFinishIdx]);
+  finishVal = Number.isFinite(n) ? Math.round(n) : r[avgFinishIdx];
+}
+else if (placeIdx != null) {
+  finishVal = r[placeIdx] ?? "";
+}
 
     // Events Played: show if present, else blank
     let eventsPlayedVal = "";
