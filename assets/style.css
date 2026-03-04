@@ -53,4 +53,8 @@ td.place{color:var(--accent);font-weight:800}
 .subnav a:hover {
   color: white;
 }
+.nav-link.active {
+  color: white;
+  border-bottom: 2px solid gold;
+}
 
