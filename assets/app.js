@@ -226,13 +226,11 @@ function render(viewName, rows, isTotalsView) {
     "Birdies",
     "Pars",
     "Bogeys+",
-    "Total Points",
-    "Events Played",
-    "Top 20s",
-    "Top 10s",
-    "Top 3s",
     "Wins",
-    "Rounds"
+    "Top 3s",
+    "Top 10s",
+    "Top 20s",
+    "Total Points",
   ];
 
   const thead = document.getElementById("thead");
