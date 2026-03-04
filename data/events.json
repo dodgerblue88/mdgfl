@@ -1,4 +1,4 @@
 [
-  {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"}
+  {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"},
   {"id":"usdgc","name":"USDGC — United States Disc Golf Championship","csv":"data/usdgc.csv"}
 ]
