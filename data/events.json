@@ -1,4 +1,3 @@
 [
-  {"id":"totals","name":"Total Stats","csv":"data/totals.csv"},
   {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"}
 ]
