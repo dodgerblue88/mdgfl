@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+<nav class="subnav">
+  <a href="standings.html">Standings</a>
+  <a href="stats.html">Stats</a>
+</nav>
   <div class="wrap">
     <header class="header">
       <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
