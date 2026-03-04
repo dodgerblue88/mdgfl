@@ -59,13 +59,12 @@ function renderTable(headers, data) {
   "Birdies",
   "Pars",
   "Bogeys+",
+  "Wins",
+  "Top 3s",
+  "Top 10s",
+  "Top 20s",
   "Total Points",
   "Events Played",
-  "Top 20s",
-  "Top 10s",
-  "Top 3s",
-  "Wins",
-  "Rounds"
   ];
 
   // Only show columns that exist in this CSV, except derived ones which always show
