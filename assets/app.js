@@ -133,6 +133,21 @@ function buildTotals(allEvents) {
       acc.Player = (NAME_BY_PDGA[p.PDGA] ?? p.Player) || acc.Player;
 
       acc["Total Points"] += p["Total Points"] ?? 0;
+
+        // Sum "Total" (strokes) if numeric
+        const t = toNum(p.Total);
+        if (t != null) {
+          acc.Total += t;
+          acc._hasTotal = true;
+        }
+        
+        // Sum "Rounds" if numeric
+        const rd = toNum(p.Rounds);
+        if (rd != null) {
+          acc.Rounds += rd;
+          acc._hasRounds = true;
+        }
+      
       acc.Aces += p.Aces ?? 0;
       acc.Albatrosses += p.Albatrosses ?? 0;
       acc.Eagles += p.Eagles ?? 0;
@@ -164,7 +179,7 @@ function buildTotals(allEvents) {
     totals.push({
       PDGA: acc.PDGA,
       Player: acc.Player,
-      Total: "", // optional; you can compute total strokes later if you want
+      Total: acc._hasTotal ? acc.Total : "",
       "Avg Finish": avg,
       Aces: acc.Aces,
       Albatrosses: acc.Albatrosses,
@@ -178,6 +193,7 @@ function buildTotals(allEvents) {
       "Top 10s": acc["Top 10s"],
       "Top 3s": acc["Top 3s"],
       "Wins": acc["Wins"],
+      Rounds: acc._hasRounds ? acc.Rounds : "",
     });
   }
 
