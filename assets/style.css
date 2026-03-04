@@ -30,3 +30,12 @@ tbody td{padding:10px 10px;border-bottom:1px dashed rgba(255,255,255,.04);font-s
 td.num, th.num{text-align:right}
 td.place{color:var(--accent);font-weight:800}
 .footer{margin-top:12px;font-size:12px}
+.logo-img{
+  width:72px;
+  height:72px;
+  border-radius:14px;
+  object-fit:contain;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  padding:8px;
+}
