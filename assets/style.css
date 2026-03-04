@@ -7,8 +7,15 @@ body{margin:0;background:linear-gradient(180deg,#071126,#0b1220);color:var(--txt
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
 .wrap{max-width:1150px;margin:28px auto;padding:18px}
 .header{display:flex;gap:14px;align-items:center;margin-bottom:14px}
-.logo{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#12263b,#183343);color:var(--accent);font-weight:800}
+.logo-img{
+  width:72px;
+  height:72px;
+  border-radius:14px;
+  object-fit:contain;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  padding:8px;
+}
 h1{margin:0;font-size:26px}
 .muted{color:var(--muted)}
 .card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;
@@ -30,12 +37,4 @@ tbody td{padding:10px 10px;border-bottom:1px dashed rgba(255,255,255,.04);font-s
 td.num, th.num{text-align:right}
 td.place{color:var(--accent);font-weight:800}
 .footer{margin-top:12px;font-size:12px}
-.logo-img{
-  width:72px;
-  height:72px;
-  border-radius:14px;
-  object-fit:contain;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  padding:8px;
-}
+
