@@ -315,14 +315,40 @@
             <label for="playersPerTeam">Players per team</label>
             <input id="playersPerTeam" type="number" min="1" max="20" value="6" />
           </div>
-          <div>
-            <label for="storageKey">Storage key</label>
-            <input id="storageKey" type="text" value="rosters:v1" />
+          <div class="col-span-3">
+            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end">
+              <div style="flex:1; min-width:180px">
+                <label for="ghOwner">GitHub owner</label>
+                <input id="ghOwner" type="text" placeholder="your-username-or-org" />
+              </div>
+              <div style="flex:1; min-width:180px">
+                <label for="ghRepo">Repo</label>
+                <input id="ghRepo" type="text" placeholder="your-repo" />
+              </div>
+              <div style="width:140px">
+                <label for="ghBranch">Branch</label>
+                <input id="ghBranch" type="text" value="main" />
+              </div>
+              <div style="flex:2; min-width:220px">
+                <label for="ghPath">Roster file path</label>
+                <input id="ghPath" type="text" value="data/rosters.json" />
+              </div>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-top:10px">
+              <div style="flex:2; min-width:260px">
+                <label for="ghToken">GitHub token (repo contents:write)</label>
+                <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
+              </div>
+              <div style="display:flex; gap:10px">
+                <button id="btnLoadRemote" class="btn secondary" type="button">Load rosters</button>
+                <button id="btnSaveRemote" class="btn" type="button">Save rosters</button>
+              </div>
+            </div>
+            <div class="hint" style="margin-top:10px">
+              Rosters are saved to <code>data/rosters.json</code> in your GitHub repo so they can be used on any device.
+              You’ll enter a token only when you want to save (it is <b>not</b> stored in the browser).
+            </div>
           </div>
-        </div>
-        <div class="hint">
-          Tip: keep the <b>Storage key</b> stable (e.g. <code>rosters:2025</code>) so Standings can read it later.
-        </div>
       </div>
     </div>
 
@@ -386,7 +412,7 @@
       return players;
     }
 
-    // ---------- localStorage schema ----------
+    // ---------- rosters.json schema ----------
     // {
     //   version: 1,
     //   updatedAt: ISO,
@@ -405,27 +431,91 @@
       pill.style.color = ok ? "var(--text)" : "var(--muted)";
     }
 
-    function getKey() {
-      return document.getElementById("storageKey").value.trim() || "rosters:v1";
+    
+    function getGhConfig() {
+      return {
+        owner: (document.getElementById("ghOwner").value || "").trim(),
+        repo: (document.getElementById("ghRepo").value || "").trim(),
+        branch: (document.getElementById("ghBranch").value || "main").trim(),
+        path: (document.getElementById("ghPath").value || "data/rosters.json").trim(),
+        token: (document.getElementById("ghToken").value || "").trim()
+      };
     }
 
-    function readSaved() {
-      const key = getKey();
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-      try { return JSON.parse(raw); } catch { return null; }
+    async function readSaved() {
+      // Prefer reading from the site (works on GitHub Pages). If that fails, try raw GitHub (if configured).
+      const { owner, repo, branch, path } = getGhConfig();
+      const candidates = [];
+      try {
+        candidates.push(new URL(path.replace(/^\//, ""), window.location.href).toString());
+      } catch {}
+      if (owner && repo) {
+        candidates.push(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path.replace(/^\//, "")}`);
+      }
+
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) continue;
+          const json = await res.json();
+          return json || null;
+        } catch (e) {
+          // try next
+        }
+      }
+      return null;
     }
 
-    function writeSaved(data) {
-      const key = getKey();
-      localStorage.setItem(key, JSON.stringify(data));
-      setPill(`Saved • ${new Date().toLocaleString()}`, true);
+    async function writeSaved(data) {
+      const { owner, repo, branch, path, token } = getGhConfig();
+      if (!owner || !repo) {
+        throw new Error("GitHub owner/repo is required to save rosters.");
+      }
+      if (!token) {
+        throw new Error("GitHub token is required to save rosters.");
+      }
+
+      // 1) Get current SHA (if file exists)
+      const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents/${path.replace(/^\//, "")}`;
+      let sha = null;
+      const getRes = await fetch(`${apiBase}?ref=${encodeURIComponent(branch)}`, {
+        headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" }
+      });
+      if (getRes.ok) {
+        const existing = await getRes.json();
+        sha = existing && existing.sha ? existing.sha : null;
+      }
+
+      // 2) PUT new content
+      const payload = {
+        message: `Update rosters (${new Date().toISOString()})`,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))),
+        branch
+      };
+      if (sha) payload.sha = sha;
+
+      const putRes = await fetch(apiBase, {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!putRes.ok) {
+        let detail = "";
+        try { detail = JSON.stringify(await putRes.json()); } catch {}
+        throw new Error(`Failed to save rosters to GitHub (${putRes.status}). ${detail}`);
+      }
+
+      return await putRes.json();
     }
 
     function clearSaved() {
-      const key = getKey();
-      localStorage.removeItem(key);
-      setPill("Cleared", false);
+      // This only resets the editor state. To update the shared rosters, click “Save rosters”.
+      setPill("Reset editor (not saved)", false);
     }
 
     // ---------- UI build ----------
@@ -481,7 +571,7 @@
       };
     }
 
-    function saveFromUI() {
+    async function saveFromUI() {
       const data = collectRosterFromUI();
       writeSaved(data);
     }
@@ -564,7 +654,7 @@
       const playersPerTeam = Number(document.getElementById("playersPerTeam").value);
 
       let seed = null;
-      if (loadSaved) seed = readSaved();
+      if (loadSaved) seed = await readSaved();
 
       if (seed && seed.numTeams && seed.playersPerTeam) {
         // if saved config differs, mirror it so UI matches
@@ -587,16 +677,30 @@
     });
 
     document.getElementById("loadBtn").addEventListener("click", async () => {
-      await init(true);
+      await 
+    // Remote (GitHub) controls
+    const btnLoadRemote = document.getElementById("btnLoadRemote");
+    const btnSaveRemote = document.getElementById("btnSaveRemote");
+    if (btnLoadRemote) btnLoadRemote.addEventListener("click", () => init(true));
+    if (btnSaveRemote) btnSaveRemote.addEventListener("click", async () => {
+      try {
+        await saveFromUI();
+        setPill("Saved to GitHub ✅", true);
+        // Never keep token around longer than necessary
+        document.getElementById("ghToken").value = "";
+      } catch (e) {
+        console.error(e);
+        setPill(e?.message || "Save failed", false);
+        alert(e?.message || "Save failed");
+      }
+    });
+
+init(true);
     });
 
     document.getElementById("clearBtn").addEventListener("click", () => {
       clearSaved();
     });
-
-    // If player CSV path or storageKey changes, re-init (so it can load correct dataset)
-    document.getElementById("playersCsv").addEventListener("change", () => init(true));
-    document.getElementById("storageKey").addEventListener("change", () => init(true));
 
     // First load
     init(true).catch(err => {
