@@ -1,122 +1,122 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-05T21:52:46.715Z",
+  "updatedAt": "2026-03-05T21:55:17.596Z",
   "numTeams": 4,
   "playersPerTeam": 6,
   "teams": [
     {
-      "name": "Team 1",
+      "name": "John",
       "players": [
         {
-          "player": "Alden Harris",
-          "pdga": "98091"
+          "player": "Anthony Barela",
+          "pdga": "44382"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Isaac Robinson",
+          "pdga": "50670"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Kyle Klein",
+          "pdga": "85132"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Andrew Marwede",
+          "pdga": "75590"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Matthew Orum",
+          "pdga": "18330"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Ezra Aderhold",
+          "pdga": "121715"
         }
       ]
     },
     {
-      "name": "Team 2",
+      "name": "Zack",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Richard Wysocki",
+          "pdga": "38008"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Ezra Robinson",
+          "pdga": "50671"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Paul McBeth",
+          "pdga": "27523"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Eagle McMahon",
+          "pdga": "37817"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Gavin Rathbun",
+          "pdga": "60436"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Sullivan Tipton",
+          "pdga": "78817"
         }
       ]
     },
     {
-      "name": "Team 3",
+      "name": "Kevin",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Calvin Heimburg",
+          "pdga": "45971"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Niklas Anttila",
+          "pdga": "91249"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Cole Redalen",
+          "pdga": "79748"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Simon Lizotte",
+          "pdga": "8332"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Luke Taylor",
+          "pdga": "102119"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Andrew Marwede",
+          "pdga": "75590"
         }
       ]
     },
     {
-      "name": "Team 4",
+      "name": "Jon",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Gannon Buhr",
+          "pdga": "75412"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Aaron Gossage",
+          "pdga": "35449"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Joseph Anderson",
+          "pdga": "122356"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Väinö Mäkelä",
+          "pdga": "59635"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "James Proctor",
+          "pdga": "34250"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Adam Hammes",
+          "pdga": "57365"
         }
       ]
     }
