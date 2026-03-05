@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,6 +6,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Mediocre Disc Golf Fantasy League — Standings</title>
   <link rel="stylesheet" href="assets/style.css" />
+
+  <style>
+    /* Visual tweaks to match Stats page emphasis */
+    :root { --mdgfl-gold: #f5c542; }
+
+    /* Team header rows: bold + gold text */
+    tr.team-row td,
+    tr.team-row td strong {
+      color: var(--mdgfl-gold) !important;
+      font-weight: 800 !important;
+    }
+
+    /* Scores excluded by "top 5 per event" rule */
+    td.excluded-score {
+      text-decoration: line-through;
+      opacity: 0.55;
+    }
+  </style>
 </head>
 
 <body>
