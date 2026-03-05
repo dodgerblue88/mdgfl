@@ -57,4 +57,7 @@ td.place{color:var(--accent);font-weight:800}
   color: white;
   border-bottom: 2px solid gold;
 }
-
+{
+.team-row td { font-weight: 600; }
+.player-row td:first-child { padding-left: 18px; }
+}
