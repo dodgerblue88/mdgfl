@@ -206,54 +206,69 @@
       }));
 
       for (const team of teams) {
+        // Pre-compute per-event and raw season totals for tie-break logic
         for (const p of team.players) {
           const perEvent = events.map(evt => {
             const m = pointsByEvent.get(evt.id);
             return m ? (m.get(String(p.pdga)) || 0) : 0;
           });
           p._perEvent = perEvent;
-          p._season = sum(perEvent);
+          p._rawSeason = sum(perEvent);
+          // stable id for lookups (use PDGA when present)
+          p._id = String(p.pdga || p.player || "");
         }
+
         // Apply 'top 5 scores count' rule per event.
         // Tie-break at the cutoff: if multiple players are tied for the last counted spot,
-        // exclude the player with the WORST season total perspective (lowest p._season).
-        team._countedByEvent = events.map(() => new Set());
-
-        team._perEvent = events.map((_, i) => {
-          const scores = team.players.map((p, idx) => ({
-            idx,
+        // exclude the player with the WORST season total perspective (lowest p._rawSeason).
+        team._countedByEvent = events.map((evt, i) => {
+          const scored = team.players.map(p => ({
+            id: p._id,
             score: Number(p._perEvent[i] || 0),
-            season: Number(p._season || 0),
-            name: String(p.player || '')
+            rawSeason: Number(p._rawSeason || 0),
+            name: String(p.player || "")
           }));
 
-          // Sort by event score desc, then season desc, then name asc
-          scores.sort((a,b) => (b.score - a.score) || (b.season - a.season) || a.name.localeCompare(b.name));
+          // Sort best-to-worst for this event; if scores tie, prefer higher rawSeason
+          scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
 
-          const topN = 5;
-          let keep = new Set();
-          if (scores.length <= topN) {
-            scores.forEach(s => keep.add(s.idx));
-          } else {
-            const boundary = scores[topN - 1].score;
-            const above = scores.filter(s => s.score > boundary);
-            const tied = scores.filter(s => s.score === boundary);
-            const slotsLeft = topN - above.length;
-
-            above.forEach(s => keep.add(s.idx));
-            // Keep the BEST season totals among tied players (drop worst season perspective)
-            tied.sort((a,b) => (b.season - a.season) || a.name.localeCompare(b.name));
-            tied.slice(0, Math.max(0, slotsLeft)).forEach(s => keep.add(s.idx));
+          const keep = new Set();
+          if (scored.length <= 5) {
+            scored.forEach(s => keep.add(s.id));
+            return keep;
           }
 
-          team._countedByEvent[i] = keep;
+          const cutoffScore = scored[4].score;
 
-          return team.players.reduce((acc, p, idx) => acc + (keep.has(idx) ? Number(p._perEvent[i] || 0) : 0), 0);
+          // Always keep anyone strictly above the cutoff
+          const above = scored.filter(s => s.score > cutoffScore);
+          above.forEach(s => keep.add(s.id));
+
+          const remainingSlots = 5 - above.length;
+
+          // Candidates exactly at cutoff score; choose the best ones by rawSeason
+          const tied = scored.filter(s => s.score === cutoffScore)
+                             .sort((a, b) => (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
+
+          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
+
+          return keep;
         });
+
+        team._perEvent = events.map((evt, i) => {
+          const keep = team._countedByEvent[i];
+          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
+        });
+
         team._season = sum(team._perEvent);
-        team.players.sort((a,b) => (b._season - a._season) || String(a.player).localeCompare(String(b.player)));
+
+        // Order players by COUNTED season contribution (sum of counted event points), then name
+        for (const p of team.players) {
+          p._countedSeason = team._countedByEvent.reduce((acc, keep, i) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
+        }
+        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || String(a.player).localeCompare(String(b.player)));
       }
-      teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
+teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
 
       // Render
       tbody.innerHTML = "";
@@ -308,7 +323,7 @@
           for (let i = 0; i < events.length; i++) {
             const td = document.createElement("td");
             td.textContent = (p._perEvent?.[i] ?? 0);
-            const counted = !!(team._countedByEvent?.[i] && team._countedByEvent[i].has(pIndex));
+            const counted = !!(team._countedByEvent?.[i] && team._countedByEvent[i].has(p._id));
             if (!counted && Number(p._perEvent?.[i] ?? 0) !== 0) td.classList.add('excluded-score');
             trP.appendChild(td);
           }
