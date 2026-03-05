@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "updatedAt": "2026-03-05T21:52:22.223Z",
+  "numTeams": 4,
+  "playersPerTeam": 6,
+  "teams": [
+    {
+      "name": "Team 1",
+      "players": [
+        {
+          "player": "Austen Bates",
+          "pdga": "130724"
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    },
+    {
+      "name": "Team 2",
+      "players": [
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    },
+    {
+      "name": "Team 3",
+      "players": [
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    },
+    {
+      "name": "Team 4",
+      "players": [
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    }
+  ]
+}
