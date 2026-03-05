@@ -328,7 +328,7 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
             trP.appendChild(td);
           }
           const tdPSeason = document.createElement("td");
-          tdPSeason.textContent = p._season || 0;
+          tdPSeason.textContent = p._countedSeason || 0;
           trP.appendChild(tdPSeason);
 
           tbody.appendChild(trP);
