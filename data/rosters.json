@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-05T21:52:22.223Z",
+  "updatedAt": "2026-03-05T21:52:46.715Z",
   "numTeams": 4,
   "playersPerTeam": 6,
   "teams": [
@@ -8,8 +8,8 @@
       "name": "Team 1",
       "players": [
         {
-          "player": "Austen Bates",
-          "pdga": "130724"
+          "player": "Alden Harris",
+          "pdga": "98091"
         },
         {
           "player": "",
