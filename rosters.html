@@ -82,7 +82,7 @@
       // If you later have commas/quotes, we can upgrade to a robust parser.
       const header = lines[0].split(",").map(h => h.trim().toLowerCase());
       const idxName = header.findIndex(h => h === "player" || h === "name");
-      const idxPdga = header.findIndex(h => h === "pdga#" || h === "pdga" || h === "pdganumber");
+      const idxPdga = header.findIndex(h => h === "pdga");
 
       if (idxName === -1 || idxPdga === -1) {
         throw new Error("players.csv headers must include Player (or Name) and PDGA# (or PDGA).");
@@ -179,7 +179,7 @@
     function updatePreview(numTeams, playersPerTeam) {
       const pdgaToName = new Map(players.map(p => [p.pdga, p.name]));
       const rows = [];
-      rows.push(["Team", "Slot", "Player", "PDGA#"]);
+      rows.push(["Team", "Slot", "Player", "PDGA"]);
 
       for (let t = 1; t <= numTeams; t++) {
         for (let s = 1; s <= playersPerTeam; s++) {
