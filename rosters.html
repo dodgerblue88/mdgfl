@@ -5,241 +5,608 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rosters</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
-    h1 { margin: 0 0 12px; }
-    .controls { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin: 12px 0 18px; }
-    label { display: grid; gap: 6px; font-size: 14px; }
-    input, button, select { font: inherit; padding: 8px; }
-    button { cursor: pointer; }
-    .row { display: flex; gap: 10px; align-items: center; margin: 6px 0; }
-    .team { border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px 0; }
-    .team h2 { margin: 0 0 10px; font-size: 18px; }
-    .hint { color: #555; font-size: 13px; margin-top: 6px; }
-    .danger { color: #b00020; }
-    .topbar { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-    .right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .small { font-size: 12px; color: #666; }
-    textarea { width: 100%; min-height: 120px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    :root{
+      --bg:#0b0f17;
+      --panel:#121a29;
+      --panel2:#0f1624;
+      --text:#e8eefc;
+      --muted:#a9b6d3;
+      --border:rgba(255,255,255,.08);
+      --accent:#6aa8ff;
+      --danger:#ff6a6a;
+      --ok:#7dffb1;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius2:12px;
+      --pad:16px;
+      font-synthesis-weight:none;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 30% -10%, rgba(106,168,255,.18), transparent 55%),
+                  radial-gradient(1000px 700px at 90% 0%, rgba(125,255,177,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,23,.72);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner{
+      max-width: 1100px;
+      margin:0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:99px;background:var(--accent);
+      box-shadow: 0 0 0 5px rgba(106,168,255,.14);
+    }
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .nav a{
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:999px;
+      color:var(--muted);
+    }
+    .nav a:hover{
+      border-color:var(--border);
+      color:var(--text);
+      background: rgba(255,255,255,.03);
+    }
+    .nav a.active{
+      border-color: rgba(106,168,255,.35);
+      color: var(--text);
+      background: rgba(106,168,255,.10);
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+    .header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;
+      font-size: 26px;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size: 13px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card .card-h{
+      padding: var(--pad);
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .card .card-b{
+      padding: var(--pad);
+    }
+
+    .controls{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 900px){
+      .controls{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 520px){
+      .controls{ grid-template-columns: 1fr; }
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    input[type="number"], input[type="text"], select{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background: rgba(10,14,22,.55);
+      color: var(--text);
+      outline:none;
+    }
+    input[type="number"]:focus, input[type="text"]:focus, select:focus{
+      border-color: rgba(106,168,255,.45);
+      box-shadow: 0 0 0 4px rgba(106,168,255,.12);
+    }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    button:hover{ background: rgba(255,255,255,.06); }
+    button.primary{
+      border-color: rgba(106,168,255,.35);
+      background: rgba(106,168,255,.12);
+    }
+    button.danger{
+      border-color: rgba(255,106,106,.35);
+      background: rgba(255,106,106,.12);
+    }
+
+    .status{
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+    .pill{
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+    }
+
+    .teams{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 900px){
+      .teams{ grid-template-columns: 1fr; }
+    }
+    .team{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .team-h{
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      background: rgba(255,255,255,.02);
+    }
+    .team-h .left{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 260px;
+      flex:1;
+    }
+    .team-index{
+      width:26px;height:26px;border-radius:10px;
+      display:grid;place-items:center;
+      background: rgba(106,168,255,.12);
+      border:1px solid rgba(106,168,255,.20);
+      color: var(--text);
+      font-weight:700;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+    .team-h input{
+      flex:1;
+      min-width: 200px;
+    }
+    .team-b{
+      padding: 12px;
+      display:grid;
+      gap:10px;
+    }
+    .slot{
+      display:grid;
+      grid-template-columns: 60px 1fr;
+      gap:10px;
+      align-items:center;
+    }
+    .slot .slot-label{
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .hint{
+      margin-top:10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <div class="topbar">
-    <div>
-      <h1>Rosters</h1>
-      <div class="small">Loads <code>data/players.csv</code>. Assign players to teams and export.</div>
-    </div>
-    <div class="right">
-      <button id="exportBtn">Export CSV</button>
-      <button id="resetBtn" title="Clears current selections">Reset</button>
+    <div class="topbar-inner">
+      <div class="brand"><span class="dot"></span><span>Disc Golf Fantasy</span></div>
+      <div class="nav">
+        <a href="standings.html">Standings</a>
+        <a href="stats.html">Stats</a>
+        <a class="active" href="rosters.html">Rosters</a>
+      </div>
     </div>
   </div>
 
-  <div class="controls">
-    <label>
-      Number of teams
-      <input id="teamsInput" type="number" min="1" max="64" value="4" />
-    </label>
-    <label>
-      Players per team
-      <input id="playersPerTeamInput" type="number" min="1" max="50" value="5" />
-    </label>
-    <button id="buildBtn">Build Teams</button>
-    <div id="status" class="hint"></div>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <h1>Rosters</h1>
+        <p class="sub">Build teams and assign players. Autosaved locally in your browser.</p>
+      </div>
+      <div class="status">
+        <span id="savePill" class="pill">Not saved yet</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <div style="font-weight:700;">Setup</div>
+        <div class="btns">
+          <button id="loadBtn">Reload Saved</button>
+          <button id="clearBtn" class="danger">Clear Saved</button>
+          <button id="buildBtn" class="primary">Build Teams</button>
+        </div>
+      </div>
+      <div class="card-b">
+        <div class="controls">
+          <div>
+            <label for="playersCsv">Players CSV path</label>
+            <input id="playersCsv" type="text" value="data/players.csv" />
+          </div>
+          <div>
+            <label for="numTeams">Number of teams</label>
+            <input id="numTeams" type="number" min="2" max="50" value="8" />
+          </div>
+          <div>
+            <label for="playersPerTeam">Players per team</label>
+            <input id="playersPerTeam" type="number" min="1" max="20" value="6" />
+          </div>
+          <div>
+            <label for="storageKey">Storage key</label>
+            <input id="storageKey" type="text" value="rosters:v1" />
+          </div>
+        </div>
+        <div class="hint">
+          Tip: keep the <b>Storage key</b> stable (e.g. <code>rosters:2025</code>) so Standings can read it later.
+        </div>
+      </div>
+    </div>
+
+    <div id="teams" class="teams"></div>
   </div>
-
-  <div id="app"></div>
-
-  <h3>Export preview</h3>
-  <div class="hint">This is what “Export CSV” downloads (Team, Slot, Player, PDGA#).</div>
-  <textarea id="preview" readonly></textarea>
 
   <script>
-    const PLAYERS_CSV_PATH = "data/players.csv";
+    // ---------- CSV parsing ----------
+    function parseCsv(text) {
+      // Minimal CSV parser (handles commas + quoted fields)
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
 
-    let players = []; // [{ name, pdga }]
-    let selections = {}; // key: "T{teamIndex}-S{slotIndex}" -> pdga string
+        if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
+        if (c === '"') { inQuotes = !inQuotes; continue; }
 
-    const elApp = document.getElementById("app");
-    const elStatus = document.getElementById("status");
-    const elPreview = document.getElementById("preview");
-
-    function escapeCsv(val) {
-      const s = String(val ?? "");
-      if (/[",\n]/.test(s)) return `"${s.replaceAll('"','""')}"`;
-      return s;
+        if (!inQuotes && c === ",") { row.push(cur); cur = ""; continue; }
+        if (!inQuotes && (c === "\n" || c === "\r")) {
+          if (c === "\r" && next === "\n") i++;
+          row.push(cur); cur = "";
+          if (row.some(v => v.trim() !== "")) rows.push(row);
+          row = [];
+          continue;
+        }
+        cur += c;
+      }
+      row.push(cur);
+      if (row.some(v => v.trim() !== "")) rows.push(row);
+      return rows;
     }
 
-    async function loadPlayers() {
-      elStatus.textContent = "Loading players.csv…";
-      const res = await fetch(PLAYERS_CSV_PATH, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Failed to load ${PLAYERS_CSV_PATH} (${res.status})`);
+    async function loadPlayers(csvPath) {
+      const res = await fetch(csvPath, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load ${csvPath} (${res.status})`);
       const text = await res.text();
+      const rows = parseCsv(text);
+      if (!rows.length) throw new Error("Empty players.csv");
 
-      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
-      if (lines.length < 2) throw new Error("players.csv has no data rows.");
-
-      // Basic CSV parsing: assumes 2 columns and no commas in names.
-      // If you later have commas/quotes, we can upgrade to a robust parser.
-      const header = lines[0].split(",").map(h => h.trim().toLowerCase());
+      const header = rows[0].map(h => h.trim().toLowerCase());
       const idxName = header.findIndex(h => h === "player" || h === "name");
       const idxPdga = header.findIndex(h => h === "pdga");
 
-      if (idxName === -1 || idxPdga === -1) {
-        throw new Error("players.csv headers must include Player (or Name) and PDGA# (or PDGA).");
+      if (idxName < 0 || idxPdga < 0) {
+        throw new Error(`players.csv must have headers: Player,PDGA`);
       }
 
-      const out = [];
-      for (let i = 1; i < lines.length; i++) {
-        const cols = lines[i].split(","); // simple split
-        const name = (cols[idxName] ?? "").trim();
-        const pdga = (cols[idxPdga] ?? "").trim();
-        if (!name || !pdga) continue;
-        out.push({ name, pdga });
-      }
+      const players = rows.slice(1)
+        .map(r => ({
+          player: (r[idxName] ?? "").trim(),
+          pdga: (r[idxPdga] ?? "").trim()
+        }))
+        .filter(p => p.player && p.pdga);
 
       // Sort by name for dropdown UX
-      out.sort((a, b) => a.name.localeCompare(b.name));
-
-      players = out;
-      elStatus.textContent = `Loaded ${players.length} players.`;
+      players.sort((a,b) => a.player.localeCompare(b.player));
+      return players;
     }
 
-    function buildTeamsUI(numTeams, playersPerTeam) {
-      elApp.innerHTML = "";
-      const used = new Set(Object.values(selections).filter(Boolean));
+    // ---------- localStorage schema ----------
+    // {
+    //   version: 1,
+    //   updatedAt: ISO,
+    //   numTeams: number,
+    //   playersPerTeam: number,
+    //   teams: [{ name: string, players: [{player,pdga}] }]
+    // }
 
-      for (let t = 1; t <= numTeams; t++) {
-        const teamDiv = document.createElement("div");
-        teamDiv.className = "team";
-        teamDiv.innerHTML = `<h2>Team ${t}</h2>`;
-        for (let s = 1; s <= playersPerTeam; s++) {
-          const key = `T${t}-S${s}`;
-          const row = document.createElement("div");
-          row.className = "row";
+    function nowIso() { return new Date().toISOString(); }
 
-          const slotLabel = document.createElement("div");
-          slotLabel.style.minWidth = "70px";
-          slotLabel.textContent = `Player ${s}`;
+    function setPill(text, ok=false) {
+      const pill = document.getElementById("savePill");
+      pill.textContent = text;
+      pill.style.borderColor = ok ? "rgba(125,255,177,.35)" : "var(--border)";
+      pill.style.background = ok ? "rgba(125,255,177,.10)" : "rgba(255,255,255,.03)";
+      pill.style.color = ok ? "var(--text)" : "var(--muted)";
+    }
 
-          const sel = document.createElement("select");
-          sel.style.minWidth = "360px";
+    function getKey() {
+      return document.getElementById("storageKey").value.trim() || "rosters:v1";
+    }
 
-          const optBlank = document.createElement("option");
-          optBlank.value = "";
-          optBlank.textContent = "— Select a player —";
-          sel.appendChild(optBlank);
+    function readSaved() {
+      const key = getKey();
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch { return null; }
+    }
 
-          for (const p of players) {
-            const opt = document.createElement("option");
-            opt.value = p.pdga;
-            opt.textContent = `${p.name} (${p.pdga})`;
-            sel.appendChild(opt);
-          }
+    function writeSaved(data) {
+      const key = getKey();
+      localStorage.setItem(key, JSON.stringify(data));
+      setPill(`Saved • ${new Date().toLocaleString()}`, true);
+    }
 
-          // Set current selection if exists
-          sel.value = selections[key] ?? "";
+    function clearSaved() {
+      const key = getKey();
+      localStorage.removeItem(key);
+      setPill("Cleared", false);
+    }
 
-          const warn = document.createElement("span");
-          warn.className = "hint danger";
-          warn.textContent = "";
+    // ---------- UI build ----------
+    let PLAYERS = [];
+    const teamsEl = document.getElementById("teams");
 
-          sel.addEventListener("change", () => {
-            const prev = selections[key] ?? "";
-            const next = sel.value;
+    function makePlayerOptions(selectedPdga="") {
+      // First option blank
+      const frag = document.createDocumentFragment();
+      const opt0 = document.createElement("option");
+      opt0.value = "";
+      opt0.textContent = "— Select player —";
+      frag.appendChild(opt0);
 
-            // If previously selected, free it
-            if (prev) used.delete(prev);
+      for (const p of PLAYERS) {
+        const opt = document.createElement("option");
+        opt.value = p.pdga;
+        opt.textContent = `${p.player} (${p.pdga})`;
+        if (p.pdga === selectedPdga) opt.selected = true;
+        frag.appendChild(opt);
+      }
+      return frag;
+    }
 
-            // If selecting a player already used somewhere else, block & revert
-            if (next && used.has(next)) {
-              warn.textContent = "Already selected on another team.";
-              sel.value = prev; // revert
-              if (prev) used.add(prev);
-              return;
-            }
+    function collectRosterFromUI() {
+      const numTeams = Number(document.getElementById("numTeams").value);
+      const playersPerTeam = Number(document.getElementById("playersPerTeam").value);
 
-            warn.textContent = "";
-            selections[key] = next;
-            if (next) used.add(next);
+      const teams = [];
+      for (let t = 0; t < numTeams; t++) {
+        const teamCard = document.querySelector(`[data-team="${t}"]`);
+        if (!teamCard) continue;
 
-            updatePreview(numTeams, playersPerTeam);
-          });
+        const name = teamCard.querySelector("input[data-teamname]").value.trim() || `Team ${t+1}`;
+        const players = [];
 
-          row.appendChild(slotLabel);
-          row.appendChild(sel);
-          row.appendChild(warn);
-          teamDiv.appendChild(row);
+        for (let s = 0; s < playersPerTeam; s++) {
+          const sel = teamCard.querySelector(`select[data-slot="${s}"]`);
+          const pdga = (sel?.value ?? "").trim();
+          if (!pdga) { players.push({ player:"", pdga:"" }); continue; }
+          const match = PLAYERS.find(p => p.pdga === pdga);
+          players.push(match ? { player: match.player, pdga: match.pdga } : { player:"", pdga });
         }
-        elApp.appendChild(teamDiv);
+        teams.push({ name, players });
       }
 
-      updatePreview(numTeams, playersPerTeam);
+      return {
+        version: 1,
+        updatedAt: nowIso(),
+        numTeams,
+        playersPerTeam,
+        teams
+      };
     }
 
-    function updatePreview(numTeams, playersPerTeam) {
-      const pdgaToName = new Map(players.map(p => [p.pdga, p.name]));
-      const rows = [];
-      rows.push(["Team", "Slot", "Player", "PDGA"]);
+    function saveFromUI() {
+      const data = collectRosterFromUI();
+      writeSaved(data);
+    }
 
-      for (let t = 1; t <= numTeams; t++) {
-        for (let s = 1; s <= playersPerTeam; s++) {
-          const key = `T${t}-S${s}`;
-          const pdga = selections[key] ?? "";
-          const name = pdga ? (pdgaToName.get(pdga) ?? "") : "";
-          rows.push([`Team ${t}`, String(s), name, pdga]);
+    function buildTeamsUI({ numTeams, playersPerTeam, seed=null }) {
+      teamsEl.innerHTML = "";
+
+      for (let t = 0; t < numTeams; t++) {
+        const team = document.createElement("div");
+        team.className = "team";
+        team.dataset.team = String(t);
+
+        const teamName = seed?.teams?.[t]?.name || `Team ${t+1}`;
+
+        team.innerHTML = `
+          <div class="team-h">
+            <div class="left">
+              <div class="team-index">${t+1}</div>
+              <input type="text" data-teamname value="${escapeHtml(teamName)}" />
+            </div>
+            <div class="pill">Autosave: on</div>
+          </div>
+          <div class="team-b"></div>
+        `;
+
+        const body = team.querySelector(".team-b");
+
+        for (let s = 0; s < playersPerTeam; s++) {
+          const slot = document.createElement("div");
+          slot.className = "slot";
+
+          const selectedPdga = seed?.teams?.[t]?.players?.[s]?.pdga || "";
+
+          slot.innerHTML = `
+            <div class="slot-label">P${s+1}</div>
+            <select data-slot="${s}"></select>
+          `;
+
+          const sel = slot.querySelector("select");
+          sel.appendChild(makePlayerOptions(selectedPdga));
+
+          // save on change
+          sel.addEventListener("change", saveFromUI);
+          body.appendChild(slot);
         }
-      }
 
-      const csv = rows.map(r => r.map(escapeCsv).join(",")).join("\n");
-      elPreview.value = csv;
-      return csv;
+        // save when team name changes
+        team.querySelector("input[data-teamname]").addEventListener("input", debounce(saveFromUI, 250));
+
+        teamsEl.appendChild(team);
+      }
     }
 
-    function download(text, filename) {
-      const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+    // ---------- helpers ----------
+    function debounce(fn, ms) {
+      let t;
+      return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), ms);
+      };
     }
 
-    document.getElementById("buildBtn").addEventListener("click", () => {
-      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
-      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
-      buildTeamsUI(numTeams, ppt);
-    });
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
 
-    document.getElementById("exportBtn").addEventListener("click", () => {
-      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
-      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
-      const csv = updatePreview(numTeams, ppt);
-      download(csv, "rosters_export.csv");
-    });
+    // ---------- actions ----------
+    async function init(loadSaved=true) {
+      setPill("Loading players…", false);
 
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      selections = {};
-      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
-      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
-      buildTeamsUI(numTeams, ppt);
-    });
+      const csvPath = document.getElementById("playersCsv").value.trim();
+      PLAYERS = await loadPlayers(csvPath);
 
-    // Init
-    (async function init() {
-      try {
-        await loadPlayers();
-        const numTeams = parseInt(document.getElementById("teamsInput").value, 10);
-        const ppt = parseInt(document.getElementById("playersPerTeamInput").value, 10);
-        buildTeamsUI(numTeams, ppt);
-      } catch (err) {
-        elStatus.textContent = "";
-        elApp.innerHTML = `<p class="danger"><b>Error:</b> ${err.message}</p>
-          <p class="hint">Make sure <code>${PLAYERS_CSV_PATH}</code> exists and has headers: <code>Player,PDGA#</code>.</p>`;
+      const numTeams = Number(document.getElementById("numTeams").value);
+      const playersPerTeam = Number(document.getElementById("playersPerTeam").value);
+
+      let seed = null;
+      if (loadSaved) seed = readSaved();
+
+      if (seed && seed.numTeams && seed.playersPerTeam) {
+        // if saved config differs, mirror it so UI matches
+        document.getElementById("numTeams").value = seed.numTeams;
+        document.getElementById("playersPerTeam").value = seed.playersPerTeam;
+        buildTeamsUI({ numTeams: seed.numTeams, playersPerTeam: seed.playersPerTeam, seed });
+        setPill(`Loaded saved • ${new Date(seed.updatedAt).toLocaleString()}`, true);
+      } else {
+        buildTeamsUI({ numTeams, playersPerTeam, seed: null });
+        setPill("Ready (nothing saved yet)", false);
       }
-    })();
+
+      // Save immediately after build so a blank structure exists (optional)
+      // saveFromUI();
+    }
+
+    document.getElementById("buildBtn").addEventListener("click", async () => {
+      await init(false);
+      saveFromUI(); // persist the new structure
+    });
+
+    document.getElementById("loadBtn").addEventListener("click", async () => {
+      await init(true);
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      clearSaved();
+    });
+
+    // If player CSV path or storageKey changes, re-init (so it can load correct dataset)
+    document.getElementById("playersCsv").addEventListener("change", () => init(true));
+    document.getElementById("storageKey").addEventListener("change", () => init(true));
+
+    // First load
+    init(true).catch(err => {
+      console.error(err);
+      setPill(`Error: ${err.message}`, false);
+      teamsEl.innerHTML = `<div class="card" style="padding:16px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.03)">
+        <b>Could not load players</b><div style="color:var(--muted);margin-top:6px">${escapeHtml(err.message)}</div>
+        <div style="color:var(--muted);margin-top:10px">Check that <code>data/players.csv</code> exists and has headers <code>Player,PDGA</code>.</div>
+      </div>`;
+    });
   </script>
 </body>
 </html>
