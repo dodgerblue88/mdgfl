@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rosters</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 12px; }
+    .controls { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin: 12px 0 18px; }
+    label { display: grid; gap: 6px; font-size: 14px; }
+    input, button, select { font: inherit; padding: 8px; }
+    button { cursor: pointer; }
+    .row { display: flex; gap: 10px; align-items: center; margin: 6px 0; }
+    .team { border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px 0; }
+    .team h2 { margin: 0 0 10px; font-size: 18px; }
+    .hint { color: #555; font-size: 13px; margin-top: 6px; }
+    .danger { color: #b00020; }
+    .topbar { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .small { font-size: 12px; color: #666; }
+    textarea { width: 100%; min-height: 120px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div>
+      <h1>Rosters</h1>
+      <div class="small">Loads <code>data/players.csv</code>. Assign players to teams and export.</div>
+    </div>
+    <div class="right">
+      <button id="exportBtn">Export CSV</button>
+      <button id="resetBtn" title="Clears current selections">Reset</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <label>
+      Number of teams
+      <input id="teamsInput" type="number" min="1" max="64" value="4" />
+    </label>
+    <label>
+      Players per team
+      <input id="playersPerTeamInput" type="number" min="1" max="50" value="5" />
+    </label>
+    <button id="buildBtn">Build Teams</button>
+    <div id="status" class="hint"></div>
+  </div>
+
+  <div id="app"></div>
+
+  <h3>Export preview</h3>
+  <div class="hint">This is what “Export CSV” downloads (Team, Slot, Player, PDGA#).</div>
+  <textarea id="preview" readonly></textarea>
+
+  <script>
+    const PLAYERS_CSV_PATH = "data/players.csv";
+
+    let players = []; // [{ name, pdga }]
+    let selections = {}; // key: "T{teamIndex}-S{slotIndex}" -> pdga string
+
+    const elApp = document.getElementById("app");
+    const elStatus = document.getElementById("status");
+    const elPreview = document.getElementById("preview");
+
+    function escapeCsv(val) {
+      const s = String(val ?? "");
+      if (/[",\n]/.test(s)) return `"${s.replaceAll('"','""')}"`;
+      return s;
+    }
+
+    async function loadPlayers() {
+      elStatus.textContent = "Loading players.csv…";
+      const res = await fetch(PLAYERS_CSV_PATH, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load ${PLAYERS_CSV_PATH} (${res.status})`);
+      const text = await res.text();
+
+      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length < 2) throw new Error("players.csv has no data rows.");
+
+      // Basic CSV parsing: assumes 2 columns and no commas in names.
+      // If you later have commas/quotes, we can upgrade to a robust parser.
+      const header = lines[0].split(",").map(h => h.trim().toLowerCase());
+      const idxName = header.findIndex(h => h === "player" || h === "name");
+      const idxPdga = header.findIndex(h => h === "pdga#" || h === "pdga" || h === "pdganumber");
+
+      if (idxName === -1 || idxPdga === -1) {
+        throw new Error("players.csv headers must include Player (or Name) and PDGA# (or PDGA).");
+      }
+
+      const out = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(","); // simple split
+        const name = (cols[idxName] ?? "").trim();
+        const pdga = (cols[idxPdga] ?? "").trim();
+        if (!name || !pdga) continue;
+        out.push({ name, pdga });
+      }
+
+      // Sort by name for dropdown UX
+      out.sort((a, b) => a.name.localeCompare(b.name));
+
+      players = out;
+      elStatus.textContent = `Loaded ${players.length} players.`;
+    }
+
+    function buildTeamsUI(numTeams, playersPerTeam) {
+      elApp.innerHTML = "";
+      const used = new Set(Object.values(selections).filter(Boolean));
+
+      for (let t = 1; t <= numTeams; t++) {
+        const teamDiv = document.createElement("div");
+        teamDiv.className = "team";
+        teamDiv.innerHTML = `<h2>Team ${t}</h2>`;
+        for (let s = 1; s <= playersPerTeam; s++) {
+          const key = `T${t}-S${s}`;
+          const row = document.createElement("div");
+          row.className = "row";
+
+          const slotLabel = document.createElement("div");
+          slotLabel.style.minWidth = "70px";
+          slotLabel.textContent = `Player ${s}`;
+
+          const sel = document.createElement("select");
+          sel.style.minWidth = "360px";
+
+          const optBlank = document.createElement("option");
+          optBlank.value = "";
+          optBlank.textContent = "— Select a player —";
+          sel.appendChild(optBlank);
+
+          for (const p of players) {
+            const opt = document.createElement("option");
+            opt.value = p.pdga;
+            opt.textContent = `${p.name} (${p.pdga})`;
+            sel.appendChild(opt);
+          }
+
+          // Set current selection if exists
+          sel.value = selections[key] ?? "";
+
+          const warn = document.createElement("span");
+          warn.className = "hint danger";
+          warn.textContent = "";
+
+          sel.addEventListener("change", () => {
+            const prev = selections[key] ?? "";
+            const next = sel.value;
+
+            // If previously selected, free it
+            if (prev) used.delete(prev);
+
+            // If selecting a player already used somewhere else, block & revert
+            if (next && used.has(next)) {
+              warn.textContent = "Already selected on another team.";
+              sel.value = prev; // revert
+              if (prev) used.add(prev);
+              return;
+            }
+
+            warn.textContent = "";
+            selections[key] = next;
+            if (next) used.add(next);
+
+            updatePreview(numTeams, playersPerTeam);
+          });
+
+          row.appendChild(slotLabel);
+          row.appendChild(sel);
+          row.appendChild(warn);
+          teamDiv.appendChild(row);
+        }
+        elApp.appendChild(teamDiv);
+      }
+
+      updatePreview(numTeams, playersPerTeam);
+    }
+
+    function updatePreview(numTeams, playersPerTeam) {
+      const pdgaToName = new Map(players.map(p => [p.pdga, p.name]));
+      const rows = [];
+      rows.push(["Team", "Slot", "Player", "PDGA#"]);
+
+      for (let t = 1; t <= numTeams; t++) {
+        for (let s = 1; s <= playersPerTeam; s++) {
+          const key = `T${t}-S${s}`;
+          const pdga = selections[key] ?? "";
+          const name = pdga ? (pdgaToName.get(pdga) ?? "") : "";
+          rows.push([`Team ${t}`, String(s), name, pdga]);
+        }
+      }
+
+      const csv = rows.map(r => r.map(escapeCsv).join(",")).join("\n");
+      elPreview.value = csv;
+      return csv;
+    }
+
+    function download(text, filename) {
+      const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("buildBtn").addEventListener("click", () => {
+      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
+      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
+      buildTeamsUI(numTeams, ppt);
+    });
+
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
+      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
+      const csv = updatePreview(numTeams, ppt);
+      download(csv, "rosters_export.csv");
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      selections = {};
+      const numTeams = Math.max(1, parseInt(document.getElementById("teamsInput").value || "1", 10));
+      const ppt = Math.max(1, parseInt(document.getElementById("playersPerTeamInput").value || "1", 10));
+      buildTeamsUI(numTeams, ppt);
+    });
+
+    // Init
+    (async function init() {
+      try {
+        await loadPlayers();
+        const numTeams = parseInt(document.getElementById("teamsInput").value, 10);
+        const ppt = parseInt(document.getElementById("playersPerTeamInput").value, 10);
+        buildTeamsUI(numTeams, ppt);
+      } catch (err) {
+        elStatus.textContent = "";
+        elApp.innerHTML = `<p class="danger"><b>Error:</b> ${err.message}</p>
+          <p class="hint">Make sure <code>${PLAYERS_CSV_PATH}</code> exists and has headers: <code>Player,PDGA#</code>.</p>`;
+      }
+    })();
+  </script>
+</body>
+</html>
