@@ -11,6 +11,16 @@
   links.forEach(link => {
     if (link.href === window.location.href) {
       link.classList.add("active");
+
+       // Highlight active nav link
+    (function(){
+      const links = document.querySelectorAll(".nav-link");
+      links.forEach(link => {
+        const here = location.pathname.split("/").pop() || "index.html";
+        const target = (link.getAttribute("href") || "").split("/").pop();
+        if (target === here) link.classList.add("active");
+      });
+    })();
     }
   });
 </script>
