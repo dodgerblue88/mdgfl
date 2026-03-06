@@ -1,63 +1,615 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Mediocre Disc Golf Fantasy League — 2026</title>
+  <title>The Mediocre Disc Golf Fantasy League — Home</title>
   <link rel="stylesheet" href="assets/style.css" />
-</head>
-<script>
-       // Highlight active nav link
-    (function(){
-      const links = document.querySelectorAll(".nav-link");
-      links.forEach(link => {
-        const here = location.pathname.split("/").pop() || "index.html";
-        const target = (link.getAttribute("href") || "").split("/").pop();
-        if (target === here) link.classList.add("active");
-      });
-    })();
+  <style>
+    :root { --mdgfl-gold: #f5c542; }
+
+    .home-wrap {
+      display: grid;
+      gap: 18px;
     }
-  });
-</script>
+
+    .hero {
+      text-align: center;
+      padding: 22px 18px 10px;
+    }
+
+    .hero-logo {
+      width: min(320px, 70vw);
+      max-width: 100%;
+      display: block;
+      margin: 0 auto 16px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,.28));
+    }
+
+    .hero h1 {
+      margin-bottom: 8px;
+    }
+
+    .hero .muted {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: .2px;
+    }
+
+    .section-head .meta {
+      font-size: .92rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      white-space: nowrap;
+    }
+
+    .summary-table td.name-cell {
+      white-space: normal;
+      min-width: 180px;
+    }
+
+    .summary-table td.points-cell,
+    .summary-table th.points-cell {
+      font-weight: 800;
+      color: var(--mdgfl-gold);
+    }
+
+    .summary-table.compact td,
+    .summary-table.compact th {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .rank-pill {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 197, 66, .25);
+      background: rgba(245, 197, 66, .10);
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .gold-text {
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+    }
+
+    .note-block {
+      padding: 14px 16px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .hero-logo { width: min(250px, 72vw); }
+    }
+  </style>
+</head>
 <body>
-<nav class="subnav">
-  <a href="index.html" class="nav-link">Home</a>
-  <a href="standings.html" class="nav-link">Standings</a>
-  <a href="stats.html" class="nav-link">Stats</a>
-</nav>
-  <div class="wrap">
-    <header class="header">
-      <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
-      <div>
-        <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
-        <p class="muted">Filter by event, or view Total Stats.</p>
-      </div>
-    </header>
+  <nav class="subnav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="standings.html" class="nav-link">Standings</a>
+    <a href="stats.html" class="nav-link">Stats</a>
+    <a href="rosters.html" class="nav-link">Rosters</a>
+  </nav>
 
-    <div class="bar card">
-      <div class="bar-left">
-        <label class="muted" for="eventSelect">View:</label>
-        <select id="eventSelect"></select>
-        <input id="searchInput" placeholder="Search player…" />
-      </div>
-      <div class="bar-right">
-        <button id="refreshBtn">Refresh</button>
-        <button id="downloadBtn">Download CSV</button>
-      </div>
-    </div>
+  <div class="wrap home-wrap">
+    <section class="hero card">
+      <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+      <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+      <p class="muted">League home page with a live standings snapshot, season leaders, and a rolling last-five-events power ranking.</p>
+    </section>
 
-    <div class="card table-wrap">
-      <table id="statsTable">
-        <thead id="thead"></thead>
-        <tbody id="tbody">
-          <tr><td class="muted">Loading…</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <section>
+      <div class="section-head">
+        <h2>Standings Summary</h2>
+        <div class="muted meta" id="standingsMeta">Loading…</div>
+      </div>
+      <div class="card table-wrap">
+        <table class="summary-table compact" id="standingsSummaryTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th class="points-cell">Season Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="3" class="muted" style="padding:16px;">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Top 20 Players</h2>
+        <div class="muted meta" id="playersMeta">Full-season totals across all loaded events.</div>
+      </div>
+      <div class="card table-wrap">
+        <table class="summary-table" id="topPlayersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Aces</th>
+              <th>Albies</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys</th>
+              <th>Wins</th>
+              <th>Top 3s</th>
+              <th>Top 10s</th>
+              <th>Top 20s</th>
+              <th class="points-cell">Season Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Top 20 Power Rankings</h2>
+        <div class="muted meta" id="powerMeta">50/50 blend of season-long scoring and the last five events.</div>
+      </div>
+      <div class="card table-wrap">
+        <table class="summary-table" id="powerRankingsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Aces</th>
+              <th>Albies</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys</th>
+              <th>Wins</th>
+              <th>Top 3s</th>
+              <th>Top 10s</th>
+              <th>Top 20s</th>
+              <th class="points-cell">Last 5 Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     <footer class="muted footer" id="footer"></footer>
   </div>
 
-  <script src="assets/app.js"></script>
+  <script>
+    (function(){
+      const links = document.querySelectorAll('.nav-link');
+      links.forEach(link => {
+        const here = location.pathname.split('/').pop() || 'index.html';
+        const target = (link.getAttribute('href') || '').split('/').pop();
+        if (target === here) link.classList.add('active');
+      });
+    })();
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+        if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
+        if (c === '"') { inQuotes = !inQuotes; continue; }
+        if (!inQuotes && c === ',') { row.push(cur); cur = ''; continue; }
+        if (!inQuotes && (c === '\n' || c === '\r')) {
+          if (c === '\r' && next === '\n') i++;
+          row.push(cur); cur = '';
+          if (row.some(v => String(v).trim() !== '')) rows.push(row);
+          row = [];
+          continue;
+        }
+        cur += c;
+      }
+      row.push(cur);
+      if (row.some(v => String(v).trim() !== '')) rows.push(row);
+      return rows;
+    }
+
+    function norm(s){ return String(s ?? '').trim().toLowerCase(); }
+    function sum(arr){ return arr.reduce((a,b)=>a + Number(b || 0), 0); }
+    function toNum(v){ const n = Number(String(v ?? '').replace(/,/g, '').trim()); return Number.isFinite(n) ? n : 0; }
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+
+    function findColumnIndex(header, candidates){
+      for (const cand of candidates) {
+        const i = header.indexOf(cand);
+        if (i >= 0) return i;
+      }
+      return -1;
+    }
+
+    function firstExistingIndex(header, candidateSets) {
+      for (const candidates of candidateSets) {
+        const i = findColumnIndex(header, candidates);
+        if (i >= 0) return i;
+      }
+      return -1;
+    }
+
+    function parseFinishValue(raw) {
+      const s = String(raw ?? '').trim().toUpperCase();
+      if (!s) return null;
+      const cleaned = s.replace(/^T/, '').match(/\d+/);
+      if (!cleaned) return null;
+      const n = Number(cleaned[0]);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    async function loadEvents(){
+      const path = 'data/events.json';
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
+      const events = await res.json();
+      if (!Array.isArray(events)) throw new Error('events.json must be an array');
+      return events.filter(e => e && e.id && e.csv);
+    }
+
+    async function loadRosters(){
+      const path = 'data/rosters.json';
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
+      const roster = await res.json();
+      if (!roster || !Array.isArray(roster.teams)) throw new Error('rosters.json must be an object with a teams[] array');
+      return roster;
+    }
+
+    async function loadEventCsv(csvPath) {
+      const res = await fetch(csvPath, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${csvPath} (${res.status})`);
+      const text = await res.text();
+      const rows = parseCsv(text);
+      if (rows.length < 2) return [];
+
+      const header = rows[0].map(h => norm(h));
+      const idxPdga = firstExistingIndex(header, [["pdga", "pdga #", "pdga#", "pdga number", "pdganumber"]]);
+      const idxName = firstExistingIndex(header, [["player", "name", "player name"]]);
+      const idxPts = firstExistingIndex(header, [["total points", "totalpoints", "points total", "total_points", "total_point"]]);
+      const idxAce = firstExistingIndex(header, [["aces", "ace"]]);
+      const idxAlbatross = firstExistingIndex(header, [["albatross", "albatrosses", "albies", "alby", "albatroces"]]);
+      const idxEagle = firstExistingIndex(header, [["eagles", "eagle"]]);
+      const idxBirdie = firstExistingIndex(header, [["birdies", "birdie"]]);
+      const idxBogey = firstExistingIndex(header, [["bogeys", "bogey", "bogies", "bogie"]]);
+      const idxFinish = firstExistingIndex(header, [["place", "finish", "position", "rank", "standing"]]);
+
+      if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
+      if (idxPts < 0) throw new Error(`${csvPath}: missing Total Points column`);
+
+      return rows.slice(1).map(r => ({
+        pdga: String(r[idxPdga] ?? '').trim(),
+        player: idxName >= 0 ? String(r[idxName] ?? '').trim() : '',
+        points: toNum(r[idxPts]),
+        aces: idxAce >= 0 ? toNum(r[idxAce]) : 0,
+        albies: idxAlbatross >= 0 ? toNum(r[idxAlbatross]) : 0,
+        eagles: idxEagle >= 0 ? toNum(r[idxEagle]) : 0,
+        birdies: idxBirdie >= 0 ? toNum(r[idxBirdie]) : 0,
+        bogeys: idxBogey >= 0 ? toNum(r[idxBogey]) : 0,
+        finish: idxFinish >= 0 ? parseFinishValue(r[idxFinish]) : null
+      })).filter(r => r.pdga);
+    }
+
+    function createPlayerAggregate(baseName = '') {
+      return {
+        player: baseName,
+        pdga: '',
+        seasonPoints: 0,
+        last5Points: 0,
+        aces: 0,
+        albies: 0,
+        eagles: 0,
+        birdies: 0,
+        bogeys: 0,
+        wins: 0,
+        top3s: 0,
+        top10s: 0,
+        top20s: 0,
+        last5: {
+          aces: 0,
+          albies: 0,
+          eagles: 0,
+          birdies: 0,
+          bogeys: 0,
+          wins: 0,
+          top3s: 0,
+          top10s: 0,
+          top20s: 0
+        },
+        powerScore: 0
+      };
+    }
+
+    function applyEventStats(target, row, useLast5) {
+      target.seasonPoints += row.points;
+      target.aces += row.aces;
+      target.albies += row.albies;
+      target.eagles += row.eagles;
+      target.birdies += row.birdies;
+      target.bogeys += row.bogeys;
+      if (row.finish === 1) target.wins += 1;
+      if (row.finish !== null && row.finish <= 3) target.top3s += 1;
+      if (row.finish !== null && row.finish <= 10) target.top10s += 1;
+      if (row.finish !== null && row.finish <= 20) target.top20s += 1;
+
+      if (useLast5) {
+        target.last5Points += row.points;
+        target.last5.aces += row.aces;
+        target.last5.albies += row.albies;
+        target.last5.eagles += row.eagles;
+        target.last5.birdies += row.birdies;
+        target.last5.bogeys += row.bogeys;
+        if (row.finish === 1) target.last5.wins += 1;
+        if (row.finish !== null && row.finish <= 3) target.last5.top3s += 1;
+        if (row.finish !== null && row.finish <= 10) target.last5.top10s += 1;
+        if (row.finish !== null && row.finish <= 20) target.last5.top20s += 1;
+      }
+    }
+
+    function buildStandingsSummary(teams, tbody) {
+      tbody.innerHTML = '';
+      if (!teams.length) {
+        tbody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">No teams found in <code>rosters.json</code>.</td></tr>`;
+        return;
+      }
+      teams.forEach((team, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="rank-pill">${idx + 1}</span></td>
+          <td class="name-cell"><strong>${escapeHtml(team.name)}</strong></td>
+          <td class="points-cell">${team._season || 0}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderTopPlayers(players, tbody) {
+      tbody.innerHTML = '';
+      if (!players.length) {
+        tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No player totals available.</td></tr>`;
+        return;
+      }
+      players.slice(0, 20).forEach((p, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="rank-pill">${idx + 1}</span></td>
+          <td class="name-cell"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong></td>
+          <td>${p.aces}</td>
+          <td>${p.albies}</td>
+          <td>${p.eagles}</td>
+          <td>${p.birdies}</td>
+          <td>${p.bogeys}</td>
+          <td>${p.wins}</td>
+          <td>${p.top3s}</td>
+          <td>${p.top10s}</td>
+          <td>${p.top20s}</td>
+          <td class="points-cell">${p.seasonPoints}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderPowerRankings(players, tbody) {
+      tbody.innerHTML = '';
+      if (!players.length) {
+        tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No power rankings available.</td></tr>`;
+        return;
+      }
+      players.slice(0, 20).forEach((p, idx) => {
+        const s = p.last5;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="rank-pill">${idx + 1}</span></td>
+          <td class="name-cell"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong><br><span class="muted" style="font-size:12px;">Power Score: ${p.powerScore.toFixed(3)}</span></td>
+          <td>${s.aces}</td>
+          <td>${s.albies}</td>
+          <td>${s.eagles}</td>
+          <td>${s.birdies}</td>
+          <td>${s.bogeys}</td>
+          <td>${s.wins}</td>
+          <td>${s.top3s}</td>
+          <td>${s.top10s}</td>
+          <td>${s.top20s}</td>
+          <td class="points-cell">${p.last5Points}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function buildTeamStandings(events, roster, pointsByEvent) {
+      const teams = (roster?.teams || []).map((t, idx) => ({
+        index: idx,
+        name: (t?.name || `Team ${idx+1}`),
+        players: (t?.players || []).filter(p => p && p.pdga)
+      }));
+
+      for (const team of teams) {
+        for (const p of team.players) {
+          const perEvent = events.map(evt => {
+            const m = pointsByEvent.get(evt.id);
+            return m ? (m.get(String(p.pdga)) || 0) : 0;
+          });
+          p._perEvent = perEvent;
+          p._rawSeason = sum(perEvent);
+          p._id = String(p.pdga || p.player || '');
+        }
+
+        team._countedByEvent = events.map((evt, i) => {
+          const scored = team.players.map(p => ({
+            id: p._id,
+            score: Number(p._perEvent[i] || 0),
+            rawSeason: Number(p._rawSeason || 0),
+            name: String(p.player || '')
+          }));
+
+          scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
+          const keep = new Set();
+          if (scored.length <= 5) {
+            scored.forEach(s => keep.add(s.id));
+            return keep;
+          }
+
+          const cutoffScore = scored[4].score;
+          const above = scored.filter(s => s.score > cutoffScore);
+          above.forEach(s => keep.add(s.id));
+          const remainingSlots = 5 - above.length;
+          const tied = scored.filter(s => s.score === cutoffScore)
+            .sort((a, b) => (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
+          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
+          return keep;
+        });
+
+        team._perEvent = events.map((evt, i) => {
+          const keep = team._countedByEvent[i];
+          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
+        });
+
+        team._season = sum(team._perEvent);
+      }
+
+      teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
+      return teams;
+    }
+
+    async function loadAndRender() {
+      const standingsBody = document.querySelector('#standingsSummaryTable tbody');
+      const playersBody = document.querySelector('#topPlayersTable tbody');
+      const powerBody = document.querySelector('#powerRankingsTable tbody');
+      standingsBody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">Loading…</td></tr>`;
+      playersBody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>`;
+      powerBody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>`;
+
+      const [events, roster] = await Promise.all([loadEvents(), loadRosters()]);
+      if (!events.length) throw new Error('No events found in events.json');
+
+      const rosterPlayers = new Map();
+      for (const team of roster.teams || []) {
+        for (const player of (team.players || [])) {
+          if (!player || !player.pdga) continue;
+          const pdga = String(player.pdga).trim();
+          if (!rosterPlayers.has(pdga)) {
+            rosterPlayers.set(pdga, String(player.player || '').trim());
+          }
+        }
+      }
+
+      const pointsByEvent = new Map();
+      const playerTotals = new Map();
+      const lastFiveEvents = events.slice(-5);
+      const lastFiveIds = new Set(lastFiveEvents.map(e => e.id));
+
+      for (const evt of events) {
+        const rows = await loadEventCsv(evt.csv);
+        const pointMap = new Map();
+
+        rows.forEach(row => {
+          pointMap.set(String(row.pdga), row.points);
+
+          if (!rosterPlayers.has(String(row.pdga))) return;
+          const id = String(row.pdga);
+          if (!playerTotals.has(id)) {
+            const agg = createPlayerAggregate(rosterPlayers.get(id) || row.player || '');
+            agg.pdga = id;
+            playerTotals.set(id, agg);
+          }
+          const agg = playerTotals.get(id);
+          if (!agg.player && row.player) agg.player = row.player;
+          applyEventStats(agg, row, lastFiveIds.has(evt.id));
+        });
+
+        pointsByEvent.set(evt.id, pointMap);
+      }
+
+      // ensure every rostered player exists, even with zero points
+      rosterPlayers.forEach((name, pdga) => {
+        if (!playerTotals.has(pdga)) {
+          const agg = createPlayerAggregate(name);
+          agg.pdga = pdga;
+          playerTotals.set(pdga, agg);
+        }
+      });
+
+      const teams = buildTeamStandings(events, roster, pointsByEvent);
+      buildStandingsSummary(teams, standingsBody);
+
+      const players = Array.from(playerTotals.values());
+      const maxSeasonPoints = Math.max(1, ...players.map(p => p.seasonPoints));
+      const maxLast5Points = Math.max(1, ...players.map(p => p.last5Points));
+      players.forEach(p => {
+        p.powerScore = (0.5 * (p.seasonPoints / maxSeasonPoints)) + (0.5 * (p.last5Points / maxLast5Points));
+      });
+
+      const topPlayers = [...players].sort((a, b) =>
+        (b.seasonPoints - a.seasonPoints) ||
+        (b.wins - a.wins) ||
+        (b.top3s - a.top3s) ||
+        String(a.player).localeCompare(String(b.player))
+      );
+      renderTopPlayers(topPlayers, playersBody);
+
+      const powerRankings = [...players].sort((a, b) =>
+        (b.powerScore - a.powerScore) ||
+        (b.last5Points - a.last5Points) ||
+        (b.seasonPoints - a.seasonPoints) ||
+        String(a.player).localeCompare(String(b.player))
+      );
+      renderPowerRankings(powerRankings, powerBody);
+
+      document.getElementById('standingsMeta').textContent = `${teams.length} teams • ${events.length} events loaded`;
+      document.getElementById('playersMeta').textContent = `Top 20 by full-season points across ${events.length} event${events.length === 1 ? '' : 's'}.`;
+      document.getElementById('powerMeta').textContent = `Uses the last ${lastFiveEvents.length} event${lastFiveEvents.length === 1 ? '' : 's'} from events.json, blended 50/50 with season points.`;
+      document.getElementById('footer').textContent = `Loaded ${teams.length} team(s) • ${players.length} rostered player(s) • ${events.length} event(s)`;
+    }
+
+    loadAndRender().catch(err => {
+      console.error(err);
+      const msg = `Error: ${escapeHtml(err.message)}`;
+      document.querySelector('#standingsSummaryTable tbody').innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">${msg}</td></tr>`;
+      document.querySelector('#topPlayersTable tbody').innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">${msg}</td></tr>`;
+      document.querySelector('#powerRankingsTable tbody').innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">${msg}</td></tr>`;
+      document.getElementById('footer').textContent = '';
+    });
+  </script>
 </body>
 </html>
