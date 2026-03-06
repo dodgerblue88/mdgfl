@@ -129,6 +129,12 @@
       font-size: 12px;
     }
 
+    .standings-section {
+      max-width: 760px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
     @media (max-width: 900px) {
       .hero-logo { width: min(300px, 76vw); }
     }
@@ -139,7 +145,6 @@
     <a href="index.html" class="nav-link">Home</a>
     <a href="standings.html" class="nav-link">Standings</a>
     <a href="stats.html" class="nav-link">Stats</a>
-    <a href="rosters.html" class="nav-link">Rosters</a>
   </nav>
 
   <div class="wrap home-wrap">
@@ -148,10 +153,9 @@
       <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
     </section>
 
-    <section>
+    <section class="standings-section">
       <div class="section-head">
         <h2>Standings Summary</h2>
-        <div class="muted meta" id="standingsMeta">Loading…</div>
       </div>
       <div class="card table-wrap">
         <table class="summary-table compact" id="standingsSummaryTable">
@@ -172,8 +176,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Players</h2>
-        <div class="muted meta" id="playersMeta">Full-season totals across all players in all loaded events.</div>
-      </div>
+        </div>
       <div class="card table-wrap">
         <table class="summary-table" id="topPlayersTable">
           <thead>
@@ -202,8 +205,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Power Rankings</h2>
-        <div class="muted meta" id="powerMeta">50/50 blend of season points and the last 3 events.</div>
-      </div>
+        </div>
       <div class="card table-wrap">
         <table class="summary-table" id="powerRankingsTable">
           <thead>
@@ -646,9 +648,6 @@
       const previousPowerRanks = buildRankMap(previousPowerRankings, p => p.pdga);
       renderPowerRankings(currentPowerRankings, previousPowerRanks, powerBody);
 
-      document.getElementById('standingsMeta').textContent = `${teamsCurrent.length} teams • ${events.length} events loaded`;
-      document.getElementById('playersMeta').textContent = `Top 20 by full-season points across all players in ${events.length} event${events.length === 1 ? '' : 's'}. Arrows compare to the rankings before the latest event.`;
-      document.getElementById('powerMeta').textContent = `Uses the last ${currentPlayerData.recentEvents.length} event${currentPlayerData.recentEvents.length === 1 ? '' : 's'} from events.json, blended 50/50 with season points. Arrows compare to the rankings before the latest event.`;
       document.getElementById('footer').textContent = `Loaded ${teamsCurrent.length} team(s) • ${currentPlayerData.players.length} player(s) • ${events.length} event(s)`;
     }
 
