@@ -77,6 +77,53 @@
       padding-bottom: 10px;
     }
 
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .summary-table {
+      width: max-content;
+      min-width: 100%;
+    }
+
+    .summary-table th:first-child,
+    .summary-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: #1b1b1b;
+    }
+
+    .summary-table th:nth-child(2),
+    .summary-table td:nth-child(2) {
+      position: sticky;
+      left: 54px;
+      z-index: 3;
+      background: #1b1b1b;
+      box-shadow: 10px 0 14px rgba(0,0,0,.22);
+    }
+
+    .summary-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: #151515;
+    }
+
+    .summary-table thead th:first-child {
+      z-index: 6;
+    }
+
+    .summary-table thead th:nth-child(2) {
+      z-index: 7;
+    }
+
+    .summary-table th:first-child,
+    .summary-table td:first-child {
+      min-width: 54px;
+    }
+
     .rank-pill {
       display: inline-grid;
       place-items: center;
@@ -129,11 +176,6 @@
       font-size: 12px;
     }
 
-    .standings-section {
-      max-width: 760px;
-      margin: 0 auto;
-      width: 100%;
-    }
 
     @media (max-width: 900px) {
       .hero-logo { width: min(300px, 76vw); }
@@ -163,11 +205,20 @@
             <tr>
               <th>#</th>
               <th>Team</th>
-              <th class="points-cell">Season Points</th>
+              <th class="points-cell">Pts</th>
+              <th>Aces</th>
+              <th>Albies</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys</th>
+              <th>Wins</th>
+              <th>Top 3s</th>
+              <th>Top 10s</th>
+              <th>Top 20s</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="3" class="muted" style="padding:16px;">Loading…</td></tr>
+            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
           </tbody>
         </table>
       </div>
@@ -183,6 +234,7 @@
             <tr>
               <th>#</th>
               <th>Player</th>
+              <th class="points-cell">Pts</th>
               <th>Aces</th>
               <th>Albies</th>
               <th>Eagles</th>
@@ -192,7 +244,6 @@
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Season Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -212,6 +263,7 @@
             <tr>
               <th>#</th>
               <th>Player</th>
+              <th class="points-cell">Pts</th>
               <th>Aces</th>
               <th>Albies</th>
               <th>Eagles</th>
@@ -221,7 +273,6 @@
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Last 3 Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -435,7 +486,7 @@
     function buildStandingsSummary(teams, previousRankMap, tbody) {
       tbody.innerHTML = '';
       if (!teams.length) {
-        tbody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">No teams found in <code>rosters.json</code>.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No teams found in <code>rosters.json</code>.</td></tr>`;
         return;
       }
       teams.forEach((team, idx) => {
@@ -444,6 +495,15 @@
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${movementHtml(move)}</td>
+          <td>${team._stats.aces}</td>
+          <td>${team._stats.albies}</td>
+          <td>${team._stats.eagles}</td>
+          <td>${team._stats.birdies}</td>
+          <td>${team._stats.bogeys}</td>
+          <td>${team._stats.wins}</td>
+          <td>${team._stats.top3s}</td>
+          <td>${team._stats.top10s}</td>
+          <td>${team._stats.top20s}</td>
           <td class="points-cell">${team._season || 0}</td>`;
         tbody.appendChild(tr);
       });
@@ -505,7 +565,7 @@
       });
     }
 
-    function buildTeamStandings(events, roster, pointsByEvent) {
+    function buildTeamStandings(events, roster, pointsByEvent, rowsByEvent) {
       const teams = (roster?.teams || []).map((t, idx) => ({
         index: idx,
         name: (t?.name || `Team ${idx+1}`),
@@ -551,6 +611,36 @@
         team._perEvent = events.map((evt, i) => {
           const keep = team._countedByEvent[i];
           return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
+        });
+
+        team._stats = {
+          aces: 0,
+          albies: 0,
+          eagles: 0,
+          birdies: 0,
+          bogeys: 0,
+          wins: 0,
+          top3s: 0,
+          top10s: 0,
+          top20s: 0
+        };
+
+        events.forEach((evt, i) => {
+          const keep = team._countedByEvent[i];
+          const rows = rowsByEvent.get(evt.id) || [];
+          rows.forEach(row => {
+            const id = String(row.pdga || '');
+            if (!keep.has(id)) return;
+            team._stats.aces += Number(row.aces || 0);
+            team._stats.albies += Number(row.albies || 0);
+            team._stats.eagles += Number(row.eagles || 0);
+            team._stats.birdies += Number(row.birdies || 0);
+            team._stats.bogeys += Number(row.bogeys || 0);
+            if (row.finish === 1) team._stats.wins += 1;
+            if (row.finish !== null && row.finish <= 3) team._stats.top3s += 1;
+            if (row.finish !== null && row.finish <= 10) team._stats.top10s += 1;
+            if (row.finish !== null && row.finish <= 20) team._stats.top20s += 1;
+          });
         });
 
         team._season = sum(team._perEvent);
@@ -611,7 +701,7 @@
       const standingsBody = document.querySelector('#standingsSummaryTable tbody');
       const playersBody = document.querySelector('#topPlayersTable tbody');
       const powerBody = document.querySelector('#powerRankingsTable tbody');
-      standingsBody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">Loading…</td></tr>`;
+      standingsBody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>`;
       playersBody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>`;
       powerBody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>`;
 
@@ -630,8 +720,8 @@
 
       const previousEvents = events.slice(0, -1);
 
-      const teamsCurrent = buildTeamStandings(events, roster, pointsByEvent);
-      const teamsPrevious = buildTeamStandings(previousEvents, roster, pointsByEvent);
+      const teamsCurrent = buildTeamStandings(events, roster, pointsByEvent, rowsByEvent);
+      const teamsPrevious = buildTeamStandings(previousEvents, roster, pointsByEvent, rowsByEvent);
       const previousTeamRanks = buildRankMap(teamsPrevious, t => t.name);
       buildStandingsSummary(teamsCurrent, previousTeamRanks, standingsBody);
 
@@ -654,7 +744,7 @@
     loadAndRender().catch(err => {
       console.error(err);
       const msg = `Error: ${escapeHtml(err.message)}`;
-      document.querySelector('#standingsSummaryTable tbody').innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">${msg}</td></tr>`;
+      document.querySelector('#standingsSummaryTable tbody').innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">${msg}</td></tr>`;
       document.querySelector('#topPlayersTable tbody').innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">${msg}</td></tr>`;
       document.querySelector('#powerRankingsTable tbody').innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">${msg}</td></tr>`;
       document.getElementById('footer').textContent = '';
