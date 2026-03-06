@@ -7,7 +7,11 @@
   <title>The Mediocre Disc Golf Fantasy League — Home</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    :root { --mdgfl-gold: #f5c542; }
+    :root {
+      --mdgfl-gold: #f5c542;
+      --mdgfl-green: #6fbf4b;
+      --mdgfl-yellow: #f5c542;
+    }
 
     .home-wrap {
       display: grid;
@@ -16,24 +20,19 @@
 
     .hero {
       text-align: center;
-      padding: 22px 18px 10px;
+      padding: 26px 18px 16px;
     }
 
     .hero-logo {
-      width: min(320px, 70vw);
+      width: min(420px, 82vw);
       max-width: 100%;
       display: block;
-      margin: 0 auto 16px;
+      margin: 0 auto 8px;
       filter: drop-shadow(0 10px 20px rgba(0,0,0,.28));
     }
 
     .hero h1 {
-      margin-bottom: 8px;
-    }
-
-    .hero .muted {
-      max-width: 760px;
-      margin: 0 auto;
+      margin: 0;
     }
 
     .section-head {
@@ -55,19 +54,15 @@
       font-size: .92rem;
     }
 
-    .summary-grid {
-      display: grid;
-      gap: 18px;
-    }
-
     .summary-table th,
     .summary-table td {
       white-space: nowrap;
+      vertical-align: middle;
     }
 
     .summary-table td.name-cell {
       white-space: normal;
-      min-width: 180px;
+      min-width: 220px;
     }
 
     .summary-table td.points-cell,
@@ -96,18 +91,46 @@
       font-size: 12px;
     }
 
-    .gold-text {
-      color: var(--mdgfl-gold);
-      font-weight: 800;
+    .movement {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      margin-left: 8px;
+      font-size: 14px;
+      font-weight: 900;
+      vertical-align: middle;
     }
 
-    .note-block {
-      padding: 14px 16px;
-      line-height: 1.5;
+    .movement.up {
+      color: var(--mdgfl-green);
+    }
+
+    .movement.down {
+      color: var(--mdgfl-yellow);
+    }
+
+    .movement.flat {
+      color: rgba(255,255,255,.35);
+      font-size: 11px;
+      min-width: 12px;
+    }
+
+    .player-line {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .power-sub {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
     }
 
     @media (max-width: 900px) {
-      .hero-logo { width: min(250px, 72vw); }
+      .hero-logo { width: min(300px, 76vw); }
     }
   </style>
 </head>
@@ -123,7 +146,6 @@
     <section class="hero card">
       <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
       <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
-      <p class="muted">League home page with a live standings snapshot, season leaders, and a rolling last-five-events power ranking.</p>
     </section>
 
     <section>
@@ -150,7 +172,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Players</h2>
-        <div class="muted meta" id="playersMeta">Full-season totals across all loaded events.</div>
+        <div class="muted meta" id="playersMeta">Full-season totals across all players in all loaded events.</div>
       </div>
       <div class="card table-wrap">
         <table class="summary-table" id="topPlayersTable">
@@ -180,7 +202,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Power Rankings</h2>
-        <div class="muted meta" id="powerMeta">50/50 blend of season-long scoring and the last five events.</div>
+        <div class="muted meta" id="powerMeta">50/50 blend of season points and the last 3 events.</div>
       </div>
       <div class="card table-wrap">
         <table class="summary-table" id="powerRankingsTable">
@@ -197,7 +219,7 @@
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Last 5 Pts</th>
+              <th class="points-cell">Last 3 Pts</th>
             </tr>
           </thead>
           <tbody>
@@ -339,7 +361,7 @@
         player: baseName,
         pdga: '',
         seasonPoints: 0,
-        last5Points: 0,
+        recentPoints: 0,
         aces: 0,
         albies: 0,
         eagles: 0,
@@ -349,7 +371,7 @@
         top3s: 0,
         top10s: 0,
         top20s: 0,
-        last5: {
+        recent: {
           aces: 0,
           albies: 0,
           eagles: 0,
@@ -364,7 +386,7 @@
       };
     }
 
-    function applyEventStats(target, row, useLast5) {
+    function applyEventStats(target, row, useRecent) {
       target.seasonPoints += row.points;
       target.aces += row.aces;
       target.albies += row.albies;
@@ -376,47 +398,67 @@
       if (row.finish !== null && row.finish <= 10) target.top10s += 1;
       if (row.finish !== null && row.finish <= 20) target.top20s += 1;
 
-      if (useLast5) {
-        target.last5Points += row.points;
-        target.last5.aces += row.aces;
-        target.last5.albies += row.albies;
-        target.last5.eagles += row.eagles;
-        target.last5.birdies += row.birdies;
-        target.last5.bogeys += row.bogeys;
-        if (row.finish === 1) target.last5.wins += 1;
-        if (row.finish !== null && row.finish <= 3) target.last5.top3s += 1;
-        if (row.finish !== null && row.finish <= 10) target.last5.top10s += 1;
-        if (row.finish !== null && row.finish <= 20) target.last5.top20s += 1;
+      if (useRecent) {
+        target.recentPoints += row.points;
+        target.recent.aces += row.aces;
+        target.recent.albies += row.albies;
+        target.recent.eagles += row.eagles;
+        target.recent.birdies += row.birdies;
+        target.recent.bogeys += row.bogeys;
+        if (row.finish === 1) target.recent.wins += 1;
+        if (row.finish !== null && row.finish <= 3) target.recent.top3s += 1;
+        if (row.finish !== null && row.finish <= 10) target.recent.top10s += 1;
+        if (row.finish !== null && row.finish <= 20) target.recent.top20s += 1;
       }
     }
 
-    function buildStandingsSummary(teams, tbody) {
+    function movementInfo(currentRank, previousRank) {
+      if (!Number.isFinite(previousRank) && Number.isFinite(currentRank)) return { cls: 'up', symbol: '▲', label: 'New to rankings' };
+      if (!Number.isFinite(currentRank)) return { cls: 'flat', symbol: '•', label: 'No change' };
+      if (currentRank < previousRank) return { cls: 'up', symbol: '▲', label: `Up ${previousRank - currentRank}` };
+      if (currentRank > previousRank) return { cls: 'down', symbol: '▼', label: `Down ${currentRank - previousRank}` };
+      return { cls: 'flat', symbol: '•', label: 'No change' };
+    }
+
+    function movementHtml(info) {
+      return `<span class="movement ${info.cls}" title="${escapeHtml(info.label)}">${info.symbol}</span>`;
+    }
+
+    function buildRankMap(items, getKey) {
+      const map = new Map();
+      items.forEach((item, idx) => map.set(getKey(item), idx + 1));
+      return map;
+    }
+
+    function buildStandingsSummary(teams, previousRankMap, tbody) {
       tbody.innerHTML = '';
       if (!teams.length) {
         tbody.innerHTML = `<tr><td colspan="3" class="muted" style="padding:16px;">No teams found in <code>rosters.json</code>.</td></tr>`;
         return;
       }
       teams.forEach((team, idx) => {
+        const move = movementInfo(idx + 1, previousRankMap.get(team.name));
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
-          <td class="name-cell"><strong>${escapeHtml(team.name)}</strong></td>
+          <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${movementHtml(move)}</td>
           <td class="points-cell">${team._season || 0}</td>`;
         tbody.appendChild(tr);
       });
     }
 
-    function renderTopPlayers(players, tbody) {
+    function renderTopPlayers(players, previousRankMap, tbody) {
       tbody.innerHTML = '';
       if (!players.length) {
         tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No player totals available.</td></tr>`;
         return;
       }
       players.slice(0, 20).forEach((p, idx) => {
+        const move = movementInfo(idx + 1, previousRankMap.get(p.pdga));
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
-          <td class="name-cell"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong></td>
+          <td class="name-cell"><span class="player-line"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong>${movementHtml(move)}</span></td>
           <td>${p.aces}</td>
           <td>${p.albies}</td>
           <td>${p.eagles}</td>
@@ -431,18 +473,22 @@
       });
     }
 
-    function renderPowerRankings(players, tbody) {
+    function renderPowerRankings(players, previousRankMap, tbody) {
       tbody.innerHTML = '';
       if (!players.length) {
         tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No power rankings available.</td></tr>`;
         return;
       }
       players.slice(0, 20).forEach((p, idx) => {
-        const s = p.last5;
+        const s = p.recent;
+        const move = movementInfo(idx + 1, previousRankMap.get(p.pdga));
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
-          <td class="name-cell"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong><br><span class="muted" style="font-size:12px;">Power Score: ${p.powerScore.toFixed(3)}</span></td>
+          <td class="name-cell">
+            <span class="player-line"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong>${movementHtml(move)}</span>
+            <span class="muted power-sub">Power Score: ${p.powerScore.toFixed(3)}</span>
+          </td>
           <td>${s.aces}</td>
           <td>${s.albies}</td>
           <td>${s.eagles}</td>
@@ -452,7 +498,7 @@
           <td>${s.top3s}</td>
           <td>${s.top10s}</td>
           <td>${s.top20s}</td>
-          <td class="points-cell">${p.last5Points}</td>`;
+          <td class="points-cell">${p.recentPoints}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -512,6 +558,53 @@
       return teams;
     }
 
+    function computePlayerTotals(events, rowsByEvent, recentWindow) {
+      const recentEvents = events.slice(-recentWindow);
+      const recentIds = new Set(recentEvents.map(e => e.id));
+      const playerTotals = new Map();
+
+      for (const evt of events) {
+        const rows = rowsByEvent.get(evt.id) || [];
+        rows.forEach(row => {
+          const id = String(row.pdga);
+          if (!playerTotals.has(id)) {
+            const agg = createPlayerAggregate(row.player || '');
+            agg.pdga = id;
+            playerTotals.set(id, agg);
+          }
+          const agg = playerTotals.get(id);
+          if (!agg.player && row.player) agg.player = row.player;
+          applyEventStats(agg, row, recentIds.has(evt.id));
+        });
+      }
+
+      const players = Array.from(playerTotals.values());
+      const maxSeasonPoints = Math.max(1, ...players.map(p => p.seasonPoints));
+      const maxRecentPoints = Math.max(1, ...players.map(p => p.recentPoints));
+      players.forEach(p => {
+        p.powerScore = (0.5 * (p.seasonPoints / maxSeasonPoints)) + (0.5 * (p.recentPoints / maxRecentPoints));
+      });
+      return { players, recentEvents };
+    }
+
+    function sortPlayersBySeason(players) {
+      return [...players].sort((a, b) =>
+        (b.seasonPoints - a.seasonPoints) ||
+        (b.wins - a.wins) ||
+        (b.top3s - a.top3s) ||
+        String(a.player).localeCompare(String(b.player))
+      );
+    }
+
+    function sortPlayersByPower(players) {
+      return [...players].sort((a, b) =>
+        (b.powerScore - a.powerScore) ||
+        (b.recentPoints - a.recentPoints) ||
+        (b.seasonPoints - a.seasonPoints) ||
+        String(a.player).localeCompare(String(b.player))
+      );
+    }
+
     async function loadAndRender() {
       const standingsBody = document.querySelector('#standingsSummaryTable tbody');
       const playersBody = document.querySelector('#topPlayersTable tbody');
@@ -523,83 +616,40 @@
       const [events, roster] = await Promise.all([loadEvents(), loadRosters()]);
       if (!events.length) throw new Error('No events found in events.json');
 
-      const rosterPlayers = new Map();
-      for (const team of roster.teams || []) {
-        for (const player of (team.players || [])) {
-          if (!player || !player.pdga) continue;
-          const pdga = String(player.pdga).trim();
-          if (!rosterPlayers.has(pdga)) {
-            rosterPlayers.set(pdga, String(player.player || '').trim());
-          }
-        }
-      }
-
+      const rowsByEvent = new Map();
       const pointsByEvent = new Map();
-      const playerTotals = new Map();
-      const lastFiveEvents = events.slice(-5);
-      const lastFiveIds = new Set(lastFiveEvents.map(e => e.id));
-
       for (const evt of events) {
         const rows = await loadEventCsv(evt.csv);
+        rowsByEvent.set(evt.id, rows);
         const pointMap = new Map();
-
-        rows.forEach(row => {
-          pointMap.set(String(row.pdga), row.points);
-
-          if (!rosterPlayers.has(String(row.pdga))) return;
-          const id = String(row.pdga);
-          if (!playerTotals.has(id)) {
-            const agg = createPlayerAggregate(rosterPlayers.get(id) || row.player || '');
-            agg.pdga = id;
-            playerTotals.set(id, agg);
-          }
-          const agg = playerTotals.get(id);
-          if (!agg.player && row.player) agg.player = row.player;
-          applyEventStats(agg, row, lastFiveIds.has(evt.id));
-        });
-
+        rows.forEach(row => pointMap.set(String(row.pdga), row.points));
         pointsByEvent.set(evt.id, pointMap);
       }
 
-      // ensure every rostered player exists, even with zero points
-      rosterPlayers.forEach((name, pdga) => {
-        if (!playerTotals.has(pdga)) {
-          const agg = createPlayerAggregate(name);
-          agg.pdga = pdga;
-          playerTotals.set(pdga, agg);
-        }
-      });
+      const previousEvents = events.slice(0, -1);
 
-      const teams = buildTeamStandings(events, roster, pointsByEvent);
-      buildStandingsSummary(teams, standingsBody);
+      const teamsCurrent = buildTeamStandings(events, roster, pointsByEvent);
+      const teamsPrevious = buildTeamStandings(previousEvents, roster, pointsByEvent);
+      const previousTeamRanks = buildRankMap(teamsPrevious, t => t.name);
+      buildStandingsSummary(teamsCurrent, previousTeamRanks, standingsBody);
 
-      const players = Array.from(playerTotals.values());
-      const maxSeasonPoints = Math.max(1, ...players.map(p => p.seasonPoints));
-      const maxLast5Points = Math.max(1, ...players.map(p => p.last5Points));
-      players.forEach(p => {
-        p.powerScore = (0.5 * (p.seasonPoints / maxSeasonPoints)) + (0.5 * (p.last5Points / maxLast5Points));
-      });
+      const currentPlayerData = computePlayerTotals(events, rowsByEvent, 3);
+      const previousPlayerData = computePlayerTotals(previousEvents, rowsByEvent, 3);
 
-      const topPlayers = [...players].sort((a, b) =>
-        (b.seasonPoints - a.seasonPoints) ||
-        (b.wins - a.wins) ||
-        (b.top3s - a.top3s) ||
-        String(a.player).localeCompare(String(b.player))
-      );
-      renderTopPlayers(topPlayers, playersBody);
+      const currentTopPlayers = sortPlayersBySeason(currentPlayerData.players);
+      const previousTopPlayers = sortPlayersBySeason(previousPlayerData.players);
+      const previousPlayerRanks = buildRankMap(previousTopPlayers, p => p.pdga);
+      renderTopPlayers(currentTopPlayers, previousPlayerRanks, playersBody);
 
-      const powerRankings = [...players].sort((a, b) =>
-        (b.powerScore - a.powerScore) ||
-        (b.last5Points - a.last5Points) ||
-        (b.seasonPoints - a.seasonPoints) ||
-        String(a.player).localeCompare(String(b.player))
-      );
-      renderPowerRankings(powerRankings, powerBody);
+      const currentPowerRankings = sortPlayersByPower(currentPlayerData.players);
+      const previousPowerRankings = sortPlayersByPower(previousPlayerData.players);
+      const previousPowerRanks = buildRankMap(previousPowerRankings, p => p.pdga);
+      renderPowerRankings(currentPowerRankings, previousPowerRanks, powerBody);
 
-      document.getElementById('standingsMeta').textContent = `${teams.length} teams • ${events.length} events loaded`;
-      document.getElementById('playersMeta').textContent = `Top 20 by full-season points across ${events.length} event${events.length === 1 ? '' : 's'}.`;
-      document.getElementById('powerMeta').textContent = `Uses the last ${lastFiveEvents.length} event${lastFiveEvents.length === 1 ? '' : 's'} from events.json, blended 50/50 with season points.`;
-      document.getElementById('footer').textContent = `Loaded ${teams.length} team(s) • ${players.length} rostered player(s) • ${events.length} event(s)`;
+      document.getElementById('standingsMeta').textContent = `${teamsCurrent.length} teams • ${events.length} events loaded`;
+      document.getElementById('playersMeta').textContent = `Top 20 by full-season points across all players in ${events.length} event${events.length === 1 ? '' : 's'}. Arrows compare to the rankings before the latest event.`;
+      document.getElementById('powerMeta').textContent = `Uses the last ${currentPlayerData.recentEvents.length} event${currentPlayerData.recentEvents.length === 1 ? '' : 's'} from events.json, blended 50/50 with season points. Arrows compare to the rankings before the latest event.`;
+      document.getElementById('footer').textContent = `Loaded ${teamsCurrent.length} team(s) • ${currentPlayerData.players.length} player(s) • ${events.length} event(s)`;
     }
 
     loadAndRender().catch(err => {
