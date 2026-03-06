@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,18 +45,7 @@
       </div>
     </header>
 
-    <!-- Controls bar (styled like stats page) -->
-    <div class="bar card">
-      <div class="bar-left">
-        <label class="muted" for="eventsPath">Events JSON:</label>
-        <input id="eventsPath" value="data/events.json" style="max-width:260px;" />
-        <label class="muted" for="rostersPath" style="margin-left:8px;">Rosters JSON:</label>
-        <input id="rostersPath" value="data/rosters.json" style="max-width:260px;" />
-      </div>
-      <div class="bar-right">
-        <button id="reloadBtn">Reload</button>
-      </div>
-    </div>
+    <!-- JSON path controls hidden; page loads default data files automatically -->
 
     <div class="card table-wrap">
       <table id="standingsTable">
@@ -120,7 +110,7 @@
     }
 
     async function loadEvents(){
-      const path = document.getElementById("eventsPath").value.trim() || "data/events.json";
+      const path = "data/events.json";
       const res = await fetch(path, { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
       const events = await res.json();
@@ -129,7 +119,7 @@
     }
 
     async function loadRosters(){
-      const path = document.getElementById("rostersPath").value.trim() || "data/rosters.json";
+      const path = "data/rosters.json";
       const res = await fetch(path, { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
       const roster = await res.json();
@@ -315,7 +305,7 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
           tdBlank.textContent = "";
           const tdPlayer = document.createElement("td");
           const displayName = p.player || "(Unnamed)";
-          tdPlayer.innerHTML = `<span class="muted" style="padding-left:14px;">${escapeHtml(displayName)} (${escapeHtml(p.pdga)})</span>`;
+          tdPlayer.innerHTML = `<span class="muted" style="padding-left:14px;">${escapeHtml(displayName)}</span>`;
 
           trP.appendChild(tdBlank);
           trP.appendChild(tdPlayer);
@@ -352,15 +342,6 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
 
       buildTable({ events, roster, pointsByEvent });
     }
-
-    document.getElementById("reloadBtn").addEventListener("click", () => {
-      loadAndRender().catch(err => {
-        console.error(err);
-        document.getElementById("tbody").innerHTML =
-          `<tr><td class="muted" style="padding:16px;">Error: ${escapeHtml(err.message)}</td></tr>`;
-        document.getElementById("footer").textContent = "";
-      });
-    });
 
     loadAndRender().catch(err => {
       console.error(err);
