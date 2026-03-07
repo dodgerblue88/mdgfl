@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,28 +6,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Mediocre Disc Golf Fantasy League — 2026</title>
   <link rel="stylesheet" href="assets/style.css" />
-</head>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const links = document.querySelectorAll(".nav-link");
-  const here = location.pathname.split("/").pop() || "index.html";
-
-  links.forEach(link => {
-    const target = (link.getAttribute("href") || "").split("/").pop();
-    if (target === here) {
-      link.classList.add("active");
+  <style>
+    :root {
+      --mdgfl-gold: #f5c542;
+      --mdgfl-green: #6fbf4b;
+      --mdgfl-yellow: #f5c542;
     }
-  });
-});
-</script>
+
+    .stats-wrap {
+      display: grid;
+      gap: 18px;
+    }
+  </style>
+</head>
 <body>
-<nav class="subnav">
-  <a href="index.html" class="nav-link">Home</a>
-  <a href="standings.html" class="nav-link">Standings</a>
-  <a href="stats.html" class="nav-link">Stats</a>
-</nav>
-  <div class="wrap">
-    <header class="header">
+  <nav class="subnav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="standings.html" class="nav-link">Standings</a>
+    <a href="stats.html" class="nav-link active">Stats</a>
+  </nav>
+
+  <div class="wrap stats-wrap">
+    <header class="header card">
       <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
       <div>
         <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
@@ -58,6 +59,17 @@ document.addEventListener("DOMContentLoaded", function () {
     <footer class="muted footer" id="footer"></footer>
   </div>
 
+  <script>
+    (function(){
+      const links = document.querySelectorAll('.nav-link');
+      const here = location.pathname.split('/').pop() || 'index.html';
+      links.forEach(link => {
+        const target = (link.getAttribute('href') || '').split('/').pop();
+        if (target === here) link.classList.add('active');
+        else link.classList.remove('active');
+      });
+    })();
+  </script>
   <script src="assets/app.js"></script>
 </body>
 </html>
