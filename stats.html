@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,25 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Mediocre Disc Golf Fantasy League — 2026</title>
   <link rel="stylesheet" href="assets/style.css" />
-  <style>
-    :root {
-      --mdgfl-gold: #f5c542;
-    }
-
-    #statsTable th.points-cell,
-    #statsTable td.points-cell {
-      font-weight: 800;
-      color: var(--mdgfl-gold);
-    }
-  </style>
 </head>
+<script>
+  const links = document.querySelectorAll(".nav-link");
+  links.forEach(link => {
+    if (link.href === window.location.href) {
+      link.classList.add("active");
+    }
+  });
+
+   // Highlight active nav link
+    (function(){
+      const links = document.querySelectorAll(".nav-link");
+      links.forEach(link => {
+        const here = location.pathname.split("/").pop() || "index.html";
+        const target = (link.getAttribute("href") || "").split("/").pop();
+        if (target === here) link.classList.add("active");
+      });
+    })();
+</script>
 <body>
-  <nav class="subnav">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="standings.html" class="nav-link">Standings</a>
-    <a href="stats.html" class="nav-link">Stats</a>
-  </nav>
-  
+<nav class="subnav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="standings.html" class="nav-link">Standings</a>
+  <a href="stats.html" class="nav-link">Stats</a>
+</nav>
   <div class="wrap">
     <header class="header">
       <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
@@ -59,154 +64,5 @@
   </div>
 
   <script src="assets/app.js"></script>
-  <script>
-    (function() {
-      function highlightActiveLink() {
-        const here = location.pathname.split('/').pop() || 'index.html';
-        document.querySelectorAll('.nav-link').forEach(link => {
-          const target = (link.getAttribute('href') || '').split('/').pop();
-          link.classList.toggle('active', target === here);
-        });
-      }
-
-      function normalizeHeader(text) {
-        return String(text || '')
-          .replace(/\s+/g, ' ')
-          .trim()
-          .toLowerCase();
-      }
-
-      function canonicalHeader(text) {
-        const t = normalizeHeader(text)
-          .replace(/^player name$/, 'player')
-          .replace(/^name$/, 'player')
-          .replace(/^albies$/, 'albatrosses')
-          .replace(/^bogeys$/, 'bogeys+')
-          .replace(/^bogeys\+$/, 'bogeys+')
-          .replace(/^finish position$/, 'finish')
-          .replace(/^total score$/, 'total')
-          .replace(/^points$/, 'total points')
-          .replace(/^pts$/, 'total points');
-        return t;
-      }
-
-      const desiredOrder = [
-        '#',
-        'Player',
-        'Total Points',
-        'Wins',
-        'Top 3s',
-        'Top 10s',
-        'Top 20s',
-        'Aces',
-        'Albatrosses',
-        'Eagles',
-        'Birdies',
-        'Bogeys+',
-        'Finish',
-        'Total'
-      ];
-
-      const desiredCanonical = desiredOrder.map(canonicalHeader);
-
-      function reorderRowCells(row, orderIndexes) {
-        if (!row || !orderIndexes.length) return;
-        const cells = Array.from(row.children);
-        if (!cells.length) return;
-
-        if (cells.length === 1 && cells[0].hasAttribute('colspan')) {
-          cells[0].setAttribute('colspan', String(orderIndexes.length));
-          return;
-        }
-
-        const reordered = orderIndexes
-          .map(idx => cells[idx])
-          .filter(Boolean);
-
-        if (reordered.length !== orderIndexes.length) return;
-
-        row.replaceChildren(...reordered);
-      }
-
-      function relabelHeaderCell(cell) {
-        const canon = canonicalHeader(cell.textContent);
-        if (canon === 'albatrosses') cell.textContent = 'Albatrosses';
-        if (canon === 'bogeys+') cell.textContent = 'Bogeys+';
-        if (canon === 'total points') cell.textContent = 'Total Points';
-      }
-
-      function applyPointsStyling(table) {
-        if (!table) return;
-        const rows = table.querySelectorAll('tr');
-        rows.forEach(row => {
-          Array.from(row.children).forEach((cell, idx) => {
-            cell.classList.toggle('points-cell', idx === 2);
-          });
-        });
-      }
-
-      function reorderStatsTable() {
-        const table = document.getElementById('statsTable');
-        const thead = document.getElementById('thead');
-        const tbody = document.getElementById('tbody');
-        if (!table || !thead || !tbody) return false;
-
-        const headerRow = thead.querySelector('tr');
-        if (!headerRow) return false;
-
-        const headerCells = Array.from(headerRow.children);
-        if (!headerCells.length) return false;
-
-        const actualCanonical = headerCells.map(cell => canonicalHeader(cell.textContent));
-
-        const orderIndexes = desiredCanonical
-          .map(name => actualCanonical.indexOf(name))
-          .filter(idx => idx >= 0);
-
-        if (orderIndexes.length < 8) return false;
-
-        if (orderIndexes.length !== headerCells.length) {
-          actualCanonical.forEach((name, idx) => {
-            if (!desiredCanonical.includes(name)) orderIndexes.push(idx);
-          });
-        }
-
-        reorderRowCells(headerRow, orderIndexes);
-        Array.from(headerRow.children).forEach(relabelHeaderCell);
-
-        tbody.querySelectorAll('tr').forEach(row => reorderRowCells(row, orderIndexes));
-        applyPointsStyling(table);
-        return true;
-      }
-
-      let retries = 0;
-      function runReorderLoop() {
-        reorderStatsTable();
-        if (retries < 40) {
-          retries += 1;
-          setTimeout(runReorderLoop, 250);
-        }
-      }
-
-      function installObservers() {
-        const thead = document.getElementById('thead');
-        const tbody = document.getElementById('tbody');
-        if (!thead || !tbody || !window.MutationObserver) return;
-
-        const observer = new MutationObserver(() => {
-          reorderStatsTable();
-        });
-
-        observer.observe(thead, { childList: true, subtree: true, characterData: true });
-        observer.observe(tbody, { childList: true, subtree: true, characterData: true });
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-        highlightActiveLink();
-        runReorderLoop();
-        installObservers();
-      });
-    })();
-  </script>
 </body>
 </html>
