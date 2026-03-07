@@ -158,16 +158,16 @@
             <tr>
               <th>#</th>
               <th>Team</th>
-              <th>Aces</th>
-              <th>Albies</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys</th>
+              <th class="points-cell">Season Pts</th>
               <th>Wins</th>
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Season Pts</th>
+              <th>Aces</th>
+              <th>Albatrosses</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys+</th>
             </tr>
           </thead>
           <tbody>
@@ -187,16 +187,16 @@
             <tr>
               <th>#</th>
               <th>Player</th>
-              <th>Aces</th>
-              <th>Albies</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys</th>
+              <th class="points-cell">Season Pts</th>
               <th>Wins</th>
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Season Pts</th>
+              <th>Aces</th>
+              <th>Albatrosses</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys+</th>
             </tr>
           </thead>
           <tbody>
@@ -216,16 +216,16 @@
             <tr>
               <th>#</th>
               <th>Player</th>
-              <th>Aces</th>
-              <th>Albies</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys</th>
+              <th class="points-cell">Last 3 Pts</th>
               <th>Wins</th>
               <th>Top 3s</th>
               <th>Top 10s</th>
               <th>Top 20s</th>
-              <th class="points-cell">Last 3 Pts</th>
+              <th>Aces</th>
+              <th>Albatrosses</th>
+              <th>Eagles</th>
+              <th>Birdies</th>
+              <th>Bogeys+</th>
             </tr>
           </thead>
           <tbody>
@@ -448,16 +448,16 @@
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${movementHtml(move)}</td>
-          <td>${team._stats.aces}</td>
-          <td>${team._stats.albies}</td>
-          <td>${team._stats.eagles}</td>
-          <td>${team._stats.birdies}</td>
-          <td>${team._stats.bogeys}</td>
+          <td class="points-cell">${team._season || 0}</td>
           <td>${team._stats.wins}</td>
           <td>${team._stats.top3s}</td>
           <td>${team._stats.top10s}</td>
           <td>${team._stats.top20s}</td>
-          <td class="points-cell">${team._season || 0}</td>`;
+          <td>${team._stats.aces}</td>
+          <td>${team._stats.albies}</td>
+          <td>${team._stats.eagles}</td>
+          <td>${team._stats.birdies}</td>
+          <td>${team._stats.bogeys}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -474,16 +474,16 @@
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><span class="player-line"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong>${movementHtml(move)}</span></td>
-          <td>${p.aces}</td>
-          <td>${p.albies}</td>
-          <td>${p.eagles}</td>
-          <td>${p.birdies}</td>
-          <td>${p.bogeys}</td>
+          <td class="points-cell">${p.seasonPoints}</td>
           <td>${p.wins}</td>
           <td>${p.top3s}</td>
           <td>${p.top10s}</td>
           <td>${p.top20s}</td>
-          <td class="points-cell">${p.seasonPoints}</td>`;
+          <td>${p.aces}</td>
+          <td>${p.albies}</td>
+          <td>${p.eagles}</td>
+          <td>${p.birdies}</td>
+          <td>${p.bogeys}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -504,16 +504,16 @@
             <span class="player-line"><strong>${escapeHtml(p.player || '(Unnamed)')}</strong>${movementHtml(move)}</span>
             <span class="muted power-sub">Power Score: ${p.powerScore.toFixed(3)}</span>
           </td>
-          <td>${s.aces}</td>
-          <td>${s.albies}</td>
-          <td>${s.eagles}</td>
-          <td>${s.birdies}</td>
-          <td>${s.bogeys}</td>
+          <td class="points-cell">${p.recentPoints}</td>
           <td>${s.wins}</td>
           <td>${s.top3s}</td>
           <td>${s.top10s}</td>
           <td>${s.top20s}</td>
-          <td class="points-cell">${p.recentPoints}</td>`;
+          <td>${s.aces}</td>
+          <td>${s.albies}</td>
+          <td>${s.eagles}</td>
+          <td>${s.birdies}</td>
+          <td>${s.bogeys}</td>`;
         tbody.appendChild(tr);
       });
     }
