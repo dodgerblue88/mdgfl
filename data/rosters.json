@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T07:33:11.629Z",
+  "updatedAt": "2026-03-08T07:34:14.988Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -28,8 +28,8 @@
           "pdga": "18330"
         },
         {
-          "player": "Andrew Presnell",
-          "pdga": "63765"
+          "player": "Chandler Kramer",
+          "pdga": "139228"
         }
       ]
     },
