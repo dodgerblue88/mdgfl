@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T16:58:38.806Z",
+  "updatedAt": "2026-03-08T17:03:17.407Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -12,8 +12,8 @@
           "pdga": "45971"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Paul McBeth",
+          "pdga": "27523"
         },
         {
           "player": "",
@@ -128,8 +128,8 @@
           "pdga": "50670"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Anthony Barela",
+          "pdga": "44382"
         },
         {
           "player": "",
