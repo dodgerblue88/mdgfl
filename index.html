@@ -1,4 +1,4 @@
-
+  
 
 
 <!doctype html>
@@ -20,6 +20,9 @@
       gap: 18px;
     }
 
+    .meme-of-shame {
+      background: rgba(121, 72, 28, 0.18);
+    }      
     .hero {
       text-align: center;
       padding: 26px 18px 16px;
@@ -451,10 +454,14 @@
       }
       teams.forEach((team, idx) => {
         const move = movementInfo(idx + 1, previousRankMap.get(team.name));
-        const indicator = idx === teams.length - 1
-          ? '<span class="movement poo" title="Last place">💩</span>'
+        const isLast = idx === teams.length - 1;
+
+        const indicator = isLast
+          ? '<span class="movement poo" title="Meme of Shame">💩</span>'
           : movementHtml(move);
+        
         const tr = document.createElement('tr');
+        if (isLast) tr.classList.add('meme-of-shame');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
