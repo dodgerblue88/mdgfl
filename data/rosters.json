@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:16:15.024Z",
+  "updatedAt": "2026-03-08T17:26:19.387Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -16,8 +16,8 @@
           "pdga": "27523"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Simon Lizotte",
+          "pdga": "8332"
         },
         {
           "player": "",
@@ -132,12 +132,12 @@
           "pdga": "44382"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Eagle McMahon",
+          "pdga": "37817"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "James Conrad",
+          "pdga": "17295"
         },
         {
           "player": "",
