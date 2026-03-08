@@ -1,4 +1,7 @@
 
+  
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,34 +10,9 @@
   <title>The Mediocre Disc Golf Fantasy League — Home</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    :root {
-      --mdgfl-gold: #f5c542;
-      --mdgfl-green: #6fbf4b;
-      --mdgfl-yellow: #f5c542;
-    }
-
-    .home-wrap {
+    .index-sections {
       display: grid;
       gap: 18px;
-      width: min(1200px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-   
-    .hero {
-      text-align: center;
-      padding: 26px 18px 16px;
-    }
-
-    .hero-logo {
-      width: min(420px, 82vw);
-      max-width: 100%;
-      display: block;
-      margin: 0 auto 8px;
-      filter: drop-shadow(0 10px 20px rgba(0,0,0,.28));
-    }
-
-    .hero h1 {
-      margin: 0;
     }
 
     .section-head {
@@ -48,58 +26,38 @@
 
     .section-head h2 {
       margin: 0;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       letter-spacing: .2px;
     }
 
-    .section-head .meta {
-      font-size: .92rem;
+    .summary-table,
+    #standingsSummaryTable,
+    #topPlayersTable,
+    #powerRankingsTable {
+      width: 100%;
     }
 
     .summary-table th,
     .summary-table td {
       white-space: nowrap;
       vertical-align: middle;
-      padding-left: 10px;
-      padding-right: 10px;
     }
 
-    .summary-table td.name-cell,
-    .summary-table th.name-cell {
+    .summary-table td.name-cell {
       white-space: normal;
       min-width: 220px;
-      text-align: left;
     }
 
     .summary-table td.points-cell,
     .summary-table th.points-cell {
       font-weight: 800;
-      color: var(--mdgfl-gold);
-      text-align: center;
+      color: #f5c542;
     }
 
     .summary-table.compact td,
     .summary-table.compact th {
       padding-top: 10px;
       padding-bottom: 10px;
-    }
-
-    /* Center # column */
-    .summary-table th:first-child,
-    .summary-table td:first-child {
-      text-align: center;
-    }
-
-    /* Keep Team / Player column left aligned */
-    .summary-table th:nth-child(2),
-    .summary-table td:nth-child(2) {
-      text-align: left;
-    }
-
-    /* Center all stat columns starting from Wins onward */
-    .summary-table th:nth-child(n+4),
-    .summary-table td:nth-child(n+4) {
-      text-align: center;
     }
 
     .rank-pill {
@@ -111,7 +69,7 @@
       border-radius: 999px;
       border: 1px solid rgba(245, 197, 66, .25);
       background: rgba(245, 197, 66, .10);
-      color: var(--mdgfl-gold);
+      color: #f5c542;
       font-weight: 800;
       font-size: 12px;
     }
@@ -127,22 +85,15 @@
       vertical-align: middle;
     }
 
-    .movement.up {
-      color: var(--mdgfl-green);
-    }
-
-    .movement.down {
-      color: var(--mdgfl-yellow);
-    }
-
+    .movement.up { color: #6fbf4b; }
+    .movement.down { color: #f5c542; }
     .movement.flat {
       color: rgba(255,255,255,.35);
       font-size: 11px;
       min-width: 12px;
     }
-
     .movement.poo {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1;
     }
 
@@ -158,38 +109,6 @@
       margin-top: 2px;
       font-size: 12px;
     }
-
-    .standings-section,
-    .home-wrap > section {
-      width: 100%;
-      min-width: 0;
-    }
-
-    @media (max-width: 900px) {
-      .hero-logo { width: min(300px, 76vw); }
-    }
-
-    html, body {
-      max-width: 100%;
-      overflow-x: hidden;
-    }
-
-    .card.table-wrap {
-      max-width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-x: contain;
-    }
-
-    .card.table-wrap > table,
-    .summary-table,
-    #standingsSummaryTable,
-    #topPlayersTable,
-    #powerRankingsTable {
-      width: max-content;
-      min-width: 100%;
-    }
   </style>
 </head>
 <body>
@@ -199,12 +118,15 @@
     <a href="stats.html" class="nav-link">Stats</a>
   </nav>
 
-  <div class="wrap home-wrap">
-    <section class="hero card">
-      <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
-      <h1>The Mediocre Disc Golf Fantasy League 2026</h1>
-    </section>
+  <div class="wrap">
+    <header class="header">
+      <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+      <div>
+        <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+      </div>
+    </header>
 
+    <div class="index-sections">
     <section class="standings-section">
       <div class="section-head">
         <h2>Standings Summary</h2>
@@ -237,7 +159,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Players</h2>
-      </div>
+        </div>
       <div class="card table-wrap">
         <table class="summary-table" id="topPlayersTable">
           <thead>
@@ -266,7 +188,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Power Rankings</h2>
-      </div>
+        </div>
       <div class="card table-wrap">
         <table class="summary-table" id="powerRankingsTable">
           <thead>
@@ -291,6 +213,7 @@
         </table>
       </div>
     </section>
+    </div>
 
     <footer class="muted footer" id="footer"></footer>
   </div>
@@ -499,14 +422,22 @@
         tbody.innerHTML = `<tr><td colspan="12" class="muted" style="padding:16px;">No teams found in <code>rosters.json</code>.</td></tr>`;
         return;
       }
+      const isSingleEventStandings = previousRankMap.size > 0 && Array.from(previousRankMap.values()).every(rank => rank === 1);
       teams.forEach((team, idx) => {
-        const move = movementInfo(idx + 1, previousRankMap.get(team.name));
         const isLast = idx === teams.length - 1;
 
-        const indicator = isLast
-          ? '<span class="movement poo" title="Meme of Shame">💩</span>'
-          : movementHtml(move);
-        
+        let indicator;
+        if (isLast) {
+          indicator = '<span class="movement poo" title="Meme of Shame">💩</span>';
+        } else if (isSingleEventStandings) {
+          indicator = idx === 0
+            ? '<span class="movement up" title="First place after event 1">▲</span>'
+            : '<span class="movement down" title="Below first after event 1">▼</span>';
+        } else {
+          const move = movementInfo(idx + 1, previousRankMap.get(team.name));
+          indicator = movementHtml(move);
+        }
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
@@ -738,7 +669,9 @@
 
       const teamsCurrent = buildTeamStandings(events, roster, pointsByEvent, rowsByEvent);
       const teamsPrevious = buildTeamStandings(previousEvents, roster, pointsByEvent, rowsByEvent);
-      const previousTeamRanks = buildRankMap(teamsPrevious, t => t.name);
+      const previousTeamRanks = previousEvents.length === 0
+        ? new Map(teamsCurrent.map(t => [t.name, 1]))
+        : buildRankMap(teamsPrevious, t => t.name);
       buildStandingsSummary(teamsCurrent, previousTeamRanks, standingsBody);
 
       const currentPlayerData = computePlayerTotals(events, rowsByEvent, 3);
@@ -768,3 +701,4 @@
   </script>
 </body>
 </html>
+
