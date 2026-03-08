@@ -1,7 +1,3 @@
 [
-  {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"},
-  {"id":"usdgc","name":"USDGC — United States Disc Golf Championship","csv":"data/usdgc.csv"},
-  {"id":"usdgc2","name":"USDGC2 — United States Disc Golf Championship","csv":"data/usdgc2.csv"},
-  {"id":"sfo2","name":"SFO2 — Supreme Flight Open","csv":"data/sfo2.csv"},
-  {"id":"usdgc3","name":"USDGC3 — United States Disc Golf Championship","csv":"data/usdgc3.csv"}
+  {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"}
 ]
