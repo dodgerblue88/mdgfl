@@ -10,9 +10,35 @@
   <title>The Mediocre Disc Golf Fantasy League — Home</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    .index-sections {
+    :root {
+      --mdgfl-gold: #f5c542;
+      --mdgfl-green: #6fbf4b;
+      --mdgfl-yellow: #f5c542;
+    }
+
+    .home-wrap {
       display: grid;
       gap: 18px;
+    }
+
+    .meme-of-shame {
+      background: rgba(121, 72, 28, 0.18);
+    }      
+    .hero {
+      text-align: center;
+      padding: 26px 18px 16px;
+    }
+
+    .hero-logo {
+      width: min(420px, 82vw);
+      max-width: 100%;
+      display: block;
+      margin: 0 auto 8px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,.28));
+    }
+
+    .hero h1 {
+      margin: 0;
     }
 
     .section-head {
@@ -26,15 +52,12 @@
 
     .section-head h2 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       letter-spacing: .2px;
     }
 
-    .summary-table,
-    #standingsSummaryTable,
-    #topPlayersTable,
-    #powerRankingsTable {
-      width: 100%;
+    .section-head .meta {
+      font-size: .92rem;
     }
 
     .summary-table th,
@@ -51,7 +74,7 @@
     .summary-table td.points-cell,
     .summary-table th.points-cell {
       font-weight: 800;
-      color: #f5c542;
+      color: var(--mdgfl-gold);
     }
 
     .summary-table.compact td,
@@ -69,7 +92,7 @@
       border-radius: 999px;
       border: 1px solid rgba(245, 197, 66, .25);
       background: rgba(245, 197, 66, .10);
-      color: #f5c542;
+      color: var(--mdgfl-gold);
       font-weight: 800;
       font-size: 12px;
     }
@@ -85,15 +108,22 @@
       vertical-align: middle;
     }
 
-    .movement.up { color: #6fbf4b; }
-    .movement.down { color: #f5c542; }
+    .movement.up {
+      color: var(--mdgfl-green);
+    }
+
+    .movement.down {
+      color: var(--mdgfl-yellow);
+    }
+
     .movement.flat {
       color: rgba(255,255,255,.35);
       font-size: 11px;
       min-width: 12px;
     }
+
     .movement.poo {
-      font-size: 20px;
+      font-size: 16px;
       line-height: 1;
     }
 
@@ -109,6 +139,42 @@
       margin-top: 2px;
       font-size: 12px;
     }
+
+
+    @media (max-width: 900px) {
+      .hero-logo { width: min(300px, 76vw); }
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .wrap,
+    .index-sections,
+    .standings-section,
+    section {
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .card.table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .card.table-wrap > table,
+    .summary-table,
+    #standingsSummaryTable,
+    #topPlayersTable,
+    #powerRankingsTable {
+      width: max-content;
+      min-width: 100%;
+    }
+
   </style>
 </head>
 <body>
@@ -118,15 +184,12 @@
     <a href="stats.html" class="nav-link">Stats</a>
   </nav>
 
-  <div class="wrap">
-    <header class="header">
-      <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
-      <div>
-        <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
-      </div>
-    </header>
+  <div class="wrap home-wrap">
+    <section class="hero card">
+      <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+      <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+    </section>
 
-    <div class="index-sections">
     <section class="standings-section">
       <div class="section-head">
         <h2>Standings Summary</h2>
@@ -213,7 +276,6 @@
         </table>
       </div>
     </section>
-    </div>
 
     <footer class="muted footer" id="footer"></footer>
   </div>
@@ -431,6 +493,7 @@
           : movementHtml(move);
         
         const tr = document.createElement('tr');
+        if (isLast) tr.classList.add('meme-of-shame');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
