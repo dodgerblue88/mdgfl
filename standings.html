@@ -327,7 +327,7 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
           const tdPlayer = document.createElement("td");
           tdPlayer.className = "col-team";
           const displayName = p.player || "(Unnamed)";
-          tdPlayer.innerHTML = `<span class="muted" style="padding-left:14px;">${escapeHtml(displayName)}</span>`;
+          tdPlayer.innerHTML = `<span class="muted">${escapeHtml(displayName)}</span>`;
 
           trP.appendChild(tdBlank);
           trP.appendChild(tdPlayer);
