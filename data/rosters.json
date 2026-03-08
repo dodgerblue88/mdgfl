@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T18:13:18.472Z",
+  "updatedAt": "2026-03-08T18:54:49.181Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -24,8 +24,8 @@
           "pdga": "121715"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Andrew Marwede",
+          "pdga": "75590"
         },
         {
           "player": "",
@@ -53,8 +53,8 @@
           "pdga": "79748"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Evan Smith",
+          "pdga": "101574"
         },
         {
           "player": "",
@@ -82,8 +82,8 @@
           "pdga": "122356"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Paul Krans",
+          "pdga": "132521"
         },
         {
           "player": "",
@@ -140,8 +140,8 @@
           "pdga": "17295"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Chris Dickerson",
+          "pdga": "62467"
         },
         {
           "player": "",
