@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -115,6 +116,11 @@
       color: rgba(255,255,255,.35);
       font-size: 11px;
       min-width: 12px;
+    }
+
+    .movement.poo {
+      font-size: 16px;
+      line-height: 1;
     }
 
     .player-line {
@@ -445,10 +451,13 @@
       }
       teams.forEach((team, idx) => {
         const move = movementInfo(idx + 1, previousRankMap.get(team.name));
+        const indicator = idx === teams.length - 1
+          ? '<span class="movement poo" title="Last place">💩</span>'
+          : movementHtml(move);
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
-          <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${movementHtml(move)}</td>
+          <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
           <td class="points-cell">${team._season || 0}</td>
           <td>${team._stats.wins}</td>
           <td>${team._stats.top3s}</td>
@@ -706,3 +715,4 @@
   </script>
 </body>
 </html>
+
