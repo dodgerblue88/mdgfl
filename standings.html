@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +12,11 @@
   <style>
     /* Visual tweaks to match Stats page emphasis */
     :root { --mdgfl-gold: #f5c542; }
+
+    .standings-wrap {
+      display: grid;
+      gap: 18px;
+    }
 
     /* Team header rows: bold + gold text */
     tr.team-row td,
@@ -35,8 +41,8 @@
     <a href="stats.html" class="nav-link">Stats</a>
   </nav>
 
-  <div class="wrap">
-    <header class="header">
+  <div class="wrap standings-wrap">
+    <header class="header card">
       <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
       <div>
         <h1>The Mediocre Disc Golf Fantasy League 2026</h1>
