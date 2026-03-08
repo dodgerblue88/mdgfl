@@ -20,10 +20,7 @@
       display: grid;
       gap: 18px;
     }
-
-    .meme-of-shame {
-      background: rgba(121, 72, 28, 0.18);
-    }      
+   
     .hero {
       text-align: center;
       padding: 26px 18px 16px;
@@ -493,7 +490,6 @@
           : movementHtml(move);
         
         const tr = document.createElement('tr');
-        if (isLast) tr.classList.add('meme-of-shame');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
