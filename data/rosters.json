@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T16:02:09.547Z",
+  "updatedAt": "2026-03-08T16:09:10.329Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -8,8 +8,8 @@
       "name": "John",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Anthony Barela",
+          "pdga": "44382"
         },
         {
           "player": "",
