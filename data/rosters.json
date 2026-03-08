@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:26:19.387Z",
+  "updatedAt": "2026-03-08T17:33:38.376Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -20,8 +20,8 @@
           "pdga": "8332"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Ezra Aderhold",
+          "pdga": "121715"
         },
         {
           "player": "",
@@ -45,8 +45,8 @@
           "pdga": "91249"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Luke Taylor",
+          "pdga": "102119"
         },
         {
           "player": "",
