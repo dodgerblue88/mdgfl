@@ -1,7 +1,4 @@
 
-  
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,11 +16,10 @@
     .home-wrap {
       display: grid;
       gap: 18px;
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
     }
-
-    .meme-of-shame {
-      background: rgba(121, 72, 28, 0.18);
-    }      
+   
     .hero {
       text-align: center;
       padding: 26px 18px 16px;
@@ -64,23 +60,46 @@
     .summary-table td {
       white-space: nowrap;
       vertical-align: middle;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
-    .summary-table td.name-cell {
+    .summary-table td.name-cell,
+    .summary-table th.name-cell {
       white-space: normal;
       min-width: 220px;
+      text-align: left;
     }
 
     .summary-table td.points-cell,
     .summary-table th.points-cell {
       font-weight: 800;
       color: var(--mdgfl-gold);
+      text-align: center;
     }
 
     .summary-table.compact td,
     .summary-table.compact th {
       padding-top: 10px;
       padding-bottom: 10px;
+    }
+
+    /* Center # column */
+    .summary-table th:first-child,
+    .summary-table td:first-child {
+      text-align: center;
+    }
+
+    /* Keep Team / Player column left aligned */
+    .summary-table th:nth-child(2),
+    .summary-table td:nth-child(2) {
+      text-align: left;
+    }
+
+    /* Center all stat columns starting from Wins onward */
+    .summary-table th:nth-child(n+4),
+    .summary-table td:nth-child(n+4) {
+      text-align: center;
     }
 
     .rank-pill {
@@ -123,7 +142,7 @@
     }
 
     .movement.poo {
-      font-size: 16px;
+      font-size: 18px;
       line-height: 1;
     }
 
@@ -140,9 +159,36 @@
       font-size: 12px;
     }
 
+    .standings-section,
+    .home-wrap > section {
+      width: 100%;
+      min-width: 0;
+    }
 
     @media (max-width: 900px) {
       .hero-logo { width: min(300px, 76vw); }
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .card.table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .card.table-wrap > table,
+    .summary-table,
+    #standingsSummaryTable,
+    #topPlayersTable,
+    #powerRankingsTable {
+      width: max-content;
+      min-width: 100%;
     }
   </style>
 </head>
@@ -156,7 +202,7 @@
   <div class="wrap home-wrap">
     <section class="hero card">
       <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
-      <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+      <h1>The Mediocre Disc Golf Fantasy League 2026</h1>
     </section>
 
     <section class="standings-section">
@@ -191,7 +237,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Players</h2>
-        </div>
+      </div>
       <div class="card table-wrap">
         <table class="summary-table" id="topPlayersTable">
           <thead>
@@ -220,7 +266,7 @@
     <section>
       <div class="section-head">
         <h2>Top 20 Power Rankings</h2>
-        </div>
+      </div>
       <div class="card table-wrap">
         <table class="summary-table" id="powerRankingsTable">
           <thead>
@@ -454,26 +500,14 @@
         return;
       }
       teams.forEach((team, idx) => {
+        const move = movementInfo(idx + 1, previousRankMap.get(team.name));
         const isLast = idx === teams.length - 1;
-        const prev = previousRankMap.get(team.name);
-        const onlyOneEvent = previousRankMap.size === 0;
 
-        let indicator;
-        if (isLast) {
-          indicator = '<span class="movement poo" title="Meme of Shame">💩</span>';
-        } else if (onlyOneEvent) {
-          if (idx === 0) {
-            indicator = '<span class="movement up" title="First event leader">▲</span>';
-          } else {
-            indicator = '<span class="movement down" title="Behind leader after first event">▼</span>';
-          }
-        } else {
-          const move = movementInfo(idx + 1, prev);
-          indicator = movementHtml(move);
-        }
+        const indicator = isLast
+          ? '<span class="movement poo" title="Meme of Shame">💩</span>'
+          : movementHtml(move);
         
         const tr = document.createElement('tr');
-        if (isLast) tr.classList.add('meme-of-shame');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
@@ -734,4 +768,3 @@
   </script>
 </body>
 </html>
-
