@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:05:20.640Z",
+  "updatedAt": "2026-03-08T17:16:15.024Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -70,12 +70,12 @@
           "pdga": "50671"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Sullivan Tipton",
+          "pdga": "78817"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Adam Hammes",
+          "pdga": "57365"
         },
         {
           "player": "",
@@ -103,8 +103,8 @@
           "pdga": "85132"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Aaron Gossage",
+          "pdga": "35449"
         },
         {
           "player": "",
