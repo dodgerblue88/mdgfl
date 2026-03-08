@@ -1,7 +1,4 @@
 
-  
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,16 +11,40 @@
       --mdgfl-gold: #f5c542;
       --mdgfl-green: #6fbf4b;
       --mdgfl-yellow: #f5c542;
+      --hero-top: 56px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
     }
 
     .home-wrap {
       display: grid;
       gap: 18px;
+      padding-top: 10px;
     }
-    
+
+    .hero-shell {
+      position: sticky;
+      top: var(--hero-top);
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      padding: 14px 16px 10px;
+      pointer-events: none;
+    }
+
+    .hero-shell .hero {
+      width: min(760px, calc(100vw - 32px));
+      pointer-events: auto;
+    }
+
     .hero {
       text-align: center;
       padding: 26px 18px 16px;
+      margin: 0;
     }
 
     .hero-logo {
@@ -36,6 +57,16 @@
 
     .hero h1 {
       margin: 0;
+    }
+
+    .tables-wrap {
+      display: grid;
+      gap: 18px;
+      padding: 0 0 8px;
+    }
+
+    .meme-of-shame {
+      background: transparent;
     }
 
     .section-head {
@@ -55,6 +86,18 @@
 
     .section-head .meta {
       font-size: .92rem;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .summary-table {
+      min-width: 100%;
+      width: max-content;
     }
 
     .summary-table th,
@@ -120,7 +163,7 @@
     }
 
     .movement.poo {
-      font-size: 20px;
+      font-size: 16px;
       line-height: 1;
     }
 
@@ -137,9 +180,9 @@
       font-size: 12px;
     }
 
-
     @media (max-width: 900px) {
       .hero-logo { width: min(300px, 76vw); }
+      :root { --hero-top: 54px; }
     }
   </style>
 </head>
@@ -151,99 +194,103 @@
   </nav>
 
   <div class="wrap home-wrap">
-    <section class="hero card">
-      <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
-      <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
-    </section>
+    <div class="hero-shell">
+      <section class="hero card">
+        <img class="hero-logo" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+        <h1>The Mediocre Disc Golf Fantasy League • 2026</h1>
+      </section>
+    </div>
 
-    <section class="standings-section">
-      <div class="section-head">
-        <h2>Standings Summary</h2>
-      </div>
-      <div class="card table-wrap">
-        <table class="summary-table compact" id="standingsSummaryTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Team</th>
-              <th class="points-cell">Season Pts</th>
-              <th>Wins</th>
-              <th>Top 3s</th>
-              <th>Top 10s</th>
-              <th>Top 20s</th>
-              <th>Aces</th>
-              <th>Albatrosses</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys+</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>Top 20 Players</h2>
+    <div class="tables-wrap">
+      <section class="standings-section">
+        <div class="section-head">
+          <h2>Standings Summary</h2>
         </div>
-      <div class="card table-wrap">
-        <table class="summary-table" id="topPlayersTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th class="points-cell">Season Pts</th>
-              <th>Wins</th>
-              <th>Top 3s</th>
-              <th>Top 10s</th>
-              <th>Top 20s</th>
-              <th>Aces</th>
-              <th>Albatrosses</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys+</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>Top 20 Power Rankings</h2>
+        <div class="card table-wrap">
+          <table class="summary-table compact" id="standingsSummaryTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Team</th>
+                <th class="points-cell">Season Pts</th>
+                <th>Wins</th>
+                <th>Top 3s</th>
+                <th>Top 10s</th>
+                <th>Top 20s</th>
+                <th>Aces</th>
+                <th>Albatrosses</th>
+                <th>Eagles</th>
+                <th>Birdies</th>
+                <th>Bogeys+</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
+            </tbody>
+          </table>
         </div>
-      <div class="card table-wrap">
-        <table class="summary-table" id="powerRankingsTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th class="points-cell">Last 3 Pts</th>
-              <th>Wins</th>
-              <th>Top 3s</th>
-              <th>Top 10s</th>
-              <th>Top 20s</th>
-              <th>Aces</th>
-              <th>Albatrosses</th>
-              <th>Eagles</th>
-              <th>Birdies</th>
-              <th>Bogeys+</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+      </section>
 
-    <footer class="muted footer" id="footer"></footer>
+      <section>
+        <div class="section-head">
+          <h2>Top 20 Players</h2>
+        </div>
+        <div class="card table-wrap">
+          <table class="summary-table" id="topPlayersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th class="points-cell">Season Pts</th>
+                <th>Wins</th>
+                <th>Top 3s</th>
+                <th>Top 10s</th>
+                <th>Top 20s</th>
+                <th>Aces</th>
+                <th>Albatrosses</th>
+                <th>Eagles</th>
+                <th>Birdies</th>
+                <th>Bogeys+</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Top 20 Power Rankings</h2>
+        </div>
+        <div class="card table-wrap">
+          <table class="summary-table" id="powerRankingsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th class="points-cell">Last 3 Pts</th>
+                <th>Wins</th>
+                <th>Top 3s</th>
+                <th>Top 10s</th>
+                <th>Top 20s</th>
+                <th>Aces</th>
+                <th>Albatrosses</th>
+                <th>Eagles</th>
+                <th>Birdies</th>
+                <th>Bogeys+</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="12" class="muted" style="padding:16px;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="muted footer" id="footer"></footer>
+    </div>
   </div>
 
   <script>
@@ -267,8 +314,12 @@
         if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
         if (c === '"') { inQuotes = !inQuotes; continue; }
         if (!inQuotes && c === ',') { row.push(cur); cur = ''; continue; }
-        if (!inQuotes && (c === '\n' || c === '\r')) {
-          if (c === '\r' && next === '\n') i++;
+        if (!inQuotes && (c === '
+' || c === '
+')) {
+          if (c === '
+' && next === '
+') i++;
           row.push(cur); cur = '';
           if (row.some(v => String(v).trim() !== '')) rows.push(row);
           row = [];
@@ -457,8 +508,9 @@
         const indicator = isLast
           ? '<span class="movement poo" title="Meme of Shame">💩</span>'
           : movementHtml(move);
-        
+
         const tr = document.createElement('tr');
+        if (isLast) tr.classList.add('meme-of-shame');
         tr.innerHTML = `
           <td><span class="rank-pill">${idx + 1}</span></td>
           <td class="name-cell"><strong>${escapeHtml(team.name)}</strong>${indicator}</td>
@@ -719,4 +771,3 @@
   </script>
 </body>
 </html>
-
