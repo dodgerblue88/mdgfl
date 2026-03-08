@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:58:38.073Z",
+  "updatedAt": "2026-03-08T18:06:36.134Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -107,8 +107,8 @@
           "pdga": "35449"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Gavin Babcock",
+          "pdga": "80331"
         },
         {
           "player": "",
