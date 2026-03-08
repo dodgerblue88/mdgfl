@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:03:17.407Z",
+  "updatedAt": "2026-03-08T17:04:23.471Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -41,8 +41,8 @@
           "pdga": "38008"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Niklas Anttila",
+          "pdga": "91249"
         },
         {
           "player": "",
