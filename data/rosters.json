@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T16:52:07.899Z",
+  "updatedAt": "2026-03-08T16:56:55.708Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -124,8 +124,8 @@
       "name": "Mike",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Ezra Robinson",
+          "pdga": "50671"
         },
         {
           "player": "",
