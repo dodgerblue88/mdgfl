@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:39:03.814Z",
+  "updatedAt": "2026-03-08T17:58:38.073Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -78,8 +78,8 @@
           "pdga": "57365"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Joseph Anderson",
+          "pdga": "122356"
         },
         {
           "player": "",
