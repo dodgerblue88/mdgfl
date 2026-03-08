@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T18:06:36.134Z",
+  "updatedAt": "2026-03-08T18:13:18.472Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -111,8 +111,8 @@
           "pdga": "80331"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Corey Ellis",
+          "pdga": "44512"
         },
         {
           "player": "",
