@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T07:18:59.108Z",
-  "numTeams": 4,
+  "updatedAt": "2026-03-08T07:25:36.606Z",
+  "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
     {
@@ -20,8 +20,8 @@
           "pdga": "85132"
         },
         {
-          "player": "Andrew Marwede",
-          "pdga": "75590"
+          "player": "Chris Dickerson",
+          "pdga": "62467"
         },
         {
           "player": "Matthew Orum",
@@ -113,6 +113,35 @@
         {
           "player": "James Proctor",
           "pdga": "34250"
+        },
+        {
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    },
+    {
+      "name": "Mike",
+      "players": [
+        {
+          "player": "James Conrad",
+          "pdga": "17295"
+        },
+        {
+          "player": "Kevin Jones",
+          "pdga": "41760"
+        },
+        {
+          "player": "Garrett Gurthie",
+          "pdga": "13864"
+        },
+        {
+          "player": "Nikko Locastro",
+          "pdga": "11534"
+        },
+        {
+          "player": "Adam Hammes",
+          "pdga": "57365"
         },
         {
           "player": "",
