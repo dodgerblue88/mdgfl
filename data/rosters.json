@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T17:33:38.376Z",
+  "updatedAt": "2026-03-08T17:39:03.814Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -49,8 +49,8 @@
           "pdga": "102119"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Cole Redalen",
+          "pdga": "79748"
         },
         {
           "player": "",
