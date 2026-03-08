@@ -1,4 +1,5 @@
 
+
   
 
 
@@ -19,6 +20,8 @@
     .home-wrap {
       display: grid;
       gap: 18px;
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
     }
    
     .hero {
@@ -138,6 +141,12 @@
     }
 
 
+    .standings-section,
+    .home-wrap > section {
+      width: 100%;
+      min-width: 0;
+    }
+
     @media (max-width: 900px) {
       .hero-logo { width: min(300px, 76vw); }
     }
@@ -146,15 +155,6 @@
       max-width: 100%;
       overflow-x: hidden;
     }
-
-    .wrap,
-    .index-sections,
-    .standings-section,
-    section {
-      max-width: 100%;
-      min-width: 0;
-    }
-
     .card.table-wrap {
       max-width: 100%;
       overflow-x: auto;
