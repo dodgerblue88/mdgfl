@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T16:26:05.334Z",
+  "updatedAt": "2026-03-08T16:52:07.899Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -37,8 +37,8 @@
       "name": "Zack",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Richard Wysocki",
+          "pdga": "38008"
         },
         {
           "player": "",
@@ -66,8 +66,8 @@
       "name": "Kevin",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Ezra Robinson",
+          "pdga": "50671"
         },
         {
           "player": "",
@@ -95,8 +95,8 @@
       "name": "Jon",
       "players": [
         {
-          "player": "",
-          "pdga": ""
+          "player": "Gannon Buhr",
+          "pdga": "75412"
         },
         {
           "player": "",
