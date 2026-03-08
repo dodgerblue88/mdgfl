@@ -30,6 +30,16 @@
       text-decoration: line-through;
       opacity: 0.55;
     }
+
+    .col-rank,
+    .col-event,
+    .col-season {
+      text-align: center;
+    }
+
+    .col-team {
+      text-align: left;
+    }
   </style>
 </head>
 
@@ -175,18 +185,20 @@
 
       // Header row
       const trh = document.createElement("tr");
-      const thRank = document.createElement("th"); thRank.textContent = "#";
-      const thTeam = document.createElement("th"); thTeam.textContent = "Team / Player";
+      const thRank = document.createElement("th"); thRank.textContent = "#"; thRank.className = "col-rank";
+      const thTeam = document.createElement("th"); thTeam.textContent = "Team / Player"; thTeam.className = "col-team";
       trh.appendChild(thRank);
       trh.appendChild(thTeam);
 
       for (const evt of events) {
         const th = document.createElement("th");
         th.textContent = shortEventLabel(evt);
+        th.className = "col-event";
         trh.appendChild(th);
       }
       const thTotal = document.createElement("th");
       thTotal.textContent = "Season";
+      thTotal.className = "col-season";
       trh.appendChild(thTotal);
 
       thead.innerHTML = "";
@@ -284,8 +296,10 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
         trTeam.className = "team-row";
 
         const tdRank = document.createElement("td");
+        tdRank.className = "col-rank";
         tdRank.innerHTML = `<strong>${rankIdx+1}</strong>`;
         const tdName = document.createElement("td");
+        tdName.className = "col-team";
         tdName.innerHTML = `<strong>${escapeHtml(team.name)}</strong>`;
 
         trTeam.appendChild(tdRank);
@@ -293,10 +307,12 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
 
         for (let i = 0; i < events.length; i++) {
           const td = document.createElement("td");
+          td.className = "col-event";
           td.textContent = team._perEvent[i] || 0;
           trTeam.appendChild(td);
         }
         const tdSeason = document.createElement("td");
+        tdSeason.className = "col-season";
         tdSeason.innerHTML = `<strong>${team._season || 0}</strong>`;
         trTeam.appendChild(tdSeason);
 
@@ -306,8 +322,10 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
           const trP = document.createElement("tr");
 
           const tdBlank = document.createElement("td");
+          tdBlank.className = "col-rank";
           tdBlank.textContent = "";
           const tdPlayer = document.createElement("td");
+          tdPlayer.className = "col-team";
           const displayName = p.player || "(Unnamed)";
           tdPlayer.innerHTML = `<span class="muted" style="padding-left:14px;">${escapeHtml(displayName)}</span>`;
 
@@ -316,12 +334,14 @@ teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
 
           for (let i = 0; i < events.length; i++) {
             const td = document.createElement("td");
+            td.className = "col-event";
             td.textContent = (p._perEvent?.[i] ?? 0);
             const counted = !!(team._countedByEvent?.[i] && team._countedByEvent[i].has(p._id));
             if (!counted && Number(p._perEvent?.[i] ?? 0) !== 0) td.classList.add('excluded-score');
             trP.appendChild(td);
           }
           const tdPSeason = document.createElement("td");
+          tdPSeason.className = "col-season";
           tdPSeason.textContent = p._countedSeason || 0;
           trP.appendChild(tdPSeason);
 
