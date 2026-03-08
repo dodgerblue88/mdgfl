@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-05T21:55:17.596Z",
+  "updatedAt": "2026-03-08T07:18:59.108Z",
   "numTeams": 4,
   "playersPerTeam": 6,
   "teams": [
@@ -28,8 +28,8 @@
           "pdga": "18330"
         },
         {
-          "player": "Ezra Aderhold",
-          "pdga": "121715"
+          "player": "",
+          "pdga": ""
         }
       ]
     },
@@ -57,8 +57,8 @@
           "pdga": "60436"
         },
         {
-          "player": "Sullivan Tipton",
-          "pdga": "78817"
+          "player": "",
+          "pdga": ""
         }
       ]
     },
@@ -86,8 +86,8 @@
           "pdga": "102119"
         },
         {
-          "player": "Andrew Marwede",
-          "pdga": "75590"
+          "player": "",
+          "pdga": ""
         }
       ]
     },
@@ -115,8 +115,8 @@
           "pdga": "34250"
         },
         {
-          "player": "Adam Hammes",
-          "pdga": "57365"
+          "player": "",
+          "pdga": ""
         }
       ]
     }
