@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T08:06:49.539Z",
+  "updatedAt": "2026-03-08T08:08:02.721Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
     {
-      "name": "Team 1",
+      "name": "John",
       "players": [
         {
           "player": "",
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "name": "Team 2",
+      "name": "Zack",
       "players": [
         {
           "player": "",
@@ -63,7 +63,7 @@
       ]
     },
     {
-      "name": "Team 3",
+      "name": "Kevin",
       "players": [
         {
           "player": "",
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "name": "Team 4",
+      "name": "Jon",
       "players": [
         {
           "player": "",
@@ -121,7 +121,7 @@
       ]
     },
     {
-      "name": "Team 5",
+      "name": "Mike",
       "players": [
         {
           "player": "",
