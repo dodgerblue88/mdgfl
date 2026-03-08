@@ -1,60 +1,31 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T07:36:10.543Z",
+  "updatedAt": "2026-03-08T08:06:49.539Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
     {
-      "name": "John",
+      "name": "Team 1",
       "players": [
         {
-          "player": "Anthony Barela",
-          "pdga": "44382"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Isaac Robinson",
-          "pdga": "50670"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Kyle Klein",
-          "pdga": "85132"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Chris Dickerson",
-          "pdga": "62467"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Matthew Orum",
-          "pdga": "18330"
-        },
-        {
-          "player": "Chandler Kramer",
-          "pdga": "139228"
-        }
-      ]
-    },
-    {
-      "name": "Zack",
-      "players": [
-        {
-          "player": "Richard Wysocki",
-          "pdga": "38008"
-        },
-        {
-          "player": "Ezra Robinson",
-          "pdga": "50671"
-        },
-        {
-          "player": "Paul McBeth",
-          "pdga": "27523"
-        },
-        {
-          "player": "Eagle McMahon",
-          "pdga": "37817"
-        },
-        {
-          "player": "Gavin Rathbun",
-          "pdga": "60436"
+          "player": "",
+          "pdga": ""
         },
         {
           "player": "",
@@ -63,27 +34,27 @@
       ]
     },
     {
-      "name": "Kevin",
+      "name": "Team 2",
       "players": [
         {
-          "player": "Calvin Heimburg",
-          "pdga": "45971"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Niklas Anttila",
-          "pdga": "91249"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Cole Redalen",
-          "pdga": "79748"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Simon Lizotte",
-          "pdga": "8332"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Luke Taylor",
-          "pdga": "102119"
+          "player": "",
+          "pdga": ""
         },
         {
           "player": "",
@@ -92,27 +63,27 @@
       ]
     },
     {
-      "name": "Jon",
+      "name": "Team 3",
       "players": [
         {
-          "player": "Gannon Buhr",
-          "pdga": "75412"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Aaron Gossage",
-          "pdga": "35449"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Joseph Anderson",
-          "pdga": "122356"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Väinö Mäkelä",
-          "pdga": "59635"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "James Proctor",
-          "pdga": "34250"
+          "player": "",
+          "pdga": ""
         },
         {
           "player": "",
@@ -121,31 +92,60 @@
       ]
     },
     {
-      "name": "Mike",
+      "name": "Team 4",
       "players": [
         {
-          "player": "James Conrad",
-          "pdga": "17295"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Kevin Jones",
-          "pdga": "41760"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Garrett Gurthie",
-          "pdga": "13864"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Nikko Locastro",
-          "pdga": "11534"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Adam Hammes",
-          "pdga": "57365"
+          "player": "",
+          "pdga": ""
         },
         {
-          "player": "Richard Wysocki",
-          "pdga": "38008"
+          "player": "",
+          "pdga": ""
+        }
+      ]
+    },
+    {
+      "name": "Team 5",
+      "players": [
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
+        },
+        {
+          "player": "",
+          "pdga": ""
         }
       ]
     }
