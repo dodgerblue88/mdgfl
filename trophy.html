@@ -476,7 +476,12 @@
     function trophyVars(item, minScore, maxScore){
       const key = buildVariantKey(item.team, item.eventId);
 
-      const scorePx = Math.max(56, Math.round(Number(item.score) || 0));
+      const rawScore = Math.max(1, Number(item.score) || 1);
+      const range = Math.max(1, maxScore - minScore);
+      const normalized = (rawScore - minScore) / range;
+      const minVisual = 96;
+      const maxVisual = 168;
+      const scorePx = Math.round(minVisual + normalized * (maxVisual - minVisual));
       const bodyHeight = scorePx;
       const widthFactor = 0.52 + seededNumber(key + 'wf') * 0.42;
       const bodyWidth = Math.max(34, Math.round(scorePx * widthFactor));
