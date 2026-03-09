@@ -28,7 +28,7 @@ jobs:
         run: pip install requests
 
       - name: Run stats script
-        run: python assets/eventstats.py
+        run: python scripts/eventstats.py
 
       - name: Check generated files
         run: |
