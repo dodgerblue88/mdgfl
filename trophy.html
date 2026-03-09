@@ -1,1 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MDGFL Trophy Room</title>
+<link rel="stylesheet" href="style.css">
 
+<style>
+
+.page-container{
+max-width:1100px;
+margin:auto;
+text-align:center;
+}
+
+.trophy-section{
+margin-top:30px;
+}
+
+.team-shelf{
+margin:40px auto;
+width:90%;
+}
+
+.team-title{
+font-size:22px;
+color:#d4af37;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.shelf{
+background:linear-gradient(#8b5a2b,#6f451f);
+height:12px;
+border-radius:4px;
+position:relative;
+margin-top:40px;
+}
+
+.trophies{
+display:flex;
+justify-content:center;
+gap:25px;
+margin-bottom:6px;
+}
+
+.trophy{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.trophy-cup{
+width:40px;
+border-radius:6px 6px 3px 3px;
+position:relative;
+}
+
+.trophy-base{
+width:22px;
+height:8px;
+background:#333;
+margin-top:2px;
+border-radius:2px;
+}
+
+.trophy-label{
+font-size:10px;
+margin-top:3px;
+color:white;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+<img src="logo.png" style="width:120px;margin-top:20px;">
+
+<h1 class="ribbon">Trophy Room</h1>
+
+<div id="trophyContainer"></div>
+
+</div>
+
+<script>
+
+async function loadData(){
+
+const events = await fetch("events.json").then(r=>r.json());
+const rosters = await fetch("rosters.json").then(r=>r.json());
+
+const teams = {};
+
+rosters.teams.forEach(t=>{
+teams[t.name] = {
+players: t.players.map(p=>p.pdga),
+trophies:[]
+};
+});
+
+for(const event of events){
+
+const csv = await fetch(event.csv).then(r=>r.text());
+
+const rows = csv.split("\n").slice(1);
+
+const scores={};
+
+rows.forEach(row=>{
+const cols=row.split(",");
+const pdga=cols[2];
+const pts=parseFloat(cols[9]) || 0;
+scores[pdga]=pts;
+});
+
+const teamTotals={};
+
+Object.keys(teams).forEach(team=>{
+const pts=teams[team].players
+.map(p=>scores[p]||0)
+.sort((a,b)=>b-a)
+.slice(0,5)
+.reduce((a,b)=>a+b,0);
+
+teamTotals[team]=pts;
+});
+
+let winner=null;
+let best=-999;
+
+Object.keys(teamTotals).forEach(team=>{
+if(teamTotals[team]>best){
+best=teamTotals[team];
+winner=team;
+}
+});
+
+teams[winner].trophies.push({
+event:event.id.toUpperCase(),
+score:best
+});
+
+}
+
+renderShelves(teams);
+
+}
+
+function randomColor(){
+const colors=[
+"#d4af37","#c0c0c0","#cd7f32",
+"#4caf50","#3f51b5","#e91e63"
+];
+return colors[Math.floor(Math.random()*colors.length)];
+}
+
+function renderShelves(teams){
+
+const container=document.getElementById("trophyContainer");
+
+const ordered=Object.entries(teams)
+.sort((a,b)=>b[1].trophies.length-a[1].trophies.length);
+
+ordered.forEach(([team,data])=>{
+
+const section=document.createElement("div");
+section.className="team-shelf";
+
+const title=document.createElement("div");
+title.className="team-title";
+title.innerText=team;
+
+section.appendChild(title);
+
+const trophyRow=document.createElement("div");
+trophyRow.className="trophies";
+
+data.trophies.forEach(t=>{
+
+const size=40 + Math.random()*20 + (t.score/5);
+
+const trophy=document.createElement("div");
+trophy.className="trophy";
+
+const cup=document.createElement("div");
+cup.className="trophy-cup";
+cup.style.height=size+"px";
+cup.style.background=randomColor();
+
+const base=document.createElement("div");
+base.className="trophy-base";
+
+const label=document.createElement("div");
+label.className="trophy-label";
+label.innerText=t.event;
+
+trophy.appendChild(cup);
+trophy.appendChild(base);
+trophy.appendChild(label);
+
+trophyRow.appendChild(trophy);
+
+});
+
+const shelf=document.createElement("div");
+shelf.className="shelf";
+
+section.appendChild(trophyRow);
+section.appendChild(shelf);
+
+container.appendChild(section);
+
+});
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
