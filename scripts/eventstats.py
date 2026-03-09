@@ -88,10 +88,12 @@ def extract_round_sections(payload: Any) -> List[Dict[str, Any]]:
     return sections
 
 
-def discover_played_rounds(session: requests.Session, event_id: int, division: str) -> List[int]:
+def discover_played_rounds(
+    session: requests.Session, event_id: int, division: str, max_round: int = 12
+) -> List[int]:
     found_rounds: List[int] = []
 
-    for round_num in range(1, 13):
+    for round_num in range(1, max_round + 1):
         payload = try_fetch_round_scores(session, event_id, division, round_num)
         if payload is None:
             continue
@@ -298,6 +300,24 @@ def init_player_row(
     }
 
 
+def skip_result(
+    site_event_id: str,
+    event_id: int,
+    division: str,
+    event_name: str,
+) -> Dict[str, Any]:
+    return {
+        "site_event_id": site_event_id,
+        "event_id": event_id,
+        "division": division,
+        "event_name": event_name,
+        "output_csv": "",
+        "players": 0,
+        "played_rounds": [],
+        "skipped": True,
+    }
+
+
 def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[str, Any]:
     site_event_id = clean_text(event_cfg["id"]).lower()
     event_id = int(event_cfg["event_id"])
@@ -338,19 +358,12 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
     except (TypeError, ValueError):
         reported_latest_round = 0
 
-    played_rounds = discover_played_rounds(session, event_id, division)
+    max_round_to_check = min(max(reported_latest_round, 1), 12)
+    played_rounds = discover_played_rounds(session, event_id, division, max_round=max_round_to_check)
+
     if not played_rounds:
         print(f"SKIPPED {site_event_id.upper()}: no playable round data yet for {division} in event {event_id}")
-        return {
-            "site_event_id": site_event_id,
-            "event_id": event_id,
-            "division": division,
-            "event_name": event_name,
-            "output_csv": "",
-            "players": 0,
-            "played_rounds": [],
-            "skipped": True,
-        }
+        return skip_result(site_event_id, event_id, division, event_name)
 
     final_results_round = max(played_rounds)
 
@@ -366,7 +379,11 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
 
     for round_num in played_rounds:
         print(f"Fetching played round {round_num}...")
-        round_payload = fetch_round_scores(session, event_id, division, round_num)
+        round_payload = try_fetch_round_scores(session, event_id, division, round_num)
+        if round_payload is None:
+            print(f"SKIPPED {site_event_id.upper()}: round {round_num} not accessible yet")
+            return skip_result(site_event_id, event_id, division, event_name)
+
         sections = extract_round_sections(round_payload)
         total_players_this_round = 0
 
@@ -436,9 +453,12 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
         print(f"Played round {round_num}: processed {total_players_this_round} player rows")
 
     print(f"Fetching final standings round {final_results_round}...")
-    final_payload = fetch_round_scores(session, event_id, division, final_results_round)
-    final_sections = extract_round_sections(final_payload)
+    final_payload = try_fetch_round_scores(session, event_id, division, final_results_round)
+    if final_payload is None:
+        print(f"SKIPPED {site_event_id.upper()}: final standings round {final_results_round} not accessible yet")
+        return skip_result(site_event_id, event_id, division, event_name)
 
+    final_sections = extract_round_sections(final_payload)
     total_final_players = 0
 
     for section in final_sections:
