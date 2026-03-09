@@ -1,226 +1,523 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MDGFL Trophy Room</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Mediocre Disc Golf Fantasy League — Trophy Room</title>
+  <link rel="stylesheet" href="assets/style.css" />
 
-<style>
+  <style>
+    :root {
+      --mdgfl-gold: #f5c542;
+      --mdgfl-green: #6fbf4b;
+      --mdgfl-yellow: #f5c542;
+      --wood-top: #8a5a2b;
+      --wood-mid: #70431d;
+      --wood-btm: #563213;
+    }
 
-.page-container{
-max-width:1100px;
-margin:auto;
-text-align:center;
-}
+    .trophy-wrap {
+      display: grid;
+      gap: 18px;
+    }
 
-.trophy-section{
-margin-top:30px;
-}
+    .trophy-card {
+      padding: 18px;
+    }
 
-.team-shelf{
-margin:40px auto;
-width:90%;
-}
+    .trophy-stack {
+      display: grid;
+      gap: 18px;
+    }
 
-.team-title{
-font-size:22px;
-color:#d4af37;
-font-weight:bold;
-margin-bottom:8px;
-}
+    .team-shelf-card {
+      padding: 16px 16px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+    }
 
-.shelf{
-background:linear-gradient(#8b5a2b,#6f451f);
-height:12px;
-border-radius:4px;
-position:relative;
-margin-top:40px;
-}
+    .team-shelf-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
 
-.trophies{
-display:flex;
-justify-content:center;
-gap:25px;
-margin-bottom:6px;
-}
+    .team-name-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-.trophy{
-display:flex;
-flex-direction:column;
-align-items:center;
-}
+    .team-rank {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 197, 66, .25);
+      background: rgba(245, 197, 66, .10);
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1;
+    }
 
-.trophy-cup{
-width:40px;
-border-radius:6px 6px 3px 3px;
-position:relative;
-}
+    .team-name {
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
 
-.trophy-base{
-width:22px;
-height:8px;
-background:#333;
-margin-top:2px;
-border-radius:2px;
-}
+    .trophy-count {
+      color: var(--txt);
+      font-weight: 800;
+      font-size: 14px;
+    }
 
-.trophy-label{
-font-size:10px;
-margin-top:3px;
-color:white;
-font-weight:bold;
-}
+    .shelf-stage {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 10px 0 18px;
+      scrollbar-width: thin;
+    }
 
-</style>
+    .trophy-row {
+      min-height: 180px;
+      display: flex;
+      align-items: end;
+      gap: 16px;
+      padding: 0 10px 0;
+      width: max-content;
+      min-width: 100%;
+    }
+
+    .empty-row {
+      min-height: 92px;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: .2px;
+    }
+
+    .shelf-plank {
+      height: 14px;
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0) 28%),
+        linear-gradient(180deg, var(--wood-top), var(--wood-mid) 58%, var(--wood-btm));
+      border: 1px solid rgba(0,0,0,.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        inset 0 -2px 0 rgba(0,0,0,.15),
+        0 10px 18px rgba(0,0,0,.28);
+    }
+
+    .trophy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: end;
+      min-width: 78px;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.22));
+    }
+
+    .trophy-top {
+      position: relative;
+      width: var(--cup-width, 38px);
+      height: var(--cup-height, 56px);
+      border-radius: var(--cup-radius, 12px 12px 18px 18px);
+      background: linear-gradient(180deg, var(--cup-highlight, rgba(255,255,255,.34)), rgba(255,255,255,.04) 36%), var(--cup-color, #d4af37);
+      border: 1px solid rgba(255,255,255,.20);
+      overflow: visible;
+    }
+
+    .trophy-top::before,
+    .trophy-top::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      width: 12px;
+      height: 20px;
+      border: 4px solid color-mix(in srgb, var(--cup-color, #d4af37) 78%, white 22%);
+      border-radius: 999px;
+      opacity: .92;
+    }
+
+    .trophy-top::before {
+      left: -14px;
+      border-right: 0;
+    }
+
+    .trophy-top::after {
+      right: -14px;
+      border-left: 0;
+    }
+
+    .trophy-lid {
+      width: calc(var(--cup-width, 38px) + 8px);
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04)), color-mix(in srgb, var(--cup-color, #d4af37) 88%, white 12%);
+      margin-bottom: 4px;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .trophy-stem {
+      width: var(--stem-width, 12px);
+      height: var(--stem-height, 18px);
+      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.04)), color-mix(in srgb, var(--cup-color, #d4af37) 82%, #6b7280 18%);
+      border-radius: 5px;
+      margin-top: 3px;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .trophy-base {
+      width: var(--base-width, 34px);
+      height: var(--base-height, 12px);
+      margin-top: 3px;
+      border-radius: 6px 6px 4px 4px;
+      background: linear-gradient(180deg, #4b5563, #1f2937);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .trophy-plate {
+      margin-top: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 197, 66, .16);
+      background: rgba(245, 197, 66, .08);
+      color: var(--txt);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    .trophy-score {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 720px) {
+      .team-name { font-size: 16px; }
+      .team-shelf-card { padding: 14px 12px 16px; }
+      .trophy { min-width: 72px; }
+      .trophy-row { gap: 12px; }
+    }
+  </style>
 </head>
 
 <body>
+  <nav class="subnav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="standings.html" class="nav-link">Standings</a>
+    <a href="stats.html" class="nav-link">Stats</a>
+    <a href="trophy.html" class="nav-link">Trophy Room</a>
+  </nav>
 
-<div class="page-container">
+  <div class="wrap trophy-wrap">
+    <header class="header card">
+      <img class="logo-img" src="assets/logo.png" alt="The Mediocre Disc Golf Fantasy League logo">
+      <div>
+        <h1>The Mediocre Disc Golf Fantasy League 2026</h1>
+      </div>
+    </header>
 
-<img src="logo.png" style="width:120px;margin-top:20px;">
+    <div class="card trophy-card">
+      <div id="trophyContainer" class="trophy-stack">
+        <div class="muted">Loading…</div>
+      </div>
+    </div>
 
-<h1 class="ribbon">Trophy Room</h1>
+    <footer class="muted footer" id="footer"></footer>
+  </div>
 
-<div id="trophyContainer"></div>
+  <script>
+    (function(){
+      const links = document.querySelectorAll('.nav-link');
+      links.forEach(link => {
+        const here = location.pathname.split('/').pop() || 'index.html';
+        const target = (link.getAttribute('href') || '').split('/').pop();
+        if (target === here) link.classList.add('active');
+      });
+    })();
 
-</div>
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+        if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
+        if (c === '"') { inQuotes = !inQuotes; continue; }
+        if (!inQuotes && c === ',') { row.push(cur); cur = ''; continue; }
+        if (!inQuotes && (c === '\n' || c === '\r')) {
+          if (c === '\r' && next === '\n') i++;
+          row.push(cur); cur = '';
+          if (row.some(v => String(v).trim() !== '')) rows.push(row);
+          row = [];
+          continue;
+        }
+        cur += c;
+      }
+      row.push(cur);
+      if (row.some(v => String(v).trim() !== '')) rows.push(row);
+      return rows;
+    }
 
-<script>
+    function norm(s){ return String(s ?? '').trim().toLowerCase().replace(/[_\s#]+/g, ' '); }
+    function sum(arr){ return arr.reduce((a,b)=>a + Number(b || 0), 0); }
 
-async function loadData(){
+    function findColumnIndex(header, candidates){
+      const normalized = header.map(h => norm(h));
+      for (const cand of candidates) {
+        const want = norm(cand);
+        const exact = normalized.indexOf(want);
+        if (exact >= 0) return exact;
+      }
+      for (const cand of candidates) {
+        const want = norm(cand);
+        const loose = normalized.findIndex(h => h.includes(want) || want.includes(h));
+        if (loose >= 0) return loose;
+      }
+      return -1;
+    }
 
-const events = await fetch("events.json").then(r=>r.json());
-const rosters = await fetch("rosters.json").then(r=>r.json());
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
 
-const teams = {};
+    function shortEventLabel(evt){
+      return (evt.id || evt.name || '').toUpperCase();
+    }
 
-rosters.teams.forEach(t=>{
-teams[t.name] = {
-players: t.players.map(p=>p.pdga),
-trophies:[]
-};
-});
+    async function loadEvents(){
+      const path = 'data/events.json';
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
+      const events = await res.json();
+      if (!Array.isArray(events)) throw new Error('events.json must be an array');
+      return events.filter(e => e && e.id && e.csv);
+    }
 
-for(const event of events){
+    async function loadRosters(){
+      const path = 'data/rosters.json';
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
+      const roster = await res.json();
+      if (!roster || !Array.isArray(roster.teams)) throw new Error('rosters.json must be an object with a teams[] array');
+      return roster;
+    }
 
-const csv = await fetch(event.csv).then(r=>r.text());
+    async function loadEventPointsMap(csvPath){
+      const res = await fetch(csvPath, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to load ${csvPath} (${res.status})`);
+      const text = await res.text();
+      const rows = parseCsv(text);
+      if (rows.length < 2) return new Map();
 
-const rows = csv.split("\n").slice(1);
+      const header = rows[0];
+      const idxPdga = findColumnIndex(header, ['PDGA', 'PDGA #', 'PDGA Number', 'PDGANumber']);
+      const idxPts  = findColumnIndex(header, ['Total Points', 'Points', 'Fantasy Points', 'Event Points']);
+      if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
+      if (idxPts < 0) throw new Error(`${csvPath}: missing points column`);
 
-const scores={};
+      const map = new Map();
+      for (const r of rows.slice(1)) {
+        const pdga = String(r[idxPdga] ?? '').trim();
+        if (!pdga) continue;
+        const rawPts = String(r[idxPts] ?? '').trim().replace(/,/g, '');
+        const pts = Number(rawPts);
+        map.set(pdga, Number.isFinite(pts) ? pts : 0);
+      }
+      return map;
+    }
 
-rows.forEach(row=>{
-const cols=row.split(",");
-const pdga=cols[2];
-const pts=parseFloat(cols[9]) || 0;
-scores[pdga]=pts;
-});
+    function computeTeams(events, roster, pointsByEvent) {
+      const teams = (roster?.teams || []).map((t, idx) => ({
+        index: idx,
+        name: (t?.name || `Team ${idx + 1}`),
+        players: (t?.players || []).filter(p => p && String(p.pdga || '').trim())
+      }));
 
-const teamTotals={};
+      for (const team of teams) {
+        for (const p of team.players) {
+          const perEvent = events.map(evt => {
+            const m = pointsByEvent.get(evt.id);
+            return m ? Number(m.get(String(p.pdga).trim()) || 0) : 0;
+          });
+          p._perEvent = perEvent;
+          p._rawSeason = sum(perEvent);
+          p._id = String(p.pdga || p.player || '').trim();
+        }
 
-Object.keys(teams).forEach(team=>{
-const pts=teams[team].players
-.map(p=>scores[p]||0)
-.sort((a,b)=>b-a)
-.slice(0,5)
-.reduce((a,b)=>a+b,0);
+        team._countedByEvent = events.map((evt, i) => {
+          const scored = team.players.map(p => ({
+            id: p._id,
+            score: Number(p._perEvent[i] || 0),
+            rawSeason: Number(p._rawSeason || 0),
+            name: String(p.player || '')
+          }));
 
-teamTotals[team]=pts;
-});
+          scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
+          const keep = new Set();
+          if (scored.length <= 5) {
+            scored.forEach(s => keep.add(s.id));
+            return keep;
+          }
+          scored.slice(0, 5).forEach(s => keep.add(s.id));
+          return keep;
+        });
 
-let winner=null;
-let best=-999;
+        team._perEvent = events.map((evt, i) => {
+          const keep = team._countedByEvent[i];
+          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
+        });
 
-Object.keys(teamTotals).forEach(team=>{
-if(teamTotals[team]>best){
-best=teamTotals[team];
-winner=team;
-}
-});
+        team._season = sum(team._perEvent);
+        team._trophies = [];
+      }
 
-teams[winner].trophies.push({
-event:event.id.toUpperCase(),
-score:best
-});
+      return teams;
+    }
 
-}
+    function trophyStyles(score, minScore, maxScore, variantIndex) {
+      const range = Math.max(1, maxScore - minScore);
+      const scale = (Number(score || 0) - minScore) / range;
+      const palettes = [
+        { color: '#f5c542', radius: '12px 12px 18px 18px' },
+        { color: '#c0d7ff', radius: '16px 16px 12px 12px' },
+        { color: '#d8a35d', radius: '10px 18px 16px 16px' },
+        { color: '#9fe870', radius: '18px 18px 12px 12px' },
+        { color: '#ffb7c5', radius: '14px 14px 20px 20px' },
+        { color: '#c8b6ff', radius: '20px 20px 12px 12px' }
+      ];
+      const palette = palettes[variantIndex % palettes.length];
+      const cupWidth = 34 + Math.round(scale * 12) + (variantIndex % 3);
+      const cupHeight = 52 + Math.round(scale * 22) + ((variantIndex * 3) % 7);
+      const stemWidth = Math.max(10, Math.round(cupWidth * 0.28));
+      const stemHeight = 14 + Math.round(scale * 8) + (variantIndex % 4);
+      const baseWidth = cupWidth - 4 + (variantIndex % 5);
+      const baseHeight = 10 + (variantIndex % 3);
+      return {
+        '--cup-color': palette.color,
+        '--cup-radius': palette.radius,
+        '--cup-width': `${cupWidth}px`,
+        '--cup-height': `${cupHeight}px`,
+        '--stem-width': `${stemWidth}px`,
+        '--stem-height': `${stemHeight}px`,
+        '--base-width': `${baseWidth}px`,
+        '--base-height': `${baseHeight}px`
+      };
+    }
 
-renderShelves(teams);
+    function renderTrophy(trophy, idx, minScore, maxScore) {
+      const styles = trophyStyles(trophy.score, minScore, maxScore, idx);
+      const styleAttr = Object.entries(styles).map(([k, v]) => `${k}:${v}`).join(';');
+      return `
+        <div class="trophy" title="${escapeHtml(trophy.eventLabel)} • ${escapeHtml(trophy.teamName)} • ${trophy.score} pts">
+          <div class="trophy-lid" style="${styleAttr}"></div>
+          <div class="trophy-top" style="${styleAttr}"></div>
+          <div class="trophy-stem" style="${styleAttr}"></div>
+          <div class="trophy-base" style="${styleAttr}"></div>
+          <div class="trophy-plate">${escapeHtml(trophy.eventLabel)}</div>
+          <div class="trophy-score">${trophy.score} pts</div>
+        </div>
+      `;
+    }
 
-}
+    function renderShelves(teams, events) {
+      const container = document.getElementById('trophyContainer');
+      if (!teams.length) {
+        container.innerHTML = '<div class="muted">No teams found in rosters.json.</div>';
+        return;
+      }
 
-function randomColor(){
-const colors=[
-"#d4af37","#c0c0c0","#cd7f32",
-"#4caf50","#3f51b5","#e91e63"
-];
-return colors[Math.floor(Math.random()*colors.length)];
-}
+      const allWinningScores = teams.flatMap(team => team._trophies.map(t => t.score));
+      const minScore = allWinningScores.length ? Math.min(...allWinningScores) : 0;
+      const maxScore = allWinningScores.length ? Math.max(...allWinningScores) : 1;
 
-function renderShelves(teams){
+      container.innerHTML = teams.map((team, index) => {
+        const trophiesHtml = team._trophies.length
+          ? team._trophies.map((trophy, idx) => renderTrophy({ ...trophy, teamName: team.name }, idx, minScore, maxScore)).join('')
+          : '<div class="empty-row">No event wins yet</div>';
 
-const container=document.getElementById("trophyContainer");
+        const trophyLabel = `${team._trophies.length} ${team._trophies.length === 1 ? 'trophy' : 'trophies'}`;
 
-const ordered=Object.entries(teams)
-.sort((a,b)=>b[1].trophies.length-a[1].trophies.length);
+        return `
+          <section class="card team-shelf-card">
+            <div class="team-shelf-head">
+              <div class="team-name-row">
+                <span class="team-rank">${index + 1}</span>
+                <span class="team-name">${escapeHtml(team.name)}</span>
+              </div>
+              <div class="trophy-count">${trophyLabel}</div>
+            </div>
+            <div class="shelf-stage">
+              <div class="trophy-row">${trophiesHtml}</div>
+              <div class="shelf-plank"></div>
+            </div>
+          </section>
+        `;
+      }).join('');
 
-ordered.forEach(([team,data])=>{
+      document.getElementById('footer').textContent = `Loaded ${teams.length} team(s) • ${events.length} event(s)`;
+    }
 
-const section=document.createElement("div");
-section.className="team-shelf";
+    async function loadAndRender() {
+      const events = await loadEvents();
+      const roster = await loadRosters();
+      const pointsByEvent = new Map();
+      for (const evt of events) {
+        pointsByEvent.set(evt.id, await loadEventPointsMap(evt.csv));
+      }
 
-const title=document.createElement("div");
-title.className="team-title";
-title.innerText=team;
+      const teams = computeTeams(events, roster, pointsByEvent);
 
-section.appendChild(title);
+      events.forEach(evt => {
+        const ranked = teams.map(team => ({
+          team,
+          score: Number(team._perEvent[events.findIndex(e => e.id === evt.id)] || 0)
+        })).sort((a, b) => (b.score - a.score) || a.team.name.localeCompare(b.team.name));
 
-const trophyRow=document.createElement("div");
-trophyRow.className="trophies";
+        if (!ranked.length) return;
+        const winner = ranked[0];
+        winner.team._trophies.push({
+          eventId: evt.id,
+          eventLabel: shortEventLabel(evt),
+          score: winner.score
+        });
+      });
 
-data.trophies.forEach(t=>{
+      teams.sort((a, b) => (b._trophies.length - a._trophies.length) || (b._season - a._season) || a.name.localeCompare(b.name));
+      renderShelves(teams, events);
+    }
 
-const size=40 + Math.random()*20 + (t.score/5);
-
-const trophy=document.createElement("div");
-trophy.className="trophy";
-
-const cup=document.createElement("div");
-cup.className="trophy-cup";
-cup.style.height=size+"px";
-cup.style.background=randomColor();
-
-const base=document.createElement("div");
-base.className="trophy-base";
-
-const label=document.createElement("div");
-label.className="trophy-label";
-label.innerText=t.event;
-
-trophy.appendChild(cup);
-trophy.appendChild(base);
-trophy.appendChild(label);
-
-trophyRow.appendChild(trophy);
-
-});
-
-const shelf=document.createElement("div");
-shelf.className="shelf";
-
-section.appendChild(trophyRow);
-section.appendChild(shelf);
-
-container.appendChild(section);
-
-});
-
-}
-
-loadData();
-
-</script>
-
+    loadAndRender().catch(err => {
+      console.error(err);
+      document.getElementById('trophyContainer').innerHTML = `<div class="muted">Error: ${escapeHtml(err.message)}</div>`;
+      document.getElementById('footer').textContent = 'Unable to load trophy room';
+    });
+  </script>
 </body>
 </html>
