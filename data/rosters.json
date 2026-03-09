@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-09T00:22:45.903Z",
+  "updatedAt": "2026-03-09T04:17:16.706Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -28,8 +28,8 @@
           "pdga": "75590"
         },
         {
-          "player": "Silas Schultz",
-          "pdga": "79047"
+          "player": "",
+          "pdga": ""
         }
       ]
     },
