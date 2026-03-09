@@ -10,11 +10,11 @@
   <style>
     :root {
       --mdgfl-gold: #f5c542;
-      --mdgfl-green: #6fbf4b;
-      --mdgfl-yellow: #f5c542;
-      --wood-top: #8a5a2b;
-      --wood-mid: #70431d;
-      --wood-btm: #563213;
+      --mdgfl-gold-soft: rgba(245, 197, 66, .14);
+      --mdgfl-wood-1: #8c6239;
+      --mdgfl-wood-2: #6f4a29;
+      --mdgfl-wood-3: #4f331a;
+      --mdgfl-card-glow: rgba(245, 197, 66, .08);
     }
 
     .trophy-wrap {
@@ -22,21 +22,38 @@
       gap: 18px;
     }
 
-    .trophy-card {
-      padding: 18px;
+    .trophy-room-card {
+      padding: 18px 18px 20px;
     }
 
-    .trophy-stack {
+    .trophy-room-title {
+      margin: 0 0 6px;
+      color: var(--mdgfl-gold);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      text-align: left;
+    }
+
+    .trophy-room-subtitle {
+      margin: 0;
+      text-align: left;
+    }
+
+    .shelves {
       display: grid;
-      gap: 18px;
+      gap: 16px;
     }
 
-    .team-shelf-card {
+    .team-card {
       padding: 16px 16px 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.02);
     }
 
-    .team-shelf-head {
+    .team-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -45,80 +62,83 @@
       flex-wrap: wrap;
     }
 
-    .team-name-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .team-rank {
-      display: inline-grid;
-      place-items: center;
-      min-width: 28px;
-      height: 28px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(245, 197, 66, .25);
-      background: rgba(245, 197, 66, .10);
-      color: var(--mdgfl-gold);
-      font-weight: 800;
-      font-size: 12px;
-      line-height: 1;
-    }
-
     .team-name {
       color: var(--mdgfl-gold);
+      font-size: 20px;
       font-weight: 800;
-      font-size: 18px;
-      letter-spacing: .2px;
+      margin: 0;
     }
 
-    .trophy-count {
-      color: var(--txt);
-      font-weight: 800;
-      font-size: 14px;
+    .team-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
 
-    .shelf-stage {
+    .shelf-zone {
       position: relative;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 10px 0 18px;
-      scrollbar-width: thin;
+      min-height: 146px;
+      padding: 14px 8px 22px;
     }
 
     .trophy-row {
-      min-height: 180px;
+      min-height: 112px;
       display: flex;
-      align-items: end;
-      gap: 16px;
-      padding: 0 10px 0;
-      width: max-content;
-      min-width: 100%;
-    }
-
-    .empty-row {
-      min-height: 92px;
-      display: grid;
-      place-items: center;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 18px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
       width: 100%;
-      color: var(--muted);
-      font-size: 14px;
-      letter-spacing: .2px;
+      margin: 0 auto;
     }
 
-    .shelf-plank {
-      height: 14px;
-      border-radius: 10px;
+    .shelf-board {
+      position: relative;
+      z-index: 1;
+      width: min(840px, 96%);
+      height: 16px;
+      margin: -2px auto 0;
+      border-radius: 999px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0) 28%),
-        linear-gradient(180deg, var(--wood-top), var(--wood-mid) 58%, var(--wood-btm));
-      border: 1px solid rgba(0,0,0,.18);
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 28%),
+        linear-gradient(90deg, var(--mdgfl-wood-1), var(--mdgfl-wood-2) 35%, var(--mdgfl-wood-3) 70%, var(--mdgfl-wood-2));
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.12),
-        inset 0 -2px 0 rgba(0,0,0,.15),
-        0 10px 18px rgba(0,0,0,.28);
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -2px 0 rgba(0,0,0,.28),
+        0 8px 20px rgba(0,0,0,.22);
+    }
+
+    .shelf-board::before,
+    .shelf-board::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      width: 16px;
+      height: 28px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #6c4525, #4a2e18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .shelf-board::before { left: 28px; }
+    .shelf-board::after { right: 28px; }
+
+    .no-trophies {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 92px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
     }
 
     .trophy {
@@ -126,96 +146,156 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: end;
-      min-width: 78px;
-      filter: drop-shadow(0 10px 12px rgba(0,0,0,.22));
+      justify-content: flex-end;
+      width: calc(var(--cup-width) + 42px);
+      min-width: calc(var(--cup-width) + 42px);
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.28));
     }
 
-    .trophy-top {
+    .trophy-topper {
+      width: var(--topper-width);
+      height: var(--topper-height);
+      margin-bottom: 2px;
+      border-radius: var(--topper-radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.08)), var(--trophy-color);
+      border: 1px solid rgba(255,255,255,.18);
+      display: var(--topper-display);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.32);
+    }
+
+    .trophy-cup-wrap {
       position: relative;
-      width: var(--cup-width, 38px);
-      height: var(--cup-height, 56px);
-      border-radius: var(--cup-radius, 12px 12px 18px 18px);
-      background: linear-gradient(180deg, var(--cup-highlight, rgba(255,255,255,.34)), rgba(255,255,255,.04) 36%), var(--cup-color, #d4af37);
-      border: 1px solid rgba(255,255,255,.20);
-      overflow: visible;
+      width: calc(var(--cup-width) + 34px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .trophy-top::before,
-    .trophy-top::after {
+    .trophy-handle {
+      position: absolute;
+      top: var(--handle-top);
+      width: var(--handle-width);
+      height: var(--handle-height);
+      border: var(--handle-thickness) solid color-mix(in srgb, var(--trophy-color) 78%, white 22%);
+      border-radius: 999px;
+      opacity: var(--handle-opacity);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+      pointer-events: none;
+    }
+
+    .trophy-handle.left { left: var(--handle-left); }
+    .trophy-handle.right { right: var(--handle-right); }
+
+    .trophy-cup {
+      position: relative;
+      width: var(--cup-width);
+      height: var(--cup-height);
+      border-radius: var(--cup-radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.10) 24%, rgba(255,255,255,.03) 26%),
+        linear-gradient(180deg, color-mix(in srgb, var(--trophy-color) 88%, white 12%), color-mix(in srgb, var(--trophy-color) 62%, black 38%));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.30),
+        inset 0 -5px 10px rgba(0,0,0,.12),
+        0 0 0 1px rgba(0,0,0,.08);
+      overflow: hidden;
+      clip-path: var(--cup-clip);
+    }
+
+    .trophy-cup::after {
       content: "";
       position: absolute;
-      top: 12px;
-      width: 12px;
-      height: 20px;
-      border: 4px solid color-mix(in srgb, var(--cup-color, #d4af37) 78%, white 22%);
+      left: 14%;
+      top: 12%;
+      width: 18%;
+      height: 54%;
       border-radius: 999px;
-      opacity: .92;
-    }
-
-    .trophy-top::before {
-      left: -14px;
-      border-right: 0;
-    }
-
-    .trophy-top::after {
-      right: -14px;
-      border-left: 0;
-    }
-
-    .trophy-lid {
-      width: calc(var(--cup-width, 38px) + 8px);
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04)), color-mix(in srgb, var(--cup-color, #d4af37) 88%, white 12%);
-      margin-bottom: 4px;
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.16);
+      transform: rotate(10deg);
+      filter: blur(.4px);
     }
 
     .trophy-stem {
-      width: var(--stem-width, 12px);
-      height: var(--stem-height, 18px);
-      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.04)), color-mix(in srgb, var(--cup-color, #d4af37) 82%, #6b7280 18%);
-      border-radius: 5px;
+      width: var(--stem-width);
+      height: var(--stem-height);
+      margin-top: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.52), rgba(255,255,255,.06)), color-mix(in srgb, var(--trophy-color) 72%, #4b3522 28%);
+      border: 1px solid rgba(255,255,255,.15);
+    }
+
+    .trophy-neck {
+      width: var(--neck-width);
+      height: var(--neck-height);
+      margin-top: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,.04)), color-mix(in srgb, var(--trophy-color) 62%, #3d2d1c 38%);
+      border: 1px solid rgba(255,255,255,.13);
+      display: var(--neck-display);
+    }
+
+    .trophy-base-top {
+      width: var(--base-top-width);
+      height: var(--base-top-height);
       margin-top: 3px;
-      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 6px;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.02)), #493220;
+      border: 1px solid rgba(255,255,255,.10);
+      display: var(--base-top-display);
     }
 
     .trophy-base {
-      width: var(--base-width, 34px);
-      height: var(--base-height, 12px);
-      margin-top: 3px;
-      border-radius: 6px 6px 4px 4px;
-      background: linear-gradient(180deg, #4b5563, #1f2937);
-      border: 1px solid rgba(255,255,255,.08);
+      width: var(--base-width);
+      height: var(--base-height);
+      margin-top: 2px;
+      border-radius: var(--base-radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.02)), #2f2217;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
     }
 
-    .trophy-plate {
-      margin-top: 8px;
-      padding: 5px 10px;
+    .trophy-plaque {
+      margin-top: 5px;
+      padding: 3px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(245, 197, 66, .16);
-      background: rgba(245, 197, 66, .08);
-      color: var(--txt);
+      border: 1px solid rgba(245, 197, 66, .20);
+      background: var(--mdgfl-gold-soft);
+      color: #fff;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: .5px;
-      white-space: nowrap;
-    }
-
-    .trophy-score {
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
       white-space: nowrap;
     }
 
     @media (max-width: 720px) {
-      .team-name { font-size: 16px; }
-      .team-shelf-card { padding: 14px 12px 16px; }
-      .trophy { min-width: 72px; }
-      .trophy-row { gap: 12px; }
+      .team-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .team-name,
+      .team-meta,
+      .trophy-room-title,
+      .trophy-room-subtitle {
+        text-align: center;
+        width: 100%;
+      }
+
+      .shelf-zone {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .trophy-row {
+        gap: 14px;
+      }
+
+      .trophy {
+        transform: scale(.94);
+        transform-origin: bottom center;
+      }
     }
   </style>
 </head>
@@ -236,11 +316,14 @@
       </div>
     </header>
 
-    <div class="card trophy-card">
-      <div id="trophyContainer" class="trophy-stack">
-        <div class="muted">Loading…</div>
-      </div>
-    </div>
+    <section class="card trophy-room-card">
+      <h2 class="trophy-room-title">Trophy Room</h2>
+      <p class="muted trophy-room-subtitle">Event champions are displayed on centered shelves, ordered by total trophies won this season.</p>
+    </section>
+
+    <section class="shelves" id="shelves">
+      <div class="card team-card"><div class="muted">Loading trophy room…</div></div>
+    </section>
 
     <footer class="muted footer" id="footer"></footer>
   </div>
@@ -298,17 +381,13 @@
       return -1;
     }
 
-    function escapeHtml(s) {
-      return String(s)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'",'&#039;');
-    }
-
-    function shortEventLabel(evt){
-      return (evt.id || evt.name || '').toUpperCase();
+    function escapeHtml(s){
+      return String(s ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
 
     async function loadEvents(){
@@ -353,171 +432,222 @@
       return map;
     }
 
-    function computeTeams(events, roster, pointsByEvent) {
-      const teams = (roster?.teams || []).map((t, idx) => ({
-        index: idx,
-        name: (t?.name || `Team ${idx + 1}`),
-        players: (t?.players || []).filter(p => p && String(p.pdga || '').trim())
-      }));
-
-      for (const team of teams) {
-        for (const p of team.players) {
-          const perEvent = events.map(evt => {
-            const m = pointsByEvent.get(evt.id);
-            return m ? Number(m.get(String(p.pdga).trim()) || 0) : 0;
-          });
-          p._perEvent = perEvent;
-          p._rawSeason = sum(perEvent);
-          p._id = String(p.pdga || p.player || '').trim();
-        }
-
-        team._countedByEvent = events.map((evt, i) => {
-          const scored = team.players.map(p => ({
-            id: p._id,
-            score: Number(p._perEvent[i] || 0),
-            rawSeason: Number(p._rawSeason || 0),
-            name: String(p.player || '')
-          }));
-
-          scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-          const keep = new Set();
-          if (scored.length <= 5) {
-            scored.forEach(s => keep.add(s.id));
-            return keep;
-          }
-          scored.slice(0, 5).forEach(s => keep.add(s.id));
-          return keep;
-        });
-
-        team._perEvent = events.map((evt, i) => {
-          const keep = team._countedByEvent[i];
-          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
-        });
-
-        team._season = sum(team._perEvent);
-        team._trophies = [];
+    function seededNumber(seed){
+      let h = 2166136261;
+      const str = String(seed);
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
       }
-
-      return teams;
+      return (h >>> 0) / 4294967295;
     }
 
-    function trophyStyles(score, minScore, maxScore, variantIndex) {
-      const range = Math.max(1, maxScore - minScore);
-      const scale = (Number(score || 0) - minScore) / range;
-      const palettes = [
-        { color: '#f5c542', radius: '12px 12px 18px 18px' },
-        { color: '#c0d7ff', radius: '16px 16px 12px 12px' },
-        { color: '#d8a35d', radius: '10px 18px 16px 16px' },
-        { color: '#9fe870', radius: '18px 18px 12px 12px' },
-        { color: '#ffb7c5', radius: '14px 14px 20px 20px' },
-        { color: '#c8b6ff', radius: '20px 20px 12px 12px' }
-      ];
-      const palette = palettes[variantIndex % palettes.length];
-      const cupWidth = 34 + Math.round(scale * 12) + (variantIndex % 3);
-      const cupHeight = 52 + Math.round(scale * 22) + ((variantIndex * 3) % 7);
-      const stemWidth = Math.max(10, Math.round(cupWidth * 0.28));
-      const stemHeight = 14 + Math.round(scale * 8) + (variantIndex % 4);
-      const baseWidth = cupWidth - 4 + (variantIndex % 5);
-      const baseHeight = 10 + (variantIndex % 3);
+    function pick(seed, values){
+      return values[Math.floor(seededNumber(seed) * values.length)] || values[0];
+    }
+
+    function buildVariantKey(teamName, eventId){
+      return `${teamName}__${eventId}`;
+    }
+
+    function trophyVars(item, minScore, maxScore){
+      const key = buildVariantKey(item.team, item.eventId);
+      const span = Math.max(1, maxScore - minScore);
+      const strength = Math.max(0, Math.min(1, (item.score - minScore) / span));
+
+      const bodyWidth = 34 + Math.round(seededNumber(key + 'w') * 24) + Math.round(strength * 10);
+      const bodyHeight = 42 + Math.round(seededNumber(key + 'h') * 24) + Math.round(strength * 14);
+      const stemWidth = 8 + Math.round(seededNumber(key + 'sw') * 8);
+      const stemHeight = 10 + Math.round(seededNumber(key + 'sh') * 12);
+      const neckWidth = stemWidth + 4 + Math.round(seededNumber(key + 'nw') * 10);
+      const neckHeight = 4 + Math.round(seededNumber(key + 'nh') * 7);
+      const baseWidth = bodyWidth - 6 + Math.round(seededNumber(key + 'bw') * 18);
+      const baseHeight = 10 + Math.round(seededNumber(key + 'bh') * 8);
+      const baseTopWidth = Math.max(18, baseWidth - 8 - Math.round(seededNumber(key + 'btw') * 10));
+      const baseTopHeight = 5 + Math.round(seededNumber(key + 'bth') * 5);
+      const topperType = pick(key + 'tt', ['none', 'orb', 'crown', 'flat']);
+      const handleMode = pick(key + 'hm', ['both', 'left', 'right', 'none']);
+      const bodyShape = pick(key + 'bs', ['round', 'taper', 'shield', 'arch', 'square']);
+      const baseShape = pick(key + 'ba', ['6px', '8px', '12px', '999px']);
+      const colors = ['#f5c542', '#d7dadf', '#cd7f32', '#87c8ff', '#d59cff', '#7ed9a4', '#ff8e6e'];
+      const color = pick(key + 'co', colors);
+
+      const clipMap = {
+        round: 'none',
+        taper: 'polygon(6% 0%, 94% 0%, 82% 100%, 18% 100%)',
+        shield: 'polygon(10% 0%, 90% 0%, 100% 28%, 86% 100%, 14% 100%, 0% 28%)',
+        arch: 'polygon(12% 8%, 20% 0%, 80% 0%, 88% 8%, 94% 100%, 6% 100%)',
+        square: 'inset(0 round 8px)'
+      };
+
+      const radiusMap = {
+        round: '16px 16px 12px 12px',
+        taper: '14px 14px 10px 10px',
+        shield: '18px 18px 12px 12px',
+        arch: '18px 18px 8px 8px',
+        square: '10px'
+      };
+
+      const topperConfig = {
+        none: { display: 'none', width: 0, height: 0, radius: '0' },
+        orb: { display: 'block', width: Math.round(bodyWidth * .34), height: Math.round(bodyWidth * .34), radius: '999px' },
+        crown: { display: 'block', width: Math.round(bodyWidth * .62), height: 10, radius: '10px 10px 4px 4px' },
+        flat: { display: 'block', width: Math.round(bodyWidth * .46), height: 6, radius: '999px' }
+      }[topperType];
+
+      const handleWidth = 11 + Math.round(seededNumber(key + 'hw') * 10);
+      const handleHeight = Math.max(14, Math.round(bodyHeight * (.34 + seededNumber(key + 'hh') * .24)));
+      const handleTop = 6 + Math.round(seededNumber(key + 'ht') * 14);
+      const handleThickness = 3 + Math.round(seededNumber(key + 'hk') * 2);
+      const handleLeft = 1 + Math.round(seededNumber(key + 'hl') * 4);
+      const handleRight = 1 + Math.round(seededNumber(key + 'hr') * 4);
+
       return {
-        '--cup-color': palette.color,
-        '--cup-radius': palette.radius,
-        '--cup-width': `${cupWidth}px`,
-        '--cup-height': `${cupHeight}px`,
+        '--trophy-color': color,
+        '--cup-width': `${bodyWidth}px`,
+        '--cup-height': `${bodyHeight}px`,
+        '--cup-radius': radiusMap[bodyShape],
+        '--cup-clip': clipMap[bodyShape],
         '--stem-width': `${stemWidth}px`,
         '--stem-height': `${stemHeight}px`,
-        '--base-width': `${baseWidth}px`,
-        '--base-height': `${baseHeight}px`
+        '--neck-width': `${neckWidth}px`,
+        '--neck-height': `${neckHeight}px`,
+        '--neck-display': seededNumber(key + 'nd') > 0.28 ? 'block' : 'none',
+        '--base-width': `${Math.max(baseWidth, stemWidth + 10)}px`,
+        '--base-height': `${baseHeight}px`,
+        '--base-radius': baseShape,
+        '--base-top-width': `${Math.max(baseTopWidth, stemWidth + 8)}px`,
+        '--base-top-height': `${baseTopHeight}px`,
+        '--base-top-display': seededNumber(key + 'btd') > 0.22 ? 'block' : 'none',
+        '--topper-width': `${topperConfig.width}px`,
+        '--topper-height': `${topperConfig.height}px`,
+        '--topper-radius': topperConfig.radius,
+        '--topper-display': topperConfig.display,
+        '--handle-width': `${handleWidth}px`,
+        '--handle-height': `${handleHeight}px`,
+        '--handle-top': `${handleTop}px`,
+        '--handle-left': `${handleLeft}px`,
+        '--handle-right': `${handleRight}px`,
+        '--handle-thickness': `${handleThickness}px`,
+        '--handle-opacity': handleMode === 'none' ? 0 : 1
       };
     }
 
-    function renderTrophy(trophy, idx, minScore, maxScore) {
-      const styles = trophyStyles(trophy.score, minScore, maxScore, idx);
-      const styleAttr = Object.entries(styles).map(([k, v]) => `${k}:${v}`).join(';');
-      return `
-        <div class="trophy" title="${escapeHtml(trophy.eventLabel)} • ${escapeHtml(trophy.teamName)} • ${trophy.score} pts">
-          <div class="trophy-lid" style="${styleAttr}"></div>
-          <div class="trophy-top" style="${styleAttr}"></div>
-          <div class="trophy-stem" style="${styleAttr}"></div>
-          <div class="trophy-base" style="${styleAttr}"></div>
-          <div class="trophy-plate">${escapeHtml(trophy.eventLabel)}</div>
-          <div class="trophy-score">${trophy.score} pts</div>
-        </div>
-      `;
+    function styleObjectToCssText(obj){
+      return Object.entries(obj).map(([k,v]) => `${k}:${v}`).join(';');
     }
 
-    function renderShelves(teams, events) {
-      const container = document.getElementById('trophyContainer');
-      if (!teams.length) {
-        container.innerHTML = '<div class="muted">No teams found in rosters.json.</div>';
-        return;
+    async function computeTrophyData(){
+      const [events, roster] = await Promise.all([loadEvents(), loadRosters()]);
+      const teams = (roster.teams || []).map(t => ({
+        name: t.name,
+        players: (t.players || []).map(p => String(p?.pdga ?? '').trim()).filter(Boolean),
+        trophies: []
+      }));
+
+      for (const event of events) {
+        const pointsMap = await loadEventPointsMap(event.csv);
+
+        const teamScores = teams.map(team => {
+          const playerScores = team.players.map(pdga => Number(pointsMap.get(pdga) || 0));
+          const counted = [...playerScores].sort((a,b) => b-a).slice(0, 5);
+          return {
+            name: team.name,
+            seasonEventId: String(event.id || '').toUpperCase(),
+            countedTotal: sum(counted),
+            rawTotal: sum(playerScores)
+          };
+        });
+
+        teamScores.sort((a,b) => (
+          b.countedTotal - a.countedTotal ||
+          b.rawTotal - a.rawTotal ||
+          a.name.localeCompare(b.name)
+        ));
+
+        const winner = teamScores[0];
+        const team = teams.find(t => t.name === winner.name);
+        if (team) {
+          team.trophies.push({
+            eventId: winner.seasonEventId,
+            score: winner.countedTotal,
+            team: team.name
+          });
+        }
       }
 
-      const allWinningScores = teams.flatMap(team => team._trophies.map(t => t.score));
-      const minScore = allWinningScores.length ? Math.min(...allWinningScores) : 0;
-      const maxScore = allWinningScores.length ? Math.max(...allWinningScores) : 1;
+      teams.sort((a,b) => (
+        b.trophies.length - a.trophies.length ||
+        a.name.localeCompare(b.name)
+      ));
 
-      container.innerHTML = teams.map((team, index) => {
-        const trophiesHtml = team._trophies.length
-          ? team._trophies.map((trophy, idx) => renderTrophy({ ...trophy, teamName: team.name }, idx, minScore, maxScore)).join('')
-          : '<div class="empty-row">No event wins yet</div>';
+      return { teams, eventCount: events.length };
+    }
 
-        const trophyLabel = `${team._trophies.length} ${team._trophies.length === 1 ? 'trophy' : 'trophies'}`;
+    function render(data){
+      const shelves = document.getElementById('shelves');
+      const footer = document.getElementById('footer');
+      const allScores = data.teams.flatMap(t => t.trophies.map(x => x.score));
+      const minScore = allScores.length ? Math.min(...allScores) : 0;
+      const maxScore = allScores.length ? Math.max(...allScores) : 1;
+
+      shelves.innerHTML = data.teams.map(team => {
+        const countText = `${team.trophies.length} ${team.trophies.length === 1 ? 'Trophy' : 'Trophies'}`;
+        const trophiesHtml = team.trophies.length
+          ? team.trophies.map(item => {
+              const vars = trophyVars(item, minScore, maxScore);
+              const handleMode = pick(buildVariantKey(item.team, item.eventId) + 'hm', ['both', 'left', 'right', 'none']);
+              const leftHandle = handleMode === 'both' || handleMode === 'left';
+              const rightHandle = handleMode === 'both' || handleMode === 'right';
+              return `
+                <div class="trophy" style="${styleObjectToCssText(vars)}">
+                  <div class="trophy-topper"></div>
+                  <div class="trophy-cup-wrap">
+                    ${leftHandle ? '<span class="trophy-handle left"></span>' : ''}
+                    <div class="trophy-cup"></div>
+                    ${rightHandle ? '<span class="trophy-handle right"></span>' : ''}
+                  </div>
+                  <div class="trophy-stem"></div>
+                  <div class="trophy-neck"></div>
+                  <div class="trophy-base-top"></div>
+                  <div class="trophy-base"></div>
+                  <div class="trophy-plaque">${escapeHtml(item.eventId)}</div>
+                </div>`;
+            }).join('')
+          : '<div class="no-trophies">No event wins yet</div>';
 
         return `
-          <section class="card team-shelf-card">
-            <div class="team-shelf-head">
-              <div class="team-name-row">
-                <span class="team-rank">${index + 1}</span>
-                <span class="team-name">${escapeHtml(team.name)}</span>
-              </div>
-              <div class="trophy-count">${trophyLabel}</div>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">${escapeHtml(team.name)}</h3>
+              <div class="team-meta">${countText}</div>
             </div>
-            <div class="shelf-stage">
+            <div class="shelf-zone">
               <div class="trophy-row">${trophiesHtml}</div>
-              <div class="shelf-plank"></div>
+              <div class="shelf-board"></div>
             </div>
-          </section>
-        `;
+          </article>`;
       }).join('');
 
-      document.getElementById('footer').textContent = `Loaded ${teams.length} team(s) • ${events.length} event(s)`;
+      footer.textContent = `Showing ${data.eventCount} event${data.eventCount === 1 ? '' : 's'} in the 2026 season.`;
     }
 
-    async function loadAndRender() {
-      const events = await loadEvents();
-      const roster = await loadRosters();
-      const pointsByEvent = new Map();
-      for (const evt of events) {
-        pointsByEvent.set(evt.id, await loadEventPointsMap(evt.csv));
+    async function init(){
+      try {
+        const data = await computeTrophyData();
+        render(data);
+      } catch (err) {
+        document.getElementById('shelves').innerHTML = `
+          <div class="card team-card">
+            <div class="team-name">Trophy Room</div>
+            <p class="muted" style="margin:8px 0 0;">${escapeHtml(err?.message || 'Unable to load trophy room.')}</p>
+          </div>`;
+        document.getElementById('footer').textContent = 'Check your data and file paths.';
+        console.error(err);
       }
-
-      const teams = computeTeams(events, roster, pointsByEvent);
-
-      events.forEach(evt => {
-        const ranked = teams.map(team => ({
-          team,
-          score: Number(team._perEvent[events.findIndex(e => e.id === evt.id)] || 0)
-        })).sort((a, b) => (b.score - a.score) || a.team.name.localeCompare(b.team.name));
-
-        if (!ranked.length) return;
-        const winner = ranked[0];
-        winner.team._trophies.push({
-          eventId: evt.id,
-          eventLabel: shortEventLabel(evt),
-          score: winner.score
-        });
-      });
-
-      teams.sort((a, b) => (b._trophies.length - a._trophies.length) || (b._season - a._season) || a.name.localeCompare(b.name));
-      renderShelves(teams, events);
     }
 
-    loadAndRender().catch(err => {
-      console.error(err);
-      document.getElementById('trophyContainer').innerHTML = `<div class="muted">Error: ${escapeHtml(err.message)}</div>`;
-      document.getElementById('footer').textContent = 'Unable to load trophy room';
-    });
+    init();
   </script>
 </body>
 </html>
