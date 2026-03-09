@@ -3,7 +3,7 @@ name: Update Event Stats
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */15 * * * *"
+    - cron: "*/15 * * * *"
 
 permissions:
   contents: write
