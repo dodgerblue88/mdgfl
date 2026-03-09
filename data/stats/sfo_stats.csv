@@ -1,201 +1,97 @@
 site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,Rounds,HolesCounted
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Gannon Buhr,75412,1059,280,-43,1,1,1,1,1,0,0,0,48,37,5,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Aaron Gossage,35449,1039,281,-42,2,0,1,1,1,0,0,1,48,34,7,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Niklas Anttila,91249,1045,282,-41,3,0,1,1,1,0,0,0,48,35,7,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ezra Aderhold,121715,1032,286,-37,4,0,0,1,1,0,0,0,45,38,7,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Anthony Barela,44382,1043,287,-36,T5,0,0,1,1,0,0,1,47,31,11,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Sullivan Tipton,78817,1039,287,-36,T5,0,0,1,1,0,0,0,44,39,7,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Adam Hammes,57365,1034,291,-32,7,0,0,1,1,0,0,0,40,42,8,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Paul McBeth,27523,1047,293,-30,T8,0,0,1,1,0,0,0,44,35,11,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Pyry Joutsen,72905,,293,-30,T8,0,0,1,1,0,0,0,45,33,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Andrew Marwede,75590,1034,294,-29,T10,0,0,1,1,0,0,0,39,42,9,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Calvin Heimburg,45971,1051,294,-29,T10,0,0,1,1,0,0,1,40,37,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Gavin Babcock,80331,1033,295,-28,T12,0,0,0,1,0,0,0,43,33,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Isaac Robinson,50670,1048,295,-28,T12,0,0,0,1,0,0,1,36,44,9,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Chris Dickerson,62467,1037,296,-27,T14,0,0,0,1,0,0,0,40,38,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Corey Ellis,44512,1032,296,-27,T14,0,0,0,1,0,0,1,43,33,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ezra Robinson,50671,1041,296,-27,T14,0,0,0,1,0,0,1,41,34,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Lenni Kemppainen,96736,,296,-27,T14,0,0,0,1,0,0,1,40,38,11,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Alden Harris,98091,1023,297,-26,T18,0,0,0,1,0,0,0,41,37,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Simon Lizotte,8332,1036,297,-26,T18,0,0,0,1,0,0,0,36,46,8,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Lauri Lehtinen,82297,1042,298,-25,T20,0,0,0,1,0,0,0,38,40,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Mason Ford,72844,1037,298,-25,T20,0,0,0,1,0,0,0,38,39,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Austin Turner,54049,1031,299,-24,T22,0,0,0,0,0,0,0,38,39,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Bradley Williams,31644,1031,299,-24,T22,0,0,0,0,0,0,0,39,38,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Calvin Lonnquist,145206,1015,299,-24,T22,0,0,0,0,0,0,0,45,28,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Casey White,81739,1031,299,-24,T22,0,0,0,0,0,0,0,38,41,11,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Rasmus Saukkoriipi,136325,1022,300,-23,26,0,0,0,0,0,0,0,39,37,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Daniel Davidsson,76456,1037,301,-22,T27,0,0,0,0,0,0,1,36,40,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Eli Swansen,128050,994,301,-22,T27,0,0,0,0,0,0,0,31,51,8,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kyle Klein,85132,1043,301,-22,T27,0,0,0,0,0,0,0,38,39,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Mauri Villmann,107197,1040,301,-22,T27,0,0,0,0,0,0,0,36,41,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,James Proctor,34250,1026,302,-21,31,0,0,0,0,0,0,0,37,40,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Cole Redalen,79748,1038,303,-20,T32,0,0,0,0,0,0,1,39,34,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Richard Wysocki,38008,1051,303,-20,T32,0,0,0,0,0,0,0,38,38,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Hjalte Jensen,129061,1029,304,-19,34,0,0,0,0,0,0,0,40,37,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Albert Tamm,76669,1022,305,-18,T35,0,0,0,0,0,0,0,31,47,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Eetu Tuominen,131056,1028,305,-18,T35,0,0,0,0,0,0,0,35,42,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Evan Smith,101574,1037,305,-18,T35,0,0,0,0,0,0,0,37,38,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Luke Taylor,102119,1034,305,-18,T35,0,0,0,0,0,0,0,43,35,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Matt Bell,48950,1025,305,-18,T35,0,0,0,0,0,0,0,35,41,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Miio Hämäläinen,201845,1022,305,-18,T35,0,0,0,0,0,0,0,39,35,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Nestori Tuhkanen,110462,1023,305,-18,T35,0,0,0,0,0,0,1,38,32,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Chris Clemons,50401,1018,306,-17,42,0,0,0,0,0,0,0,30,48,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Matthew Orum,18330,1033,307,-16,T43,0,0,0,0,0,0,0,33,41,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Roland Kõur,108695,1024,307,-16,T43,0,0,0,0,0,0,0,34,44,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Andrew Presnell,63765,1030,308,-15,T45,0,0,0,0,0,0,0,33,42,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,G.T. Hancock,49885,1024,308,-15,T45,0,0,0,0,0,0,0,37,36,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jaden Rye,153363,1027,308,-15,T45,0,0,0,0,0,0,0,37,40,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Onni Ruusunen,131002,1027,308,-15,T45,0,0,0,0,0,0,0,33,44,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Väinö Mäkelä,59635,1031,308,-15,T45,0,0,0,0,0,0,0,36,38,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Øyvind Jarnes,41884,1021,308,-15,T45,0,0,0,0,0,0,0,29,48,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Braeden Sides,129963,1024,309,-14,T51,0,0,0,0,0,0,0,34,38,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Eagle McMahon,37817,1040,309,-14,T51,0,0,0,0,0,0,0,32,42,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joni Peltonen,94872,1020,309,-14,T51,0,0,0,0,0,0,0,38,34,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kasperi Pakarinen,117337,,309,-14,T51,0,0,0,0,0,0,0,36,35,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Robert Burridge,96512,1029,309,-14,T51,0,0,0,0,0,0,0,31,43,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Benjamin Callaway,39015,1022,310,-13,T56,0,0,0,0,0,0,0,35,35,20,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Cale Leiviska,24341,1035,310,-13,T56,0,0,0,0,0,0,0,32,44,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jake Hebenheimer,43762,1018,310,-13,T56,0,0,0,0,0,0,0,30,45,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kasperi Kivimäki,134628,1016,310,-13,T56,0,0,0,0,0,0,0,34,41,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Silver Lätt,61186,1020,310,-13,T56,0,0,0,0,0,0,0,30,45,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tuomas Hyytiäinen,65715,,310,-13,T56,0,0,0,0,0,0,0,31,44,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Zachary Nash,101197,1030,310,-13,T56,0,0,0,0,0,0,0,33,39,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Dennis Augustsson,98130,1023,311,-12,T63,0,0,0,0,0,0,1,28,47,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Elias Luukkonen,106059,1017,311,-12,T63,0,0,0,0,0,0,0,29,48,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Harry Chace,131546,1024,311,-12,T63,0,0,0,0,0,0,0,34,40,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jakub Semerád,91925,1022,311,-12,T63,0,0,0,0,0,0,0,33,36,21,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jesse Nieminen,58923,1025,311,-12,T63,0,0,0,0,0,0,0,30,46,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joona Heinänen,58926,1025,311,-12,T63,0,0,0,0,0,0,0,29,48,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Justus Sarvi,165010,1024,311,-12,T63,0,0,0,0,0,0,0,30,45,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Luke Humphries,69424,1014,311,-12,T63,0,0,0,0,0,0,0,31,43,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kristian Kuoksa,107078,,312,-11,T71,0,0,0,0,0,0,0,30,45,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Nikko Locastro,11534,1021,312,-11,T71,0,0,0,0,0,0,0,25,54,11,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Gavin Rathbun,60436,1022,313,-10,T73,0,0,0,0,0,0,0,28,46,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Henrik Haaland,174255,1014,313,-10,T73,0,0,0,0,0,0,0,33,38,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jake Monn,98722,1029,313,-10,T73,0,0,0,0,0,0,0,24,54,12,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Nathan Sexton,18824,1021,314,-9,T76,0,0,0,0,0,0,0,30,44,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Rainers Balodis,158640,1012,314,-9,T76,0,0,0,0,0,0,0,31,41,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Raven Newsom,88212,1026,314,-9,T76,0,0,0,0,0,0,0,34,37,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Paul Oman,34344,1025,315,-8,T79,0,0,0,0,0,0,0,30,42,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Teemu Lampainen,107567,1023,315,-8,T79,0,0,0,0,0,0,0,29,45,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Clay Edwards,91397,1020,316,-7,T81,0,0,0,0,0,0,0,25,52,13,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Evan Walker,190731,1021,316,-7,T81,0,0,0,0,0,0,0,30,42,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joonas Aalto,71551,,316,-7,T81,0,0,0,0,0,0,0,30,44,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Arvid Håkansson,119628,1006,317,-6,T84,0,0,0,0,0,0,0,27,46,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,James Conrad,17295,1015,317,-6,T84,0,0,0,0,0,0,0,28,47,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Oskari Vikström,74130,,317,-6,T84,0,0,0,0,0,0,0,30,42,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ville Parpala,110596,1021,317,-6,T84,0,0,0,0,0,0,0,23,50,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Dorian Legendre,63655,1007,318,-5,T88,0,0,0,0,0,0,0,24,51,15,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Evan Scott,89394,1026,318,-5,T88,0,0,0,0,0,0,0,30,43,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joseph Anderson,122356,1029,318,-5,T88,0,0,0,0,0,0,0,30,39,21,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Karl Johan Nybo,28903,,319,-4,T91,0,0,0,0,0,0,0,19,57,14,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kevin Jones,41760,1020,319,-4,T91,0,0,0,0,0,0,0,27,44,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Mathias Villota,103114,1018,319,-4,T91,0,0,0,0,0,0,0,24,49,17,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Matias Kalaoja,80858,1013,319,-4,T91,0,0,0,0,0,0,0,27,45,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jeremy Koling,33705,1019,320,-3,T95,0,0,0,0,0,0,0,31,33,26,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Paul Ulibarri,27171,1031,320,-3,T95,0,0,0,0,0,0,0,32,36,22,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Teemu Talikainen,155087,1004,320,-3,T95,0,0,0,0,0,0,0,31,39,20,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Colten Montgomery,35876,1002,321,-2,T98,0,0,0,0,0,0,0,30,42,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Noah Meintsma,56555,1023,321,-2,T98,0,0,0,0,0,0,0,25,46,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Andrew Miranda,118426,1014,322,-1,T100,0,0,0,0,0,0,0,20,54,16,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Morten Brenna,79859,1010,322,-1,T100,0,0,0,0,0,0,0,24,46,20,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tony Ferro,33551,1027,325,2,102,0,0,0,0,0,0,0,25,46,19,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Adrian Chevalier,104894,1003,329,6,103,0,0,0,0,0,0,0,25,45,20,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Lucas Oberholtzer Hess,90439,1017,330,7,104,0,0,0,0,0,0,0,23,49,18,5,90
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Chris Shotwell,41918,1002,259,-1,T105,0,0,0,0,0,0,0,25,29,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Garrett Gurthie,13864,1017,259,-1,T105,0,0,0,0,0,0,0,19,37,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jasper Heino,57280,,259,-1,T105,0,0,0,0,0,0,0,21,33,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Luukas Rokkanen,64917,1007,259,-1,T105,0,0,0,0,0,0,0,16,45,11,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Thomas Gilbert,85850,1019,259,-1,T105,0,0,0,0,0,0,0,30,23,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Matthew Alexander,138103,1010,260,0,T110,0,0,0,0,0,0,0,25,31,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Rasmus Metsamaa,92779,1002,260,0,T110,0,0,0,0,0,0,0,18,36,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Severi Saviniemi,80974,1015,260,0,T110,0,0,0,0,0,0,0,23,31,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Aapo Karhi,82562,1002,261,1,T113,0,0,0,0,0,0,0,19,37,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Chandler Kramer,139228,1027,261,1,T113,0,0,0,0,0,0,0,19,37,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Eetu Salomäki,117593,1011,261,1,T113,0,0,0,0,0,0,0,19,37,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Håkon Kveseth,74569,1000,261,1,T113,0,0,0,0,0,0,0,20,34,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Randy Dueck,139619,997,261,1,T113,0,0,0,0,0,0,0,13,45,14,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Rasmus Tuominen,104299,,261,1,T113,0,0,0,0,0,0,0,22,32,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Mika Laikko,116266,1006,262,2,T119,0,0,0,0,0,0,0,17,39,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Onni Arminen,130692,,262,2,T119,0,0,0,0,0,0,0,21,31,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Paul Krans,132521,1033,262,2,T119,0,0,0,0,0,0,0,21,36,15,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ville Ahokas,53538,,262,2,T119,0,0,0,0,0,0,0,20,36,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Fritiof Fagergren,135125,1008,263,3,T123,0,0,0,0,0,0,0,16,38,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Justin Rosak,98161,1004,263,3,T123,0,0,0,0,0,0,0,15,40,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Nikola Arkko,199203,1017,263,3,T123,0,0,0,0,0,0,0,28,21,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Otto Mäkinen,159317,1011,263,3,T123,0,0,0,0,0,0,0,24,29,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tomáš Mozola,103693,1006,263,3,T123,0,0,0,0,0,0,0,23,30,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Eemi Pantsari,133345,1013,264,4,T128,0,0,0,0,0,0,0,20,35,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Gustav Dahlén,102051,1009,264,4,T128,0,0,0,0,0,0,0,17,39,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Cam Rico,28560,1009,265,5,T130,0,0,0,0,0,0,0,14,40,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Connor Rock,73695,1021,265,5,T130,0,0,0,0,0,0,0,23,34,15,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Garett Everson,98164,1012,265,5,T130,0,0,0,0,0,0,0,17,40,15,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Timo Hartmann,84690,1034,265,5,T130,0,0,0,0,0,0,0,21,36,15,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joe O'Brien,64002,985,266,6,T134,0,0,0,0,0,0,0,8,50,14,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ryan Jewell,180216,1011,266,6,T134,0,0,0,0,0,0,0,15,42,15,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tee Vetne,62088,,266,6,T134,0,0,0,0,0,0,0,17,39,16,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Aviel Gomez,127492,1024,267,7,T137,0,0,0,0,0,0,0,11,44,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Gregg Barsby,15857,1025,267,7,T137,0,0,0,0,0,0,0,18,35,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kieran Hampson,171703,1008,267,7,T137,0,0,0,0,0,0,0,20,33,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Kristo Raik,85483,,267,7,T137,0,0,0,0,0,0,0,17,36,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Leevi Isotalo,116000,1004,267,7,T137,0,0,0,0,0,0,0,16,36,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Linus Carlsson,82098,1017,267,7,T137,0,0,0,0,0,0,0,18,37,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Rienk Kan,89184,997,267,7,T137,0,0,0,0,0,0,0,20,35,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jacky Chen,128836,1009,268,8,T144,0,0,0,0,0,0,1,19,31,21,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Knut Valen Håland,35070,1003,268,8,T144,0,0,0,0,0,0,0,18,36,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ryan Monn,144929,1021,268,8,T144,0,0,0,0,0,0,0,21,34,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Stanislaus Amann,87790,1005,269,9,147,0,0,0,0,0,0,0,15,37,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ian Burchett,60435,1006,270,10,T148,0,0,0,0,0,0,0,15,35,22,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jake Brown,140954,1013,270,10,T148,0,0,0,0,0,0,0,14,40,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Nate Metzler,41220,1003,270,10,T148,0,0,0,0,0,0,0,16,35,21,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Randon Latta,51685,1001,270,10,T148,0,0,0,0,0,0,0,16,37,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Petr Striegler,89634,,271,11,152,0,0,0,0,0,0,0,16,33,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Francis Orange,146432,981,272,12,T153,0,0,0,0,0,0,0,13,42,17,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Lucas Carmichael,151146,1015,272,12,T153,0,0,0,0,0,0,0,18,34,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Yutaro Sakai,80387,1024,272,12,T153,0,0,0,0,0,0,0,16,36,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Juuso Timonen,109506,1010,273,13,T156,0,0,0,0,0,0,0,15,36,21,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Niilo Hongisto,214251,,273,13,T156,0,0,0,0,0,0,0,14,38,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jacob Blair,52785,1010,274,14,T158,0,0,0,0,0,0,0,17,34,21,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joey Temali,100818,996,274,14,T158,0,0,0,0,0,0,0,20,29,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Scott Stokely,3140,994,274,14,T158,0,0,0,0,0,0,0,14,35,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Arttu Aaltonen,216551,991,275,15,T161,0,0,0,0,0,0,0,15,37,20,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Pekka Hyvönen,107079,1007,275,15,T161,0,0,0,0,0,0,0,16,32,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Samuel Hänninen,87964,1000,275,15,T161,0,0,0,0,0,0,0,13,40,19,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tsz Ho Ming,84274,988,275,15,T161,0,0,0,0,0,0,0,15,39,18,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Lauri Hämäläinen,72939,,276,16,165,0,0,0,0,0,0,1,18,29,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,AJ Carey,61770,,277,17,166,0,0,0,0,0,0,0,18,32,22,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Whit Stephenson,241573,996,279,19,T167,0,0,0,0,0,0,0,10,37,25,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Zach Melton,38631,1001,279,19,T167,0,0,0,0,0,0,0,12,38,22,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Christoph Weiß,114954,1005,280,20,169,0,0,0,0,0,0,0,13,35,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Shane McCullen,102040,1007,284,24,170,0,0,0,0,0,0,0,16,33,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Diego Perez,141079,981,285,25,T171,0,0,0,0,0,0,0,9,39,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,John Willis II,23844,1003,285,25,T171,0,0,0,0,0,0,0,15,34,23,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Trent Somerville,92729,998,285,25,T171,0,0,0,0,0,0,0,13,31,28,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Konstantin Basos,128056,963,286,26,174,0,0,0,0,0,0,0,7,41,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Daniel Kokunja,238482,974,287,27,T175,0,0,0,0,0,0,0,11,34,27,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Edward Ward,62387,995,287,27,T175,0,0,0,0,0,0,0,11,34,27,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Songqing Guo,113958,982,290,30,177,0,0,0,0,0,0,0,13,28,31,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Yehuda Shenvald,203055,962,292,32,178,0,0,0,0,0,0,0,5,43,24,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,León Blanco,74135,967,293,33,179,0,0,0,0,0,0,0,11,33,28,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ellert Georgsson,152023,987,295,35,180,0,0,0,0,0,0,0,9,30,33,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Domas Šimkūnas,198786,953,297,37,181,0,0,0,0,0,0,0,8,31,33,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Carl Rose,57352,998,300,40,T182,0,0,0,0,0,0,0,9,28,35,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jean Poignee,117011,940,300,40,T182,0,0,0,0,0,0,0,10,31,31,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Blaz Petrovic,163272,966,301,41,T184,0,0,0,0,0,0,0,5,41,26,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Edoardo Turri,206160,970,301,41,T184,0,0,0,0,0,0,0,9,31,32,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Dima Gerashchenko,109329,,302,42,T186,0,0,0,0,0,0,0,8,32,32,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Max Schulze,263305,984,302,42,T186,0,0,0,0,0,0,0,10,32,30,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Jaime Velasquez,251455,959,303,43,188,0,0,0,0,0,0,0,8,28,36,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tamás Kovács,71780,964,304,44,189,0,0,0,0,0,0,0,6,32,34,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Tomislav Goricki,69640,962,309,49,190,0,0,0,0,0,0,0,2,33,37,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Patryk Kies,126233,970,310,50,T191,0,0,0,0,0,0,0,7,31,34,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Robert Abel,28544,930,310,50,T191,0,0,0,0,0,0,0,5,28,39,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Ben Matthews,146880,,312,52,193,0,0,0,0,0,0,0,2,29,41,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,George Maltsiniotis,44146,944,316,56,194,0,0,0,0,0,0,0,6,30,36,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Federico José Sörenson Sánchez,109371,937,317,57,195,0,0,0,0,0,0,0,3,27,42,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Alex Meulenbeld,123851,934,318,58,196,0,0,0,0,0,0,0,2,31,39,5,72
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Noah Smithson,111132,1000,999,6,197,0,0,0,0,0,0,0,13,28,19,5,60
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Philo Brathwaite,26416,1005,999,7,198,0,0,0,0,0,0,0,14,25,15,5,54
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Joshua Anthon,17946,1017,999,11,199,0,0,0,0,0,0,0,0,10,8,5,18
-sfo,90947,2025,2025 PDGA Professional World Championships Presented By Discmania,MPO,Major,Hannes Kurn,130745,1012,999,,200,0,0,0,0,0,0,0,0,4,4,5,8
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Richard Wysocki,38008,1051,171,-24,1,1,1,1,1,0,0,2,23,26,3,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1059,172,-23,2,0,1,1,1,0,0,1,27,22,4,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Paul McBeth,27523,1047,174,-21,3,0,1,1,1,0,0,0,28,21,5,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Kyle Klein,85132,1043,175,-20,4,0,0,1,1,0,0,0,28,18,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Chandler Kramer,139228,1027,177,-18,T5,0,0,1,1,0,0,0,21,30,3,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Sullivan Tipton,78817,1039,177,-18,T5,0,0,1,1,0,0,0,26,21,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Adam Hammes,57365,1034,178,-17,7,0,0,1,1,0,0,0,24,23,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jake Hebenheimer,43762,1018,181,-14,8,0,0,1,1,0,0,1,18,30,5,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Aaron Gossage,35449,1039,182,-13,T9,0,0,1,1,1,0,1,23,20,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Andrew Presnell,63765,1030,182,-13,T9,0,0,1,1,0,0,0,18,31,5,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Evan Smith,101574,1037,182,-13,T9,0,0,1,1,0,0,0,25,18,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Ezra Robinson,50671,1041,182,-13,T9,0,0,1,1,0,0,0,23,22,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Isaac Robinson,50670,1048,182,-13,T9,0,0,1,1,0,0,0,20,28,6,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Joel Freeman,69509,1034,182,-13,T9,0,0,1,1,0,0,0,22,24,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Dallas Garber,138089,1025,183,-12,T15,0,0,0,1,0,0,0,20,26,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Harper Thompson,60259,1023,183,-12,T15,0,0,0,1,0,0,0,19,28,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Joseph Anderson,122356,1029,183,-12,T15,0,0,0,1,0,0,0,18,30,6,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Niklas Anttila,91249,1045,183,-12,T15,0,0,0,1,0,0,0,22,23,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Elijah Bickel,94844,1021,184,-11,T19,0,0,0,1,0,0,0,18,30,6,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Simon Lizotte,8332,1036,184,-11,T19,0,0,0,1,0,0,1,19,25,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Zachary Nash,101197,1030,184,-11,T19,0,0,0,1,0,0,0,21,25,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Braeden Sides,129963,1024,185,-10,T22,0,0,0,0,0,0,0,21,23,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Casey White,81739,1031,185,-10,T22,0,0,0,0,0,0,0,20,25,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Calvin Heimburg,45971,1051,186,-9,T24,0,0,0,0,0,0,0,21,22,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Eagle McMahon,37817,1040,186,-9,T24,0,0,0,0,0,0,0,19,27,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Luke Taylor,102119,1034,186,-9,T24,0,0,0,0,0,0,1,17,28,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Ryan Monn,144929,1021,186,-9,T24,0,0,0,0,0,0,0,18,29,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Corey Ellis,44512,1032,187,-8,T28,0,0,0,0,0,0,0,20,26,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jonathan Borzick,119794,1029,187,-8,T28,0,0,0,0,0,0,0,16,31,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Paul Krans,132521,1033,187,-8,T28,0,0,0,0,0,0,0,20,25,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Ty Love,89959,1023,187,-8,T28,0,0,0,0,0,0,0,21,23,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Andrew Marwede,75590,1034,188,-7,T32,0,0,0,0,0,0,0,20,24,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Anthony Barela,44382,1043,188,-7,T32,0,0,0,0,0,0,0,17,29,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Chris Dickerson,62467,1037,188,-7,T32,0,0,0,0,0,0,0,17,28,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Garrett Gurthie,13864,1017,188,-7,T32,0,0,0,0,0,0,0,17,28,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Matthew Orum,18330,1033,188,-7,T32,0,0,0,0,0,0,0,17,30,7,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Micah Groth,113179,1027,188,-7,T32,0,0,0,0,0,0,0,17,28,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Clay Edwards,91397,1020,189,-6,38,0,0,0,0,0,0,0,17,29,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Gavin Babcock,80331,1033,190,-5,T39,0,0,0,0,0,0,0,15,31,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jakub Semerád,91925,1022,190,-5,T39,0,0,0,0,0,0,0,17,27,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Nathan Queen,68286,1027,190,-5,T39,0,0,0,0,0,0,0,15,31,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jake Monn,98722,1029,191,-4,T42,0,0,0,0,0,0,0,17,26,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Matt Bell,48950,1025,191,-4,T42,0,0,0,0,0,0,0,14,30,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Alan Vazquez,198236,990,192,-3,T44,0,0,0,0,0,0,0,14,31,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Bradley Williams,31644,1031,192,-3,T44,0,0,0,0,0,0,0,14,31,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Parker Welck,39491,1029,192,-3,T44,0,0,0,0,0,0,0,20,24,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Wyatt Mahoney,89460,1018,192,-3,T44,0,0,0,0,0,0,0,20,20,14,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Gavin Phillips,119504,1016,193,-2,T48,0,0,0,0,0,0,0,15,28,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Mason Ford,72844,1037,193,-2,T48,0,0,0,0,0,0,0,13,33,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Austin Turner,54049,1031,194,-1,T50,0,0,0,0,0,0,0,10,35,9,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Colten Montgomery,35876,1002,194,-1,T50,0,0,0,0,0,0,0,14,28,12,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Ezra Aderhold,121715,1032,194,-1,T50,0,0,0,0,0,0,0,20,21,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jaden Rye,153363,1027,194,-1,T50,0,0,0,0,0,0,1,16,23,14,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Cale Leiviska,24341,1035,195,0,T54,0,0,0,0,0,0,0,13,31,10,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jamie Kiep,68815,1014,195,0,T54,0,0,0,0,0,0,0,9,37,8,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Robert Burridge,96512,1029,195,0,T54,0,0,0,0,0,0,0,18,20,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Austen Bates,130724,1025,196,1,T57,0,0,0,0,0,0,0,17,26,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Gavin Rathbun,60436,1022,196,1,T57,0,0,0,0,0,0,1,10,32,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Connor O'Reilly,99648,1008,197,2,T59,0,0,0,0,0,0,0,13,28,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Harry Chace,131546,1024,197,2,T59,0,0,0,0,0,0,2,17,18,17,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Luke Humphries,69424,1014,198,3,T61,0,0,0,0,0,0,0,13,29,12,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Raven Newsom,88212,1026,198,3,T61,0,0,0,0,0,0,0,15,27,12,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Zach Arlinghaus,65266,1020,198,3,T61,0,0,0,0,0,0,0,11,32,11,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Calvin Lonnquist,145206,1015,199,4,T64,0,0,0,0,0,0,0,13,26,15,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Evan Scott,89394,1026,199,4,T64,0,0,0,0,0,0,0,14,24,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jacob Courtis,56511,1006,200,5,T66,0,0,0,0,0,0,0,16,22,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Luke Samson,59419,1014,200,5,T66,0,0,0,0,0,0,0,11,31,12,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Miles Sayer,91543,1013,200,5,T66,0,0,0,0,0,0,0,18,22,14,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Parker Austin,165881,1014,200,5,T66,0,0,0,0,0,0,0,12,26,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Silas Schultz,79047,1031,200,5,T66,0,0,0,0,0,0,0,10,32,12,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Paul Ulibarri,27171,1031,201,6,71,0,0,0,0,0,0,0,10,31,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Logan Plake,76846,1005,202,7,72,0,0,0,0,0,0,0,15,21,18,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Chris Clemons,50401,1018,203,8,T73,0,0,0,0,0,0,0,14,23,17,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Eric Oakley,53565,1010,203,8,T73,0,0,0,0,0,0,0,13,24,17,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,J.J. Campbell,170839,1001,203,8,T73,0,0,0,0,0,0,0,11,30,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Alden Harris,98091,1023,204,9,T76,0,0,0,0,0,0,0,10,31,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Trevon Crowe,67172,1005,204,9,T76,0,0,0,0,0,0,0,7,32,15,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jacob Blair,52785,1010,205,10,78,0,0,0,0,0,0,0,13,23,18,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Randon Latta,51685,1001,206,11,79,0,0,0,0,0,0,0,12,25,17,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Elijah Rider Brandt,143853,1005,207,12,T80,0,0,0,0,0,0,0,10,31,13,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Sawyer Barlow,165190,1000,207,12,T80,0,0,0,0,0,0,0,8,30,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,James Conrad,17295,1015,208,13,T82,0,0,0,0,0,0,0,11,25,18,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Justin Rosak,98161,1004,208,13,T82,0,0,0,0,0,0,0,9,29,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Cole Redalen,79748,1038,209,14,T84,0,0,0,0,0,0,0,13,23,18,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Matthew Alexander,138103,1010,209,14,T84,0,0,0,0,0,0,0,7,30,17,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Bo McLaughlin,87143,1017,210,15,86,0,0,0,0,0,0,0,10,24,20,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Kevin Jones,41760,1020,214,19,T87,0,0,0,0,0,0,0,7,28,19,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Zach Melton,38631,1001,214,19,T87,0,0,0,0,0,0,0,3,35,16,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Noah Feil,242013,999,217,22,89,0,0,0,0,0,0,1,8,24,21,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Corbin Milchesky,153445,992,220,25,90,0,0,0,0,0,0,0,7,25,22,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Jared Stoll,68103,997,223,28,T91,0,0,0,0,0,0,0,11,22,21,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Joey Temali,100818,996,223,28,T91,0,0,0,0,0,0,0,5,24,25,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Lucas Carmichael,151146,1015,227,32,93,0,0,0,0,0,0,0,6,26,22,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Wynn Coggin,155128,994,229,34,94,0,0,0,0,0,0,0,2,25,27,3,54
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Albert Tamm,76669,1022,999,5,95,0,0,0,0,0,0,0,5,7,6,3,18
+sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Cole Hauser,119854,1009,999,12,96,0,0,0,0,0,0,0,0,8,10,3,18
