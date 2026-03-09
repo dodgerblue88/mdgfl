@@ -1,4 +1,6 @@
 [
   {"id":"sfo","name":"SFO — Supreme Flight Open","csv":"data/sfo.csv"},
-  {"id":"test","name":"TEST — Supreme Flight Open","csv":"data/test.csv"}
+  {"id":"test","name":"TEST — Supreme Flight Open","csv":"data/test.csv"},
+  {"id":"test2","name":"TEST2 — Supreme Flight Open","csv":"data/test2.csv"},
+  {"id":"test3","name":"TEST3 — Supreme Flight Open","csv":"data/test3.csv"}
 ]
