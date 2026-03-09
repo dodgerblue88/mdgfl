@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -99,6 +100,7 @@
 
     .player-row td { color: var(--txt); }
     .player-row .col-team .muted { color: var(--muted) !important; }
+    .player-row .player-event-cell { color: var(--txt) !important; }
 
     th.col-season,
     td.col-season {
@@ -412,10 +414,12 @@
 
           for (let i = 0; i < events.length; i++) {
             const counted = !!(team._countedByEvent[i] && team._countedByEvent[i].has(p._id));
-            const points = Number(p._perEvent[i] || 0);
+            const rawPoints = p && Array.isArray(p._perEvent) ? p._perEvent[i] : 0;
+            const points = Number.isFinite(Number(rawPoints)) ? Number(rawPoints) : 0;
             const td = document.createElement("td");
-            td.className = "col-event" + (counted ? "" : " excluded-score");
-            td.innerHTML = `<span>${points}</span>`;
+            td.className = "col-event player-event-cell" + (counted ? "" : " excluded-score");
+            td.setAttribute("data-event-index", String(i));
+            td.textContent = String(points);
             trP.appendChild(td);
           }
           tbody.appendChild(trP);
