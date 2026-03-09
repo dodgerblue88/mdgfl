@@ -54,7 +54,7 @@ def try_fetch_round_scores(
     )
     r = session.get(url, timeout=30)
 
-    if r.status_code == 404:
+    if r.status_code in (403, 404):
         return None
 
     r.raise_for_status()
@@ -340,7 +340,17 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
 
     played_rounds = discover_played_rounds(session, event_id, division)
     if not played_rounds:
-        raise RuntimeError(f"No playable round data found for {division} in event {event_id}.")
+        print(f"SKIPPED {site_event_id.upper()}: no playable round data yet for {division} in event {event_id}")
+        return {
+            "site_event_id": site_event_id,
+            "event_id": event_id,
+            "division": division,
+            "event_name": event_name,
+            "output_csv": "",
+            "players": 0,
+            "played_rounds": [],
+            "skipped": True,
+        }
 
     final_results_round = max(played_rounds)
 
@@ -530,6 +540,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
         "output_csv": str(output_path),
         "players": len(out_rows),
         "played_rounds": played_rounds,
+        "skipped": False,
     }
 
 
@@ -551,16 +562,18 @@ def main() -> None:
 
     print("\n=== Summary ===")
     for result in results:
-        print(
-            f"{result['site_event_id'].upper()}: "
-            f"{result['players']} players -> {result['output_csv']}"
-        )
+        if result.get("skipped"):
+            print(f"{result['site_event_id'].upper()}: skipped (no live round data yet)")
+        else:
+            print(
+                f"{result['site_event_id'].upper()}: "
+                f"{result['players']} players -> {result['output_csv']}"
+            )
 
     if failures:
         print("\n=== Failures ===")
         for site_event_id, message in failures:
             print(f"{site_event_id.upper()}: {message}")
-
         raise SystemExit(1)
 
 
