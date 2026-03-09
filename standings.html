@@ -200,7 +200,7 @@
 
       const header = rows[0].map(h => norm(h));
       const idxPdga = findColumnIndex(header, ["pdga", "pdga #", "pdga#", "pdganumber", "pdga number"]);
-      const idxPts  = findColumnIndex(header, ["total points", "totalpoints", "points total", "total_points", "total_point"]);
+      const idxPts  = findColumnIndex(header, ["total points", "totalpoints", "points total", "total_points", "total_point", "fantasy points", "fantasypoints", "points"]);
 
       if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
       if (idxPts  < 0) throw new Error(`${csvPath}: missing Total Points column`);
@@ -401,9 +401,14 @@
           for (let i = 0; i < events.length; i++) {
             const td = document.createElement("td");
             td.className = "col-event";
-            td.textContent = (p._perEvent?.[i] ?? 0);
+            const score = Number(p._perEvent?.[i] ?? 0);
             const counted = !!(team._countedByEvent?.[i] && team._countedByEvent[i].has(p._id));
-            if (!counted && Number(p._perEvent?.[i] ?? 0) !== 0) td.classList.add('excluded-score');
+            if (!counted && score !== 0) {
+              td.classList.add('excluded-score');
+              td.innerHTML = `<s>${score}</s>`;
+            } else {
+              td.textContent = score;
+            }
             trP.appendChild(td);
           }
 
@@ -411,7 +416,7 @@
         });
       });
 
-      document.getElementById("footer").textContent = `Loaded ${currentTeams.length} team(s) • ${events.length} event(s)`;
+      document.getElementById("footer").textContent = `Loaded ${currentTeams.length} team(s) • ${events.length} event(s) • Team totals count only the top 5 player scores per event`;
     }
 
     async function loadAndRender(){
