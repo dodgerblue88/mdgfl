@@ -79,18 +79,47 @@
     }
 
     .rank-pill {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 197, 66, .25);
+      background: rgba(245, 197, 66, .10);
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .movement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 30px;
-      height: 30px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.55);
-      color: #fff;
-      font-weight: 800;
+      min-width: 22px;
+      margin-left: 8px;
+      font-size: 14px;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    .movement.up {
+      color: #6fbf4b;
+    }
+
+    .movement.down {
+      color: var(--mdgfl-gold);
+    }
+
+    .movement.flat {
+      color: rgba(255,255,255,.35);
+      font-size: 11px;
+      min-width: 12px;
+    }
+
+    .movement.poo {
+      font-size: 18px;
       line-height: 1;
-      box-sizing: border-box;
     }
   </style>
 </head>
@@ -254,6 +283,24 @@
       return map;
     }
 
+    function movementInfo(currentRank, previousRank) {
+      if (!Number.isFinite(previousRank) && Number.isFinite(currentRank)) return { cls: "up", symbol: "▲", label: "New to rankings" };
+      if (!Number.isFinite(currentRank)) return { cls: "flat", symbol: "•", label: "No change" };
+      if (currentRank < previousRank) return { cls: "up", symbol: "▲", label: `Up ${previousRank - currentRank}` };
+      if (currentRank > previousRank) return { cls: "down", symbol: "▼", label: `Down ${currentRank - previousRank}` };
+      return { cls: "flat", symbol: "•", label: "No change" };
+    }
+
+    function movementHtml(info) {
+      return `<span class="movement ${info.cls}" title="${escapeHtml(info.label)}">${info.symbol}</span>`;
+    }
+
+    function buildRankMap(items, getKey) {
+      const map = new Map();
+      items.forEach((item, idx) => map.set(getKey(item), idx + 1));
+      return map;
+    }
+
     function computeTeams(events, roster, pointsByEvent) {
       const teams = (roster?.teams || []).map((t, idx) => ({
         index: idx,
@@ -322,7 +369,7 @@
       return teams;
     }
 
-    function buildTable({ events, teams }) {
+    function buildTable({ events, teams, previousRankMap }) {
       const thead = document.getElementById("thead");
       const tbody = document.getElementById("tbody");
 
@@ -378,7 +425,12 @@
 
         const tdName = document.createElement("td");
         tdName.className = "col-team";
-        tdName.innerHTML = `<strong>${escapeHtml(team.name)}</strong>`;
+        const move = movementInfo(rankIdx + 1, previousRankMap.get(team.name));
+        const isLast = rankIdx === teams.length - 1;
+        const indicator = isLast
+          ? '<span class="movement poo" title="Meme of Shame">💩</span>'
+          : movementHtml(move);
+        tdName.innerHTML = `<strong>${escapeHtml(team.name)}</strong>${indicator}`;
         trTeam.appendChild(tdName);
 
         const tdSeason = document.createElement("td");
@@ -446,7 +498,11 @@
       }
 
       const teams = computeTeams(events, roster, pointsByEvent);
-      buildTable({ events, teams });
+      const previousEvents = events.slice(0, -1);
+      const previousTeams = computeTeams(previousEvents, roster, pointsByEvent);
+      const previousRankMap = buildRankMap(previousTeams, t => t.name);
+
+      buildTable({ events, teams, previousRankMap });
 
       document.getElementById("footer").textContent = `Loaded ${teams.length} team(s) • ${events.length} event(s)`;
     }
