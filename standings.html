@@ -15,18 +15,29 @@
       gap: 18px;
     }
 
-    tr.team-row td,
-    tr.team-row td strong {
+    tr.team-row td {
+      color: #fff !important;
+      font-weight: 700 !important;
+    }
+
+    tr.team-row .col-season {
       color: var(--mdgfl-gold) !important;
       font-weight: 800 !important;
     }
 
     tr.player-row td {
       color: var(--txt) !important;
+      font-weight: 400 !important;
     }
 
     tr.player-row .col-team .muted {
-      color: var(--muted) !important;
+      color: var(--txt) !important;
+      font-weight: 400 !important;
+    }
+
+    tr.player-row .col-season {
+      color: var(--mdgfl-gold) !important;
+      font-weight: 400 !important;
     }
 
     td.excluded-score {
@@ -40,12 +51,46 @@
       text-align: center;
     }
 
-    th.col-team {
+    th.col-rank,
+    th.col-event,
+    th.col-season {
       text-align: center;
+      font-weight: 800;
+    }
+
+    th.col-team {
+      text-align: left;
+      color: #fff !important;
+      font-weight: 800 !important;
+    }
+
+    th.col-event {
+      color: #fff !important;
+      font-weight: 800 !important;
+    }
+
+    th.col-season {
+      color: var(--mdgfl-gold) !important;
+      font-weight: 800 !important;
     }
 
     td.col-team {
       text-align: left;
+    }
+
+    .rank-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      height: 30px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.55);
+      color: #fff;
+      font-weight: 800;
+      line-height: 1;
+      box-sizing: border-box;
     }
   </style>
 </head>
@@ -328,7 +373,7 @@
 
         const tdRank = document.createElement("td");
         tdRank.className = "col-rank";
-        tdRank.innerHTML = `<strong>${rankIdx + 1}</strong>`;
+        tdRank.innerHTML = `<span class="rank-pill">${rankIdx + 1}</span>`;
         trTeam.appendChild(tdRank);
 
         const tdName = document.createElement("td");
