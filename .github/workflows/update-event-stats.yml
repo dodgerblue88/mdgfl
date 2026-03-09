@@ -33,7 +33,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add data/stats/*.csv
+          git add data/stats || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
