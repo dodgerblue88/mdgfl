@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-03-08T18:54:58.278Z",
+  "updatedAt": "2026-03-09T00:09:03.481Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -28,8 +28,8 @@
           "pdga": "75590"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Jacob Courtis",
+          "pdga": "56511"
         }
       ]
     },
