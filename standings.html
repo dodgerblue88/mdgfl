@@ -91,6 +91,9 @@
       flex-wrap: wrap;
     }
 
+    .player-row td { color: var(--txt); }
+    .player-row .col-team .muted { color: var(--muted) !important; }
+
     th.col-season,
     td.col-season {
       font-weight: 800;
@@ -143,32 +146,37 @@
       for (let i = 0; i < text.length; i++) {
         const c = text[i];
         const next = text[i + 1];
-
         if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
         if (c === '"') { inQuotes = !inQuotes; continue; }
-
-        if (!inQuotes && c === ",") { row.push(cur); cur = ""; continue; }
+        if (!inQuotes && c === ',') { row.push(cur); cur = ""; continue; }
         if (!inQuotes && (c === "\n" || c === "\r")) {
           if (c === "\r" && next === "\n") i++;
           row.push(cur); cur = "";
-          if (row.some(v => v.trim() !== "")) rows.push(row);
+          if (row.some(v => String(v).trim() !== "")) rows.push(row);
           row = [];
           continue;
         }
         cur += c;
       }
       row.push(cur);
-      if (row.some(v => v.trim() !== "")) rows.push(row);
+      if (row.some(v => String(v).trim() !== "")) rows.push(row);
       return rows;
     }
 
-    function norm(s){ return String(s ?? "").trim().toLowerCase(); }
-    function sum(arr){ return arr.reduce((a,b)=>a+b,0); }
+    function norm(s){ return String(s ?? "").trim().toLowerCase().replace(/[_\s#]+/g, " "); }
+    function sum(arr){ return arr.reduce((a,b)=>a + Number(b || 0), 0); }
 
     function findColumnIndex(header, candidates){
+      const normalized = header.map(h => norm(h));
       for (const cand of candidates) {
-        const i = header.indexOf(cand);
-        if (i >= 0) return i;
+        const want = norm(cand);
+        const exact = normalized.indexOf(want);
+        if (exact >= 0) return exact;
+      }
+      for (const cand of candidates) {
+        const want = norm(cand);
+        const loose = normalized.findIndex(h => h.includes(want) || want.includes(h));
+        if (loose >= 0) return loose;
       }
       return -1;
     }
@@ -198,18 +206,17 @@
       const rows = parseCsv(text);
       if (rows.length < 2) return new Map();
 
-      const header = rows[0].map(h => norm(h));
-      const idxPdga = findColumnIndex(header, ["pdga", "pdga #", "pdga#", "pdganumber", "pdga number"]);
-      const idxPts  = findColumnIndex(header, ["total points", "totalpoints", "points total", "total_points", "total_point", "fantasy points", "fantasypoints", "points"]);
-
+      const header = rows[0];
+      const idxPdga = findColumnIndex(header, ["PDGA", "PDGA #", "PDGA Number", "PDGANumber"]);
+      const idxPts  = findColumnIndex(header, ["Total Points", "Points", "Fantasy Points", "Event Points"]);
       if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
-      if (idxPts  < 0) throw new Error(`${csvPath}: missing Total Points column`);
+      if (idxPts < 0) throw new Error(`${csvPath}: missing points column`);
 
       const map = new Map();
       for (const r of rows.slice(1)) {
         const pdga = String(r[idxPdga] ?? "").trim();
         if (!pdga) continue;
-        const rawPts = String(r[idxPts] ?? "").trim();
+        const rawPts = String(r[idxPts] ?? "").trim().replace(/,/g, "");
         const pts = Number(rawPts);
         map.set(pdga, Number.isFinite(pts) ? pts : 0);
       }
@@ -251,18 +258,18 @@
       const teams = (roster?.teams || []).map((t, idx) => ({
         index: idx,
         name: (t?.name || `Team ${idx+1}`),
-        players: (t?.players || []).filter(p => p && p.pdga)
+        players: (t?.players || []).filter(p => p && String(p.pdga || '').trim())
       }));
 
       for (const team of teams) {
         for (const p of team.players) {
           const perEvent = events.map(evt => {
             const m = pointsByEvent.get(evt.id);
-            return m ? (m.get(String(p.pdga)) || 0) : 0;
+            return m ? Number(m.get(String(p.pdga).trim()) || 0) : 0;
           });
           p._perEvent = perEvent;
           p._rawSeason = sum(perEvent);
-          p._id = String(p.pdga || p.player || "");
+          p._id = String(p.pdga || p.player || "").trim();
         }
 
         team._countedByEvent = events.map((evt, i) => {
@@ -274,20 +281,14 @@
           }));
 
           scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-
           const keep = new Set();
           if (scored.length <= 5) {
             scored.forEach(s => keep.add(s.id));
             return keep;
           }
 
-          const cutoffScore = scored[4].score;
-          const above = scored.filter(s => s.score > cutoffScore);
-          above.forEach(s => keep.add(s.id));
-          const remainingSlots = 5 - above.length;
-          const tied = scored.filter(s => s.score === cutoffScore)
-            .sort((a, b) => (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
+          const topFive = scored.slice(0, 5);
+          topFive.forEach(s => keep.add(s.id));
           return keep;
         });
 
@@ -301,7 +302,8 @@
         for (const p of team.players) {
           p._countedSeason = team._countedByEvent.reduce((acc, keep, i) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
         }
-        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || String(a.player).localeCompare(String(b.player)));
+
+        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || (b._rawSeason - a._rawSeason) || String(a.player).localeCompare(String(b.player)));
       }
 
       teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
@@ -319,19 +321,16 @@
       trh.appendChild(thRank);
       trh.appendChild(thTeam);
       trh.appendChild(thSeason);
-
       for (const evt of events) {
         const th = document.createElement("th");
         th.textContent = shortEventLabel(evt);
         th.className = "col-event";
         trh.appendChild(th);
       }
-
       thead.innerHTML = "";
       thead.appendChild(trh);
 
       tbody.innerHTML = "";
-
       if (!currentTeams.length) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
@@ -350,9 +349,7 @@
 
         const move = movementInfo(rankIdx + 1, previousRankMap.get(team.name));
         const isLast = rankIdx === currentTeams.length - 1;
-        const indicator = isLast
-          ? '<span class="movement poo" title="Meme of Shame">💩</span>'
-          : movementHtml(move);
+        const indicator = isLast ? '<span class="movement poo" title="Last place">💩</span>' : movementHtml(move);
 
         const tdRank = document.createElement("td");
         tdRank.className = "col-rank";
@@ -364,7 +361,7 @@
 
         const tdSeason = document.createElement("td");
         tdSeason.className = "col-season";
-        tdSeason.innerHTML = `<strong>${team._season || 0}</strong>`;
+        tdSeason.innerHTML = `<strong>${team._season}</strong>`;
 
         trTeam.appendChild(tdRank);
         trTeam.appendChild(tdName);
@@ -373,14 +370,14 @@
         for (let i = 0; i < events.length; i++) {
           const td = document.createElement("td");
           td.className = "col-event";
-          td.textContent = team._perEvent[i] || 0;
+          td.innerHTML = `<strong>${team._perEvent[i]}</strong>`;
           trTeam.appendChild(td);
         }
-
         tbody.appendChild(trTeam);
 
         team.players.forEach((p) => {
           const trP = document.createElement("tr");
+          trP.className = "player-row";
 
           const tdBlank = document.createElement("td");
           tdBlank.className = "col-rank";
@@ -392,56 +389,45 @@
 
           const tdPSeason = document.createElement("td");
           tdPSeason.className = "col-season";
-          tdPSeason.textContent = p._countedSeason || 0;
+          tdPSeason.textContent = String(p._countedSeason);
 
           trP.appendChild(tdBlank);
           trP.appendChild(tdPlayer);
           trP.appendChild(tdPSeason);
 
           for (let i = 0; i < events.length; i++) {
+            const counted = !!(team._countedByEvent[i] && team._countedByEvent[i].has(p._id));
+            const points = Number(p._perEvent[i] || 0);
             const td = document.createElement("td");
-            td.className = "col-event";
-            const score = Number(p._perEvent?.[i] ?? 0);
-            const counted = !!(team._countedByEvent?.[i] && team._countedByEvent[i].has(p._id));
-            if (!counted && score !== 0) {
-              td.classList.add('excluded-score');
-              td.innerHTML = `<s>${score}</s>`;
-            } else {
-              td.textContent = score;
-            }
+            td.className = "col-event" + (counted ? "" : " excluded-score");
+            td.innerHTML = `<span>${points}</span>`;
             trP.appendChild(td);
           }
-
           tbody.appendChild(trP);
         });
       });
 
-      document.getElementById("footer").textContent = `Loaded ${currentTeams.length} team(s) • ${events.length} event(s) • Team totals count only the top 5 player scores per event`;
+      document.getElementById("footer").textContent = `Loaded ${currentTeams.length} team(s) • ${events.length} event(s)`;
     }
 
     async function loadAndRender(){
       document.getElementById("tbody").innerHTML = `<tr><td class="muted">Loading…</td></tr>`;
-
       const roster = await loadRosters();
       const events = await loadEvents();
       if (!events.length) throw new Error("No events found in events.json");
-
       const pointsByEvent = new Map();
       for (const evt of events) {
         pointsByEvent.set(evt.id, await loadEventPointsMap(evt.csv));
       }
-
       const currentTeams = computeTeams(events, roster, pointsByEvent);
-      const previousTeams = computeTeams(events.slice(0, -1), roster, pointsByEvent);
+      const previousTeams = events.length > 1 ? computeTeams(events.slice(0, -1), roster, pointsByEvent) : [];
       const previousRankMap = buildRankMap(previousTeams, t => t.name);
-
       buildTable({ events, currentTeams, previousRankMap });
     }
 
     loadAndRender().catch(err => {
       console.error(err);
-      document.getElementById("tbody").innerHTML =
-        `<tr><td class="muted" style="padding:16px;">Error: ${escapeHtml(err.message)}</td></tr>`;
+      document.getElementById("tbody").innerHTML = `<tr><td class="muted" style="padding:16px;">Error: ${escapeHtml(err.message)}</td></tr>`;
     });
   </script>
 </body>
