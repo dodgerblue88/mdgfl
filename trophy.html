@@ -269,6 +269,34 @@
       white-space: nowrap;
     }
 
+
+    .trophy[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(6px);
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: rgba(12, 14, 20, .96);
+      border: 1px solid rgba(245, 197, 66, .24);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+      box-shadow: 0 10px 22px rgba(0,0,0,.28);
+      z-index: 10;
+    }
+
+    .trophy[data-tooltip]:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (max-width: 720px) {
       .team-head {
         align-items: flex-start;
@@ -315,11 +343,6 @@
         <h1>The Mediocre Disc Golf Fantasy League 2026</h1>
       </div>
     </header>
-
-    <section class="card trophy-room-card">
-      <h2 class="trophy-room-title">Trophy Room</h2>
-      <p class="muted trophy-room-subtitle">Event champions are displayed on centered shelves, ordered by total trophies won this season.</p>
-    </section>
 
     <section class="shelves" id="shelves">
       <div class="card team-card"><div class="muted">Loading trophy room…</div></div>
@@ -452,19 +475,19 @@
 
     function trophyVars(item, minScore, maxScore){
       const key = buildVariantKey(item.team, item.eventId);
-      const span = Math.max(1, maxScore - minScore);
-      const strength = Math.max(0, Math.min(1, (item.score - minScore) / span));
 
-      const bodyWidth = 34 + Math.round(seededNumber(key + 'w') * 24) + Math.round(strength * 10);
-      const bodyHeight = 42 + Math.round(seededNumber(key + 'h') * 24) + Math.round(strength * 14);
-      const stemWidth = 8 + Math.round(seededNumber(key + 'sw') * 8);
-      const stemHeight = 10 + Math.round(seededNumber(key + 'sh') * 12);
-      const neckWidth = stemWidth + 4 + Math.round(seededNumber(key + 'nw') * 10);
-      const neckHeight = 4 + Math.round(seededNumber(key + 'nh') * 7);
-      const baseWidth = bodyWidth - 6 + Math.round(seededNumber(key + 'bw') * 18);
-      const baseHeight = 10 + Math.round(seededNumber(key + 'bh') * 8);
-      const baseTopWidth = Math.max(18, baseWidth - 8 - Math.round(seededNumber(key + 'btw') * 10));
-      const baseTopHeight = 5 + Math.round(seededNumber(key + 'bth') * 5);
+      const scorePx = Math.max(56, Math.round(Number(item.score) || 0));
+      const bodyHeight = scorePx;
+      const widthFactor = 0.52 + seededNumber(key + 'wf') * 0.42;
+      const bodyWidth = Math.max(34, Math.round(scorePx * widthFactor));
+      const stemWidth = Math.max(10, Math.round(bodyWidth * (0.18 + seededNumber(key + 'sw') * 0.20)));
+      const stemHeight = Math.max(10, Math.round(scorePx * (0.12 + seededNumber(key + 'sh') * 0.10)));
+      const neckWidth = Math.max(stemWidth + 4, Math.round(bodyWidth * (0.24 + seededNumber(key + 'nw') * 0.18)));
+      const neckHeight = Math.max(5, Math.round(scorePx * (0.05 + seededNumber(key + 'nh') * 0.05)));
+      const baseWidth = Math.max(bodyWidth * 0.62, Math.round(bodyWidth * (0.72 + seededNumber(key + 'bw') * 0.34)));
+      const baseHeight = Math.max(12, Math.round(scorePx * (0.10 + seededNumber(key + 'bh') * 0.06)));
+      const baseTopWidth = Math.max(stemWidth + 8, Math.round(baseWidth * (0.68 + seededNumber(key + 'btw') * 0.16)));
+      const baseTopHeight = Math.max(5, Math.round(baseHeight * (0.42 + seededNumber(key + 'bth') * 0.30)));
       const topperType = pick(key + 'tt', ['none', 'orb', 'crown', 'flat']);
       const handleMode = pick(key + 'hm', ['both', 'left', 'right', 'none']);
       const bodyShape = pick(key + 'bs', ['round', 'taper', 'shield', 'arch', 'square']);
@@ -491,16 +514,16 @@
       const topperConfig = {
         none: { display: 'none', width: 0, height: 0, radius: '0' },
         orb: { display: 'block', width: Math.round(bodyWidth * .34), height: Math.round(bodyWidth * .34), radius: '999px' },
-        crown: { display: 'block', width: Math.round(bodyWidth * .62), height: 10, radius: '10px 10px 4px 4px' },
-        flat: { display: 'block', width: Math.round(bodyWidth * .46), height: 6, radius: '999px' }
+        crown: { display: 'block', width: Math.round(bodyWidth * .62), height: Math.max(10, Math.round(scorePx * .07)), radius: '10px 10px 4px 4px' },
+        flat: { display: 'block', width: Math.round(bodyWidth * .46), height: Math.max(6, Math.round(scorePx * .04)), radius: '999px' }
       }[topperType];
 
-      const handleWidth = 11 + Math.round(seededNumber(key + 'hw') * 10);
-      const handleHeight = Math.max(14, Math.round(bodyHeight * (.34 + seededNumber(key + 'hh') * .24)));
-      const handleTop = 6 + Math.round(seededNumber(key + 'ht') * 14);
-      const handleThickness = 3 + Math.round(seededNumber(key + 'hk') * 2);
-      const handleLeft = 1 + Math.round(seededNumber(key + 'hl') * 4);
-      const handleRight = 1 + Math.round(seededNumber(key + 'hr') * 4);
+      const handleWidth = Math.max(12, Math.round(bodyWidth * (0.20 + seededNumber(key + 'hw') * 0.16)));
+      const handleHeight = Math.max(18, Math.round(bodyHeight * (.34 + seededNumber(key + 'hh') * .24)));
+      const handleTop = 6 + Math.round(bodyHeight * (0.06 + seededNumber(key + 'ht') * 0.14));
+      const handleThickness = Math.max(3, Math.round(bodyWidth * (0.06 + seededNumber(key + 'hk') * 0.03)));
+      const handleLeft = 1 + Math.round(seededNumber(key + 'hl') * 6);
+      const handleRight = 1 + Math.round(seededNumber(key + 'hr') * 6);
 
       return {
         '--trophy-color': color,
@@ -513,10 +536,10 @@
         '--neck-width': `${neckWidth}px`,
         '--neck-height': `${neckHeight}px`,
         '--neck-display': seededNumber(key + 'nd') > 0.28 ? 'block' : 'none',
-        '--base-width': `${Math.max(baseWidth, stemWidth + 10)}px`,
+        '--base-width': `${Math.round(Math.max(baseWidth, stemWidth + 10))}px`,
         '--base-height': `${baseHeight}px`,
         '--base-radius': baseShape,
-        '--base-top-width': `${Math.max(baseTopWidth, stemWidth + 8)}px`,
+        '--base-top-width': `${Math.round(Math.max(baseTopWidth, stemWidth + 8))}px`,
         '--base-top-height': `${baseTopHeight}px`,
         '--base-top-display': seededNumber(key + 'btd') > 0.22 ? 'block' : 'none',
         '--topper-width': `${topperConfig.width}px`,
@@ -600,7 +623,7 @@
               const leftHandle = handleMode === 'both' || handleMode === 'left';
               const rightHandle = handleMode === 'both' || handleMode === 'right';
               return `
-                <div class="trophy" style="${styleObjectToCssText(vars)}">
+                <div class="trophy" style="${styleObjectToCssText(vars)}" data-tooltip="Score: ${escapeHtml(item.score)}" title="Score: ${escapeHtml(item.score)}">
                   <div class="trophy-topper"></div>
                   <div class="trophy-cup-wrap">
                     ${leftHandle ? '<span class="trophy-handle left"></span>' : ''}
