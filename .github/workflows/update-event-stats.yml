@@ -29,6 +29,17 @@ jobs:
       - name: Run stats script
         run: python scripts/eventstats.py
 
+      - name: Check generated files
+        run: |
+          echo "Repo root:"
+          pwd
+          echo "data folder:"
+          ls -la data || true
+          echo "data/stats folder:"
+          ls -la data/stats || true
+          echo "find csv files:"
+          find . -name "*.csv"
+
       - name: Commit generated stats
         run: |
           git config user.name "github-actions"
