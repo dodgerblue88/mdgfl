@@ -1,14 +1,14 @@
 import csv
+import json
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 
 
 BASE = "https://www.pdga.com"
-EVENT_ID = 90947
-DIVISION = "MPO"
-
-OUTPUT_CSV = f"pdga_live_{DIVISION.lower()}_event_{EVENT_ID}_players.csv"
+DEFAULT_DIVISION = "MPO"
+DEFAULT_EVENTS_JSON = "data/events.json"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -62,17 +62,6 @@ def try_fetch_round_scores(
 
 
 def extract_round_sections(payload: Any) -> List[Dict[str, Any]]:
-    """
-    Return a normalized list of sections, where each section is:
-    {
-        "layouts": [...],
-        "scores": [...]
-    }
-
-    Supports:
-    - {"data": {"layouts": [...], "scores": [...]}}
-    - {"data": [ {"layouts": [...], "scores": [...]}, ... ]}   # pooled events
-    """
     sections: List[Dict[str, Any]] = []
 
     if not isinstance(payload, dict):
@@ -91,23 +80,15 @@ def extract_round_sections(payload: Any) -> List[Dict[str, Any]]:
         for item in data:
             if not isinstance(item, dict):
                 continue
-
             layouts = item.get("layouts", [])
             scores = item.get("scores", [])
-
             if isinstance(layouts, list) and isinstance(scores, list):
                 sections.append({"layouts": layouts, "scores": scores})
-
-        return sections
 
     return sections
 
 
 def discover_played_rounds(session: requests.Session, event_id: int, division: str) -> List[int]:
-    """
-    Discover actual round numbers that return real hole-score data.
-    Includes round 12 if it has hole scores.
-    """
     found_rounds: List[int] = []
 
     for round_num in range(1, 13):
@@ -116,8 +97,8 @@ def discover_played_rounds(session: requests.Session, event_id: int, division: s
             continue
 
         sections = extract_round_sections(payload)
-
         found = False
+
         for section in sections:
             scores = section.get("scores", [])
             for player in scores:
@@ -220,10 +201,6 @@ def flag_top_n(place_int: Optional[int], n: int) -> int:
 
 
 def derive_year(data: Dict[str, Any]) -> Any:
-    """
-    Prefer explicit Year from the API, but fall back to the first 4 chars
-    of a date-like field if needed.
-    """
     year = data.get("Year") or data.get("year")
     if year not in (None, ""):
         return year
@@ -236,19 +213,68 @@ def derive_year(data: Dict[str, Any]) -> Any:
     return ""
 
 
+def load_events_config(events_json_path: str = DEFAULT_EVENTS_JSON) -> List[Dict[str, Any]]:
+    path = Path(events_json_path)
+    if not path.exists():
+        raise FileNotFoundError(f"events.json not found: {path}")
+
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, list):
+        raise RuntimeError("events.json must be a JSON array")
+
+    events: List[Dict[str, Any]] = []
+    for item in data:
+        if not isinstance(item, dict):
+            continue
+
+        site_event_id = clean_text(item.get("id")).lower()
+        pdga_event_id = item.get("event_id")
+        division = clean_text(item.get("division")) or DEFAULT_DIVISION
+        stats_csv = clean_text(item.get("stats_csv"))
+
+        if not site_event_id:
+            continue
+        if pdga_event_id in (None, ""):
+            continue
+
+        try:
+            pdga_event_id = int(pdga_event_id)
+        except (TypeError, ValueError):
+            raise RuntimeError(f"Invalid event_id for site event '{site_event_id}': {pdga_event_id}")
+
+        if not stats_csv:
+            stats_csv = f"data/stats/{site_event_id}_stats.csv"
+
+        event_cfg = dict(item)
+        event_cfg["id"] = site_event_id
+        event_cfg["event_id"] = pdga_event_id
+        event_cfg["division"] = division
+        event_cfg["stats_csv"] = stats_csv
+        events.append(event_cfg)
+
+    if not events:
+        raise RuntimeError("No valid events found in events.json")
+
+    return events
+
+
 def init_player_row(
+    pdga_event_id: int,
+    site_event_id: str,
     year: Any,
     event_name: str,
+    division: str,
     tier: str,
     player_name: str,
     pdga_num: Any,
     rating: Any,
 ) -> Dict[str, Any]:
     return {
-        "event_id": EVENT_ID,
+        "site_event_id": site_event_id,
+        "event_id": pdga_event_id,
         "Year": year,
         "event_name": event_name,
-        "division": DIVISION,
+        "division": division,
         "Tier": tier,
         "Player": player_name,
         "PDGA": clean_text(pdga_num),
@@ -272,14 +298,19 @@ def init_player_row(
     }
 
 
-def main() -> None:
-    session = get_session()
+def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[str, Any]:
+    site_event_id = clean_text(event_cfg["id"]).lower()
+    event_id = int(event_cfg["event_id"])
+    division = clean_text(event_cfg.get("division")) or DEFAULT_DIVISION
+    output_csv = clean_text(event_cfg.get("stats_csv")) or f"data/stats/{site_event_id}_stats.csv"
 
-    print(f"Fetching event metadata for {EVENT_ID}...")
-    meta = fetch_event_metadata(session, EVENT_ID)
+    print(f"\n=== {site_event_id.upper()} / PDGA {event_id} / {division} ===")
+    print(f"Fetching event metadata for {event_id}...")
+
+    meta = fetch_event_metadata(session, event_id)
     data = meta.get("data", {}) if isinstance(meta, dict) else {}
 
-    event_name = clean_text(data.get("Name")) or f"Event {EVENT_ID}"
+    event_name = clean_text(data.get("Name")) or clean_text(event_cfg.get("name")) or f"Event {event_id}"
     year = derive_year(data)
     tier = (
         clean_text(data.get("FormattedTier"))
@@ -287,18 +318,19 @@ def main() -> None:
         or clean_text(data.get("RawTier"))
         or clean_text(data.get("FormattedLongTier"))
     )
+
     divisions = data.get("Divisions", []) if isinstance(data, dict) else []
     if not isinstance(divisions, list):
         divisions = []
 
     div_info = None
     for d in divisions:
-        if isinstance(d, dict) and clean_text(d.get("Division")) == DIVISION:
+        if isinstance(d, dict) and clean_text(d.get("Division")) == division:
             div_info = d
             break
 
     if not div_info:
-        raise RuntimeError(f"No {DIVISION} division found for event {EVENT_ID}.")
+        raise RuntimeError(f"No {division} division found for event {event_id}.")
 
     reported_latest_round = div_info.get("LatestRound") or data.get("HighestCompletedRound") or 0
     try:
@@ -306,15 +338,15 @@ def main() -> None:
     except (TypeError, ValueError):
         reported_latest_round = 0
 
-    played_rounds = discover_played_rounds(session, EVENT_ID, DIVISION)
+    played_rounds = discover_played_rounds(session, event_id, division)
     if not played_rounds:
-        raise RuntimeError(f"No playable round data found for {DIVISION} in event {EVENT_ID}.")
+        raise RuntimeError(f"No playable round data found for {division} in event {event_id}.")
 
     final_results_round = max(played_rounds)
 
     print(f"Event: {event_name}")
     print(f"Year: {year}")
-    print(f"Division: {DIVISION}")
+    print(f"Division: {division}")
     print(f"Tier: {tier}")
     print(f"Reported LatestRound: {reported_latest_round}")
     print(f"Actual played rounds found: {played_rounds}")
@@ -322,12 +354,10 @@ def main() -> None:
 
     agg: Dict[Tuple[str, str], Dict[str, Any]] = {}
 
-    # Aggregate all played rounds
     for round_num in played_rounds:
         print(f"Fetching played round {round_num}...")
-        round_payload = fetch_round_scores(session, EVENT_ID, DIVISION, round_num)
+        round_payload = fetch_round_scores(session, event_id, division, round_num)
         sections = extract_round_sections(round_payload)
-
         total_players_this_round = 0
 
         for section in sections:
@@ -351,7 +381,17 @@ def main() -> None:
                 par_map = build_layout_par_map(layouts, hole_count)
 
                 if key not in agg:
-                    agg[key] = init_player_row(year, event_name, tier, name, pdga_num, p.get("Rating"))
+                    agg[key] = init_player_row(
+                        pdga_event_id=event_id,
+                        site_event_id=site_event_id,
+                        year=year,
+                        event_name=event_name,
+                        division=division,
+                        tier=tier,
+                        player_name=name,
+                        pdga_num=pdga_num,
+                        rating=p.get("Rating"),
+                    )
 
                 agg[key]["rounds_set"].add(round_num)
 
@@ -385,9 +425,8 @@ def main() -> None:
 
         print(f"Played round {round_num}: processed {total_players_this_round} player rows")
 
-    # Final standings from final round
     print(f"Fetching final standings round {final_results_round}...")
-    final_payload = fetch_round_scores(session, EVENT_ID, DIVISION, final_results_round)
+    final_payload = fetch_round_scores(session, event_id, division, final_results_round)
     final_sections = extract_round_sections(final_payload)
 
     total_final_players = 0
@@ -405,7 +444,17 @@ def main() -> None:
             key = player_key(name, pdga_num)
 
             if key not in agg:
-                agg[key] = init_player_row(year, event_name, tier, name, pdga_num, p.get("Rating"))
+                agg[key] = init_player_row(
+                    pdga_event_id=event_id,
+                    site_event_id=site_event_id,
+                    year=year,
+                    event_name=event_name,
+                    division=division,
+                    tier=tier,
+                    player_name=name,
+                    pdga_num=pdga_num,
+                    rating=p.get("Rating"),
+                )
 
             agg[key]["Place"] = place_string(p.get("RunningPlace"), p.get("Tied"))
             agg[key]["tournament_total_strokes"] = p.get("GrandTotal")
@@ -427,7 +476,6 @@ def main() -> None:
         v["Top 3s"] = flag_top_n(p_int, 3)
         v["Top 10s"] = flag_top_n(p_int, 10)
         v["Top 20s"] = flag_top_n(p_int, 20)
-
         out_rows.append(v)
 
     def place_sort_val(place: str) -> int:
@@ -437,6 +485,7 @@ def main() -> None:
     out_rows.sort(key=lambda r: (place_sort_val(clean_text(r.get("Place"))), clean_text(r.get("Player")).lower()))
 
     fieldnames = [
+        "site_event_id",
         "event_id",
         "Year",
         "event_name",
@@ -462,13 +511,57 @@ def main() -> None:
         "HolesCounted",
     ]
 
-    with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
+    output_path = Path(output_csv)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(out_rows)
 
-    print(f"\nSaved CSV: {OUTPUT_CSV}")
+    print(f"Saved CSV: {output_path}")
     print(f"Total players: {len(out_rows)}")
+
+    return {
+        "site_event_id": site_event_id,
+        "event_id": event_id,
+        "division": division,
+        "event_name": event_name,
+        "output_csv": str(output_path),
+        "players": len(out_rows),
+        "played_rounds": played_rounds,
+    }
+
+
+def main() -> None:
+    events = load_events_config(DEFAULT_EVENTS_JSON)
+    session = get_session()
+
+    results: List[Dict[str, Any]] = []
+    failures: List[Tuple[str, str]] = []
+
+    for event_cfg in events:
+        site_event_id = clean_text(event_cfg.get("id")).lower() or "unknown"
+        try:
+            result = process_event(session, event_cfg)
+            results.append(result)
+        except Exception as exc:
+            failures.append((site_event_id, str(exc)))
+            print(f"FAILED {site_event_id.upper()}: {exc}")
+
+    print("\n=== Summary ===")
+    for result in results:
+        print(
+            f"{result['site_event_id'].upper()}: "
+            f"{result['players']} players -> {result['output_csv']}"
+        )
+
+    if failures:
+        print("\n=== Failures ===")
+        for site_event_id, message in failures:
+            print(f"{site_event_id.upper()}: {message}")
+
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
