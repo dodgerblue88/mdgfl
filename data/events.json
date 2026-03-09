@@ -2,7 +2,7 @@
   {
     "id": "sfo",
     "name": "SFO — Supreme Flight Open",
-    "event_id": 90947,
+    "event_id": 96401,
     "division": "MPO",
     "csv": "data/sfo.csv",
     "stats_csv": "data/stats/sfo_stats.csv"
