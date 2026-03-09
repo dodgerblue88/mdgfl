@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -27,17 +28,13 @@ jobs:
         run: pip install requests
 
       - name: Run stats script
-        run: python scripts/eventstats.py
+        run: python assets/eventstats.py
 
       - name: Check generated files
         run: |
-          echo "Repo root:"
           pwd
-          echo "data folder:"
           ls -la data || true
-          echo "data/stats folder:"
           ls -la data/stats || true
-          echo "find csv files:"
           find . -name "*.csv"
 
       - name: Commit generated stats
