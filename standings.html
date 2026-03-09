@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,7 +9,11 @@
   <link rel="stylesheet" href="assets/style.css" />
 
   <style>
-    :root { --mdgfl-gold: #f5c542; }
+    :root {
+      --mdgfl-gold: #f5c542;
+      --mdgfl-green: #6fbf4b;
+      --mdgfl-yellow: #f5c542;
+    }
 
     .standings-wrap {
       display: grid;
@@ -21,12 +26,10 @@
       font-weight: 800 !important;
     }
 
-    tr.player-row td {
+    tr.team-row td.col-event,
+    tr.team-row td.col-event strong {
       color: var(--txt) !important;
-    }
-
-    tr.player-row .col-team .muted {
-      color: var(--muted) !important;
+      font-weight: 800 !important;
     }
 
     td.excluded-score {
@@ -36,12 +39,82 @@
 
     .col-rank,
     .col-event,
-    .col-season {
+    .col-season,
+    th,
+    td {
       text-align: center;
     }
 
     .col-team {
       text-align: left;
+    }
+
+    .rank-pill {
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 197, 66, .25);
+      background: rgba(245, 197, 66, .10);
+      color: var(--mdgfl-gold);
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .movement {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      margin-left: 8px;
+      font-size: 14px;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+
+    .movement.up {
+      color: var(--mdgfl-green);
+    }
+
+    .movement.down {
+      color: var(--mdgfl-yellow);
+    }
+
+    .movement.flat {
+      color: rgba(255,255,255,.35);
+      font-size: 11px;
+      min-width: 12px;
+    }
+
+    .movement.poo {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .team-name-wrap {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .player-row td { color: var(--txt); }
+    .player-row .col-team .muted { color: var(--muted) !important; }
+
+    th.col-season,
+    td.col-season {
+      font-weight: 800;
+    }
+
+    th.col-season {
+      color: var(--mdgfl-gold);
+    }
+
+    th.col-event {
+      color: var(--txt);
+      font-weight: 800;
     }
   </style>
 </head>
@@ -78,8 +151,8 @@
       const links = document.querySelectorAll(".nav-link");
       links.forEach(link => {
         const here = location.pathname.split("/").pop() || "index.html";
-        const href = (link.getAttribute("href") || "").split("/").pop();
-        if (href === here) link.classList.add("active");
+        const target = (link.getAttribute("href") || "").split("/").pop();
+        if (target === here) link.classList.add("active");
       });
     })();
 
@@ -88,78 +161,42 @@
       let row = [];
       let cur = "";
       let inQuotes = false;
-
       for (let i = 0; i < text.length; i++) {
         const c = text[i];
         const next = text[i + 1];
-
-        if (c === '"' && inQuotes && next === '"') {
-          cur += '"';
-          i++;
-          continue;
-        }
-        if (c === '"') {
-          inQuotes = !inQuotes;
-          continue;
-        }
-        if (!inQuotes && c === ",") {
-          row.push(cur);
-          cur = "";
-          continue;
-        }
+        if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
+        if (c === '"') { inQuotes = !inQuotes; continue; }
+        if (!inQuotes && c === ',') { row.push(cur); cur = ""; continue; }
         if (!inQuotes && (c === "\n" || c === "\r")) {
           if (c === "\r" && next === "\n") i++;
-          row.push(cur);
-          cur = "";
+          row.push(cur); cur = "";
           if (row.some(v => String(v).trim() !== "")) rows.push(row);
           row = [];
           continue;
         }
         cur += c;
       }
-
       row.push(cur);
       if (row.some(v => String(v).trim() !== "")) rows.push(row);
       return rows;
     }
 
-    function norm(s){
-      return String(s ?? "").trim().toLowerCase().replace(/[_\s#]+/g, " ");
-    }
-
-    function sum(arr){
-      return arr.reduce((a, b) => a + Number(b || 0), 0);
-    }
-
-    function escapeHtml(s) {
-      return String(s ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
+    function norm(s){ return String(s ?? "").trim().toLowerCase().replace(/[_\s#]+/g, " "); }
+    function sum(arr){ return arr.reduce((a,b)=>a + Number(b || 0), 0); }
 
     function findColumnIndex(header, candidates){
       const normalized = header.map(h => norm(h));
-
       for (const cand of candidates) {
         const want = norm(cand);
         const exact = normalized.indexOf(want);
         if (exact >= 0) return exact;
       }
-
       for (const cand of candidates) {
         const want = norm(cand);
         const loose = normalized.findIndex(h => h.includes(want) || want.includes(h));
         if (loose >= 0) return loose;
       }
-
       return -1;
-    }
-
-    function shortEventLabel(evt){
-      return (evt.id || evt.name || "").toUpperCase();
     }
 
     async function loadEvents(){
@@ -189,8 +226,7 @@
 
       const header = rows[0];
       const idxPdga = findColumnIndex(header, ["PDGA", "PDGA #", "PDGA Number", "PDGANumber"]);
-      const idxPts = findColumnIndex(header, ["Total Points", "Points", "Fantasy Points", "Event Points"]);
-
+      const idxPts  = findColumnIndex(header, ["Total Points", "Points", "Fantasy Points", "Event Points"]);
       if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
       if (idxPts < 0) throw new Error(`${csvPath}: missing points column`);
 
@@ -205,145 +241,156 @@
       return map;
     }
 
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function shortEventLabel(evt){
+      return (evt.id || evt.name || "").toUpperCase();
+    }
+
+    function movementInfo(currentRank, previousRank) {
+      if (!Number.isFinite(previousRank) && Number.isFinite(currentRank)) return { cls: 'up', symbol: '▲', label: 'New to rankings' };
+      if (!Number.isFinite(currentRank)) return { cls: 'flat', symbol: '•', label: 'No change' };
+      if (currentRank < previousRank) return { cls: 'up', symbol: '▲', label: `Up ${previousRank - currentRank}` };
+      if (currentRank > previousRank) return { cls: 'down', symbol: '▼', label: `Down ${currentRank - previousRank}` };
+      return { cls: 'flat', symbol: '•', label: 'No change' };
+    }
+
+    function movementHtml(info) {
+      return `<span class="movement ${info.cls}" title="${escapeHtml(info.label)}">${info.symbol}</span>`;
+    }
+
+    function buildRankMap(items, getKey) {
+      const map = new Map();
+      items.forEach((item, idx) => map.set(getKey(item), idx + 1));
+      return map;
+    }
+
     function computeTeams(events, roster, pointsByEvent) {
       const teams = (roster?.teams || []).map((t, idx) => ({
         index: idx,
-        name: (t?.name || `Team ${idx + 1}`),
-        players: (t?.players || []).filter(p => p && p.pdga).map(p => ({ ...p }))
+        name: (t?.name || `Team ${idx+1}`),
+        players: (t?.players || []).filter(p => p && String(p.pdga || '').trim())
       }));
 
       for (const team of teams) {
         for (const p of team.players) {
-          p._id = String(p.pdga || p.player || "");
-          p._perEvent = events.map(evt => {
-            const eventMap = pointsByEvent.get(evt.id);
-            if (!eventMap) return 0;
-            const raw = eventMap.get(String(p.pdga));
-            return Number.isFinite(Number(raw)) ? Number(raw) : 0;
+          const perEvent = events.map(evt => {
+            const m = pointsByEvent.get(evt.id);
+            return m ? Number(m.get(String(p.pdga).trim()) || 0) : 0;
           });
-          p._rawSeason = sum(p._perEvent);
+          p._perEvent = perEvent;
+          p._rawSeason = sum(perEvent);
+          p._id = String(p.pdga || p.player || "").trim();
         }
 
         team._countedByEvent = events.map((evt, i) => {
           const scored = team.players.map(p => ({
             id: p._id,
-            score: Number(p._perEvent[i] ?? 0),
-            rawSeason: Number(p._rawSeason ?? 0),
+            score: Number(p._perEvent[i] || 0),
+            rawSeason: Number(p._rawSeason || 0),
             name: String(p.player || "")
           }));
 
           scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-
           const keep = new Set();
           if (scored.length <= 5) {
             scored.forEach(s => keep.add(s.id));
             return keep;
           }
 
-          const cutoffScore = scored[4].score;
-          const above = scored.filter(s => s.score > cutoffScore);
-          above.forEach(s => keep.add(s.id));
-
-          const remainingSlots = 5 - above.length;
-          const tied = scored
-            .filter(s => s.score === cutoffScore)
-            .sort((a, b) => (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-
-          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
+          const topFive = scored.slice(0, 5);
+          topFive.forEach(s => keep.add(s.id));
           return keep;
         });
 
         team._perEvent = events.map((evt, i) => {
           const keep = team._countedByEvent[i];
-          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] ?? 0) : 0), 0);
+          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
         });
 
         team._season = sum(team._perEvent);
 
         for (const p of team.players) {
-          p._countedSeason = team._countedByEvent.reduce((acc, keep, i) => {
-            return acc + (keep.has(p._id) ? Number(p._perEvent[i] ?? 0) : 0);
-          }, 0);
+          p._countedSeason = team._countedByEvent.reduce((acc, keep, i) => acc + (keep.has(p._id) ? Number(p._perEvent[i] || 0) : 0), 0);
         }
 
-        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || String(a.player || "").localeCompare(String(b.player || "")));
+        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || (b._rawSeason - a._rawSeason) || String(a.player).localeCompare(String(b.player)));
       }
 
-      teams.sort((a, b) => (b._season - a._season) || a.name.localeCompare(b.name));
+      teams.sort((a,b) => (b._season - a._season) || a.name.localeCompare(b.name));
       return teams;
     }
 
-    function buildTable({ events, teams }) {
+    function buildTable({ events, currentTeams, previousRankMap }) {
       const thead = document.getElementById("thead");
       const tbody = document.getElementById("tbody");
 
       const trh = document.createElement("tr");
-
-      const thRank = document.createElement("th");
-      thRank.textContent = "#";
-      thRank.className = "col-rank";
+      const thRank = document.createElement("th"); thRank.textContent = "#"; thRank.className = "col-rank";
+      const thTeam = document.createElement("th"); thTeam.textContent = "Team / Player"; thTeam.className = "col-team";
+      const thSeason = document.createElement("th"); thSeason.textContent = "Season Pts"; thSeason.className = "col-season";
       trh.appendChild(thRank);
-
-      const thTeam = document.createElement("th");
-      thTeam.textContent = "Team / Player";
-      thTeam.className = "col-team";
       trh.appendChild(thTeam);
-
+      trh.appendChild(thSeason);
       for (const evt of events) {
         const th = document.createElement("th");
         th.textContent = shortEventLabel(evt);
         th.className = "col-event";
         trh.appendChild(th);
       }
-
-      const thSeason = document.createElement("th");
-      thSeason.textContent = "Season";
-      thSeason.className = "col-season";
-      trh.appendChild(thSeason);
-
       thead.innerHTML = "";
       thead.appendChild(trh);
 
       tbody.innerHTML = "";
-
-      if (!teams.length) {
+      if (!currentTeams.length) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.colSpan = 3 + events.length;
         td.className = "muted";
         td.style.padding = "16px";
-        td.innerHTML = "No teams found in <code>rosters.json</code>.";
+        td.innerHTML = `No teams found in <code>rosters.json</code>.`;
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
       }
 
-      teams.forEach((team, rankIdx) => {
+      currentTeams.forEach((team, rankIdx) => {
         const trTeam = document.createElement("tr");
         trTeam.className = "team-row";
 
+        const move = movementInfo(rankIdx + 1, previousRankMap.get(team.name));
+        const isLast = rankIdx === currentTeams.length - 1;
+        const indicator = isLast ? '<span class="movement poo" title="Last place">💩</span>' : movementHtml(move);
+
         const tdRank = document.createElement("td");
         tdRank.className = "col-rank";
-        tdRank.innerHTML = `<strong>${rankIdx + 1}</strong>`;
-        trTeam.appendChild(tdRank);
+        tdRank.innerHTML = `<span class="rank-pill">${rankIdx + 1}</span>`;
 
         const tdName = document.createElement("td");
         tdName.className = "col-team";
-        tdName.innerHTML = `<strong>${escapeHtml(team.name)}</strong>`;
+        tdName.innerHTML = `<span class="team-name-wrap"><strong>${escapeHtml(team.name)}</strong>${indicator}</span>`;
+
+        const tdSeason = document.createElement("td");
+        tdSeason.className = "col-season";
+        tdSeason.innerHTML = `<strong>${team._season}</strong>`;
+
+        trTeam.appendChild(tdRank);
         trTeam.appendChild(tdName);
+        trTeam.appendChild(tdSeason);
 
         for (let i = 0; i < events.length; i++) {
           const td = document.createElement("td");
           td.className = "col-event";
-          td.textContent = String(team._perEvent[i] ?? 0);
+          td.innerHTML = `<strong>${team._perEvent[i]}</strong>`;
           trTeam.appendChild(td);
         }
-
-        const tdSeason = document.createElement("td");
-        tdSeason.className = "col-season";
-        tdSeason.innerHTML = `<strong>${team._season ?? 0}</strong>`;
-        trTeam.appendChild(tdSeason);
-
         tbody.appendChild(trTeam);
 
         team.players.forEach((p) => {
@@ -353,59 +400,52 @@
           const tdBlank = document.createElement("td");
           tdBlank.className = "col-rank";
           tdBlank.textContent = "";
-          trP.appendChild(tdBlank);
 
           const tdPlayer = document.createElement("td");
           tdPlayer.className = "col-team";
           tdPlayer.innerHTML = `<span class="muted">${escapeHtml(p.player || "(Unnamed)")}</span>`;
-          trP.appendChild(tdPlayer);
-
-          for (let i = 0; i < events.length; i++) {
-            const points = Number.isFinite(Number(p._perEvent[i])) ? Number(p._perEvent[i]) : 0;
-            const counted = !!(team._countedByEvent[i] && team._countedByEvent[i].has(p._id));
-
-            const td = document.createElement("td");
-            td.className = "col-event";
-            td.textContent = String(points);
-
-            if (!counted && points !== 0) {
-              td.classList.add("excluded-score");
-            }
-
-            trP.appendChild(td);
-          }
 
           const tdPSeason = document.createElement("td");
           tdPSeason.className = "col-season";
-          tdPSeason.textContent = String(p._countedSeason ?? 0);
+          tdPSeason.textContent = String(p._countedSeason);
+
+          trP.appendChild(tdBlank);
+          trP.appendChild(tdPlayer);
           trP.appendChild(tdPSeason);
 
+          for (let i = 0; i < events.length; i++) {
+            const counted = !!(team._countedByEvent[i] && team._countedByEvent[i].has(p._id));
+            const points = Number(p._perEvent[i] || 0);
+            const td = document.createElement("td");
+            td.className = "col-event" + (counted ? "" : " excluded-score");
+            td.innerHTML = `<span>${points}</span>`;
+            trP.appendChild(td);
+          }
           tbody.appendChild(trP);
         });
       });
+
+      document.getElementById("footer").textContent = `Loaded ${currentTeams.length} team(s) • ${events.length} event(s)`;
     }
 
     async function loadAndRender(){
-      document.getElementById("tbody").innerHTML = '<tr><td class="muted">Loading…</td></tr>';
-
-      const [roster, events] = await Promise.all([loadRosters(), loadEvents()]);
+      document.getElementById("tbody").innerHTML = `<tr><td class="muted">Loading…</td></tr>`;
+      const roster = await loadRosters();
+      const events = await loadEvents();
       if (!events.length) throw new Error("No events found in events.json");
-
       const pointsByEvent = new Map();
       for (const evt of events) {
         pointsByEvent.set(evt.id, await loadEventPointsMap(evt.csv));
       }
-
-      const teams = computeTeams(events, roster, pointsByEvent);
-      buildTable({ events, teams });
-
-      document.getElementById("footer").textContent = `Loaded ${teams.length} team(s) • ${events.length} event(s)`;
+      const currentTeams = computeTeams(events, roster, pointsByEvent);
+      const previousTeams = events.length > 1 ? computeTeams(events.slice(0, -1), roster, pointsByEvent) : [];
+      const previousRankMap = buildRankMap(previousTeams, t => t.name);
+      buildTable({ events, currentTeams, previousRankMap });
     }
 
     loadAndRender().catch(err => {
       console.error(err);
       document.getElementById("tbody").innerHTML = `<tr><td class="muted" style="padding:16px;">Error: ${escapeHtml(err.message)}</td></tr>`;
-      document.getElementById("footer").textContent = "Check your data and file paths.";
     });
   </script>
 </body>
