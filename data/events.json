@@ -8,3 +8,14 @@
     "stats_csv": "data/stats/sfo_stats.csv"
   }
 ]
+
+[
+  {
+    "id": "BSO",
+    "name": "SFO — Supreme Flight Open",
+    "event_id": 96401,
+    "division": "MPO",
+    "csv": "data/bso.csv",
+    "stats_csv": "data/stats/bso_stats.csv"
+  }
+]
