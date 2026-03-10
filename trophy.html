@@ -1,11 +1,26 @@
+Conversation opened. 1 unread message.
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+Skip to content
+Using Gmail with screen readers
+
+1 of 100,703
+trophy_event_logo_badges
+Inbox
+
+John Ashley <johndashley@gmail.com>
+Attachments
+2:42 PM (0 minutes ago)
+to me
+
+ One attachment
+  •  Scanned by Gmail
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://dodgerblue88.github.io/mdgfl/trophy.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Mediocre Disc Golf Fantasy League — Trophy Room</title>
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/style.css">
 
   <style>
     :root {
@@ -272,14 +287,12 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
     }
     .trophy-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 8px;
+      position: relative;
+      inset: auto;
+      display: block;
+      padding: 0;
       color: rgba(255, 245, 200, .96);
-      font-size: clamp(11px, calc(var(--cup-width) * 0.20), 18px);
+      font-size: clamp(10px, calc(var(--cup-width) * 0.18), 17px);
       font-weight: 900;
       letter-spacing: .10em;
       text-transform: uppercase;
@@ -293,8 +306,40 @@
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 1px 1px rgba(0,0,0,.18));
       pointer-events: none;
-      z-index: 3;
+      z-index: 4;
       mix-blend-mode: screen;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .trophy-badge {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(74%, calc(var(--cup-width) * 0.74));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .trophy-logo {
+      display: block;
+      width: min(100%, calc(var(--cup-width) * 0.54));
+      max-height: calc(var(--cup-height) * 0.24);
+      object-fit: contain;
+      filter:
+        drop-shadow(0 1px 0 rgba(255,255,255,.20))
+        drop-shadow(0 2px 6px rgba(0,0,0,.30));
+    }
+
+    .trophy-logo.is-missing {
+      display: none;
     }
 
 
@@ -359,10 +404,10 @@
 
 <body>
   <nav class="subnav">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="standings.html" class="nav-link">Standings</a>
-    <a href="stats.html" class="nav-link">Stats</a>
-    <a href="trophy.html" class="nav-link">Trophy Room</a>
+    <a href="https://dodgerblue88.github.io/mdgfl/index.html" class="nav-link">Home</a>
+    <a href="https://dodgerblue88.github.io/mdgfl/standings.html" class="nav-link">Standings</a>
+    <a href="https://dodgerblue88.github.io/mdgfl/stats.html" class="nav-link">Stats</a>
+    <a href="https://dodgerblue88.github.io/mdgfl/trophy.html" class="nav-link active">Trophy Room</a>
   </nav>
 
   <div class="wrap trophy-wrap">
@@ -374,10 +419,70 @@
     </header>
 
     <section class="shelves" id="shelves">
-      <div class="card team-card"><div class="muted">Loading trophy room…</div></div>
-    </section>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">Jon</h3>
+              <div class="team-meta">1 Trophy</div>
+            </div>
+            <div class="shelf-zone">
+              <div class="trophy-row">
+                <div class="trophy" style="--trophy-color:#f5c542;--cup-width:54px;--cup-height:96px;--cup-radius:16px 16px 12px 12px;--cup-clip:none;--stem-width:11px;--stem-height:13px;--neck-width:15px;--neck-height:6px;--neck-display:none;--base-width:41px;--base-height:12px;--base-radius:6px;--base-top-width:32px;--base-top-height:8px;--base-top-display:block;--topper-width:0px;--topper-height:0px;--topper-radius:0;--topper-display:none;--handle-width:12px;--handle-height:34px;--handle-top:13px;--handle-left:1px;--handle-right:2px;--handle-thickness:3px;--handle-opacity:1" data-tooltip="Score: 165" title="Score: 165">
+                  <div class="trophy-topper"></div>
+                  <div class="trophy-cup-wrap">
+                    <span class="trophy-handle left"></span>
+                    <div class="trophy-cup"><div class="trophy-label">SFO</div></div>
+                    <span class="trophy-handle right"></span>
+                  </div>
+                  <div class="trophy-stem"></div>
+                  <div class="trophy-neck"></div>
+                  <div class="trophy-base-top"></div>
+                  <div class="trophy-base"></div>
+                </div></div>
+              <div class="shelf-board"></div>
+            </div>
+          </article>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">John</h3>
+              <div class="team-meta">0 Trophies</div>
+            </div>
+            <div class="shelf-zone">
+              <div class="trophy-row"><div class="no-trophies">No event wins yet</div></div>
+              <div class="shelf-board"></div>
+            </div>
+          </article>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">Kevin</h3>
+              <div class="team-meta">0 Trophies</div>
+            </div>
+            <div class="shelf-zone">
+              <div class="trophy-row"><div class="no-trophies">No event wins yet</div></div>
+              <div class="shelf-board"></div>
+            </div>
+          </article>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">Mike</h3>
+              <div class="team-meta">0 Trophies</div>
+            </div>
+            <div class="shelf-zone">
+              <div class="trophy-row"><div class="no-trophies">No event wins yet</div></div>
+              <div class="shelf-board"></div>
+            </div>
+          </article>
+          <article class="card team-card">
+            <div class="team-head">
+              <h3 class="team-name">Zack</h3>
+              <div class="team-meta">0 Trophies</div>
+            </div>
+            <div class="shelf-zone">
+              <div class="trophy-row"><div class="no-trophies">No event wins yet</div></div>
+              <div class="shelf-board"></div>
+            </div>
+          </article></section>
 
-    <footer class="muted footer" id="footer"></footer>
+    <footer class="muted footer" id="footer">Showing 1 event in the 2026 season.</footer>
   </div>
 
   <script>
@@ -661,7 +766,17 @@
                   <div class="trophy-topper"></div>
                   <div class="trophy-cup-wrap">
                     ${leftHandle ? '<span class="trophy-handle left"></span>' : ''}
-                    <div class="trophy-cup"><div class="trophy-label">${escapeHtml(item.eventId)}</div></div>
+                    <div class="trophy-cup">
+                      <div class="trophy-badge">
+                        <img
+                          class="trophy-logo"
+                          src="assets/eventlogos/${String(item.eventId || '').toLowerCase()}.webp"
+                          alt="${escapeHtml(item.eventId)} logo"
+                          loading="lazy"
+                          onerror="this.classList.add('is-missing')">
+                        <div class="trophy-label">${escapeHtml(item.eventId)}</div>
+                      </div>
+                    </div>
                     ${rightHandle ? '<span class="trophy-handle right"></span>' : ''}
                   </div>
                   <div class="trophy-stem"></div>
@@ -705,5 +820,8 @@
 
     init();
   </script>
-</body>
-</html>
+
+
+</body></html>
+trophy_event_logo_badges.html
+Displaying trophy_event_logo_badges.html.
