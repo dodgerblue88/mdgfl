@@ -248,6 +248,7 @@
     }
 
     function rowFromCsvRow(row, idx) {
+      const totalPoints = idx.totalPoints >= 0 ? (toNumber(row[idx.totalPoints]) ?? 0) : 0;
       return {
         "MDGFL Ranking": "",
         "Player": row[idx.player] ?? "",
@@ -263,8 +264,8 @@
         "Top 3s": toNumber(row[idx.top3]) ?? 0,
         "Top 10s": toNumber(row[idx.top10]) ?? 0,
         "Top 20s": toNumber(row[idx.top20]) ?? 0,
-        "Total Points": "",
-        "_sort_total_points": null
+        "Total Points": totalPoints,
+        "_sort_total_points": totalPoints
       };
     }
 
