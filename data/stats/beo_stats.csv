@@ -1,4 +1,4 @@
-site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,FantasyPoints,MajorMultiplierUsed,Rounds,HolesCounted
+site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,TotalPoints,MajorMultiplierUsed,Rounds,HolesCounted
 beo,96402,2026,MVP Big Easy Open presented by Flight Factory,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1061,196,-11,1,1,1,1,1,0,0,0,17,32,5,62.0,1.0,3,54
 beo,96402,2026,MVP Big Easy Open presented by Flight Factory,MPO,Disc Golf Pro Tour,Richard Wysocki,38008,1050,196,-11,2,0,1,1,1,0,0,1,17,28,8,44.0,1.0,3,54
 beo,96402,2026,MVP Big Easy Open presented by Flight Factory,MPO,Disc Golf Pro Tour,Isaac Robinson,50670,1047,199,-8,3,0,1,1,1,0,0,0,16,31,7,39.0,1.0,3,54

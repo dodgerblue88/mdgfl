@@ -1,4 +1,4 @@
-site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,FantasyPoints,MajorMultiplierUsed,Rounds,HolesCounted
+site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,TotalPoints,MajorMultiplierUsed,Rounds,HolesCounted
 sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Richard Wysocki,38008,1050,171,-24,1,1,1,1,1,0,0,2,23,26,3,80.0,1.0,3,54
 sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1061,172,-23,2,0,1,1,1,0,0,1,27,22,4,58.0,1.0,3,54
 sfo,96401,2026,Discraft’s Supreme Flight Open Presented by Florida’s Adventure Coast,MPO,Disc Golf Pro Tour,Paul McBeth,27523,1048,174,-21,3,0,1,1,1,0,0,0,28,21,5,53.0,1.0,3,54
