@@ -375,7 +375,7 @@
       if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
       const events = await res.json();
       if (!Array.isArray(events)) throw new Error('events.json must be an array');
-      return events.filter(e => e && e.id && e.csv);
+      return events.filter(e => e && e.id && e.stats_csv);
     }
 
     async function loadRosters(){
@@ -729,7 +729,7 @@
       const rowsByEvent = new Map();
       const pointsByEvent = new Map();
       for (const evt of events) {
-        const rows = await loadEventCsv(evt.csv);
+        const rows = await loadEventCsv(evt.stats_csv);
         rowsByEvent.set(evt.id, rows);
         const pointMap = new Map();
         rows.forEach(row => pointMap.set(String(row.pdga), row.points));
