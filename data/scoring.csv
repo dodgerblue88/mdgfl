@@ -1,12 +1,12 @@
 Setting,Value
-Wins,
-Top 3s,
-Top 10s,
-Top 20s,
-Albatrosses,
-Aces,
-Eagles,
-Birdies,
-Pars,
-Bogeys+,
-Major Multiplier,
+Wins,20
+Top 3s,10
+Top 10s,10
+Top 20s,10
+Albatrosses,10
+Aces,10
+Eagles,5
+Birdies,1
+Pars,0
+Bogeys+,-1
+Major Multiplier,2
