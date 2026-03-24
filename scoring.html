@@ -41,10 +41,11 @@ input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,2
 <div class="toolbar">
 <div id="savePill" class="save-pill">Not saved</div>
 <div>
-<button class="btn" onclick="loadLocal()">Load Local</button>
-<button class="btn" onclick="loadCSV()">Load CSV</button>
-<button class="btn primary" onclick="saveCSV()">Save CSV</button>
-<button class="btn primary" onclick="saveLocal()">Save Local</button>
+<input id="ghOwner" placeholder="owner"/>
+<input id="ghRepo" placeholder="repo"/>
+<input id="ghToken" placeholder="token"/>
+<button class="btn" onclick="loadGitHub()">Load GitHub</button>
+<button class="btn primary" onclick="saveGitHub()">Save GitHub</button>
 </div>
 </div>
 
@@ -80,7 +81,6 @@ input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,2
 <script>
 
 const fields = ["Wins","Top 3s","Top 10s","Top 20s","Albatrosses","Aces","Eagles","Birdies","Pars","Bogeys+","Major Multiplier"];
-const STORAGE_KEY = "scoring:v1";
 
 function getData(){
 let data={}
@@ -94,47 +94,64 @@ if(document.getElementById(f)) document.getElementById(f).value=data[f]||""
 })
 }
 
-function saveLocal(){
-localStorage.setItem(STORAGE_KEY, JSON.stringify(getData()))
-updatePill("Saved locally")
+function toCSV(data){
+let csv="Setting,Value\n"
+fields.forEach(f=>csv+=`${f},${data[f]||""}\n`)
+return csv
 }
 
-function loadLocal(){
-const data = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")
-setData(data)
-updatePill("Loaded local")
-}
-
-function saveCSV(){
-let csv = "Setting,Value\n";
-fields.forEach(f=>{
-csv += `${f},${document.getElementById(f).value}\n`;
-});
-const blob = new Blob([csv], {type: "text/csv"});
-const a = document.createElement("a");
-a.href = URL.createObjectURL(blob);
-a.download = "scoring.csv";
-a.click();
-updatePill("CSV downloaded")
-}
-
-function loadCSV(){
-fetch("data/scoring.csv")
-.then(r=>r.text())
-.then(text=>{
-const lines = text.split("\n").slice(1);
+function fromCSV(text){
 let data={}
-lines.forEach(l=>{
-const [k,v] = l.split(",");
+text.split("\n").slice(1).forEach(l=>{
+let [k,v]=l.split(",")
 data[k]=v
 })
-setData(data)
-updatePill("CSV loaded")
-});
+return data
 }
 
-function updatePill(text){
-document.getElementById("savePill").innerText=text
+async function loadGitHub(){
+let owner=document.getElementById("ghOwner").value
+let repo=document.getElementById("ghRepo").value
+let token=document.getElementById("ghToken").value
+
+let res=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data/scoring.csv`,{
+headers:{Authorization:`Bearer ${token}`}
+})
+let json=await res.json()
+let content=atob(json.content)
+setData(fromCSV(content))
+update("Loaded from GitHub")
+}
+
+async function saveGitHub(){
+let owner=document.getElementById("ghOwner").value
+let repo=document.getElementById("ghRepo").value
+let token=document.getElementById("ghToken").value
+
+let existing=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data/scoring.csv`,{
+headers:{Authorization:`Bearer ${token}`}
+}).then(r=>r.json())
+
+let content=btoa(toCSV(getData()))
+
+await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data/scoring.csv`,{
+method:"PUT",
+headers:{
+Authorization:`Bearer ${token}`,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:"update scoring",
+content:content,
+sha:existing.sha
+})
+})
+
+update("Saved to GitHub")
+}
+
+function update(t){
+document.getElementById("savePill").innerText=t
 }
 
 </script>
