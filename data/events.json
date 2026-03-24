@@ -4,7 +4,6 @@
     "name": "SFO — Supreme Flight Open",
     "event_id": 96401,
     "division": "MPO",
-    "csv": "data/sfo.csv",
     "stats_csv": "data/stats/sfo_stats.csv"
   },
 
@@ -13,7 +12,6 @@
     "name": "BEO — Big Easy Open",
     "event_id": 96402,
     "division": "MPO",
-    "csv": "data/beo.csv",
     "stats_csv": "data/stats/beo_stats.csv"
   } 
 ]
