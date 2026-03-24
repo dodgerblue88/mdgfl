@@ -17,6 +17,7 @@
 .slot{display:grid;grid-template-columns:150px 1fr;gap:10px;margin-bottom:10px}
 input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0c1220;color:#fff}
 .section-title{font-weight:800;margin-bottom:10px}
+.save-pill{padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.15)}
 </style>
 </head>
 
@@ -38,8 +39,13 @@ input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,2
 </header>
 
 <div class="toolbar">
+<div id="savePill" class="save-pill">Not saved</div>
+<div>
+<button class="btn" onclick="loadLocal()">Load Local</button>
 <button class="btn" onclick="loadCSV()">Load CSV</button>
-<button class="btn primary" onclick="saveCSV()">Download CSV</button>
+<button class="btn primary" onclick="saveCSV()">Save CSV</button>
+<button class="btn primary" onclick="saveLocal()">Save Local</button>
+</div>
 </div>
 
 <div class="grid">
@@ -74,30 +80,61 @@ input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,2
 <script>
 
 const fields = ["Wins","Top 3s","Top 10s","Top 20s","Albatrosses","Aces","Eagles","Birdies","Pars","Bogeys+","Major Multiplier"];
+const STORAGE_KEY = "scoring:v1";
+
+function getData(){
+let data={}
+fields.forEach(f=>data[f]=document.getElementById(f).value)
+return data
+}
+
+function setData(data){
+fields.forEach(f=>{
+if(document.getElementById(f)) document.getElementById(f).value=data[f]||""
+})
+}
+
+function saveLocal(){
+localStorage.setItem(STORAGE_KEY, JSON.stringify(getData()))
+updatePill("Saved locally")
+}
+
+function loadLocal(){
+const data = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")
+setData(data)
+updatePill("Loaded local")
+}
 
 function saveCSV(){
 let csv = "Setting,Value\n";
 fields.forEach(f=>{
-  csv += `${f},${document.getElementById(f).value}\n`;
+csv += `${f},${document.getElementById(f).value}\n`;
 });
-
 const blob = new Blob([csv], {type: "text/csv"});
 const a = document.createElement("a");
 a.href = URL.createObjectURL(blob);
 a.download = "scoring.csv";
 a.click();
+updatePill("CSV downloaded")
 }
 
 function loadCSV(){
 fetch("data/scoring.csv")
 .then(r=>r.text())
 .then(text=>{
-  const lines = text.split("\n").slice(1);
-  lines.forEach(l=>{
-    const [k,v] = l.split(",");
-    if(document.getElementById(k)) document.getElementById(k).value = v || "";
-  });
+const lines = text.split("\n").slice(1);
+let data={}
+lines.forEach(l=>{
+const [k,v] = l.split(",");
+data[k]=v
+})
+setData(data)
+updatePill("CSV loaded")
 });
+}
+
+function updatePill(text){
+document.getElementById("savePill").innerText=text
 }
 
 </script>
