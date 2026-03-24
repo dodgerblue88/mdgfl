@@ -9,6 +9,7 @@ import requests
 BASE = "https://www.pdga.com"
 DEFAULT_DIVISION = "MPO"
 DEFAULT_EVENTS_JSON = "data/events.json"
+SCORING_CSV = "data/scoring.csv"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -260,6 +261,55 @@ def load_events_config(events_json_path: str = DEFAULT_EVENTS_JSON) -> List[Dict
     return events
 
 
+def load_scoring_config(path: str = SCORING_CSV) -> Dict[str, float]:
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Missing scoring file: {path}")
+
+    scoring: Dict[str, float] = {}
+    with p.open("r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            key = clean_text(row.get("Setting"))
+            val = clean_text(row.get("Value"))
+            if not key:
+                continue
+            try:
+                scoring[key] = float(val)
+            except (TypeError, ValueError):
+                scoring[key] = 0.0
+
+    return scoring
+
+
+def calculate_fantasy_points(row: Dict[str, Any], scoring: Dict[str, float], is_major: bool) -> Tuple[float, float]:
+    total = 0.0
+
+    for key in [
+        "Wins",
+        "Top 3s",
+        "Top 10s",
+        "Top 20s",
+        "Albatrosses",
+        "Aces",
+        "Eagles",
+        "Birdies",
+        "Pars",
+        "Bogeys+",
+    ]:
+        try:
+            val = float(row.get(key, 0) or 0)
+        except (TypeError, ValueError):
+            val = 0.0
+        pts = scoring.get(key, 0.0)
+        total += val * pts
+
+    multiplier = scoring.get("Major Multiplier", 1.0)
+    if is_major:
+        return total * multiplier, multiplier
+    return total, 1.0
+
+
 def init_player_row(
     pdga_event_id: int,
     site_event_id: str,
@@ -294,6 +344,8 @@ def init_player_row(
         "Birdies": 0,
         "Pars": 0,
         "Bogeys+": 0,
+        "FantasyPoints": 0.0,
+        "MajorMultiplierUsed": 1.0,
         "Rounds": 0,
         "HolesCounted": 0,
         "rounds_set": set(),
@@ -318,7 +370,7 @@ def skip_result(
     }
 
 
-def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[str, Any]:
+def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring: Dict[str, float]) -> Dict[str, Any]:
     site_event_id = clean_text(event_cfg["id"]).lower()
     event_id = int(event_cfg["event_id"])
     division = clean_text(event_cfg.get("division")) or DEFAULT_DIVISION
@@ -366,6 +418,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
         return skip_result(site_event_id, event_id, division, event_name)
 
     final_results_round = max(played_rounds)
+    is_major = clean_text(tier).lower() == "major"
 
     print(f"Event: {event_name}")
     print(f"Year: {year}")
@@ -506,6 +559,11 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
         v["Top 3s"] = flag_top_n(p_int, 3)
         v["Top 10s"] = flag_top_n(p_int, 10)
         v["Top 20s"] = flag_top_n(p_int, 20)
+
+        fantasy_points, multiplier_used = calculate_fantasy_points(v, scoring, is_major)
+        v["FantasyPoints"] = round(fantasy_points, 2)
+        v["MajorMultiplierUsed"] = multiplier_used
+
         out_rows.append(v)
 
     def place_sort_val(place: str) -> int:
@@ -537,6 +595,8 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
         "Birdies",
         "Pars",
         "Bogeys+",
+        "FantasyPoints",
+        "MajorMultiplierUsed",
         "Rounds",
         "HolesCounted",
     ]
@@ -566,6 +626,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any]) -> Dict[
 
 def main() -> None:
     events = load_events_config(DEFAULT_EVENTS_JSON)
+    scoring = load_scoring_config(SCORING_CSV)
     session = get_session()
 
     results: List[Dict[str, Any]] = []
@@ -574,7 +635,7 @@ def main() -> None:
     for event_cfg in events:
         site_event_id = clean_text(event_cfg.get("id")).lower() or "unknown"
         try:
-            result = process_event(session, event_cfg)
+            result = process_event(session, event_cfg, scoring)
             results.append(result)
         except Exception as exc:
             failures.append((site_event_id, str(exc)))
