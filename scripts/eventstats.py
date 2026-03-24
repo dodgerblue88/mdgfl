@@ -344,7 +344,7 @@ def init_player_row(
         "Birdies": 0,
         "Pars": 0,
         "Bogeys+": 0,
-        "FantasyPoints": 0.0,
+        "TotalPoints": 0.0,
         "MajorMultiplierUsed": 1.0,
         "Rounds": 0,
         "HolesCounted": 0,
@@ -561,7 +561,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
         v["Top 20s"] = flag_top_n(p_int, 20)
 
         fantasy_points, multiplier_used = calculate_fantasy_points(v, scoring, is_major)
-        v["FantasyPoints"] = round(fantasy_points, 2)
+        v["TotalPoints"] = round(fantasy_points, 2)
         v["MajorMultiplierUsed"] = multiplier_used
 
         out_rows.append(v)
@@ -595,7 +595,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
         "Birdies",
         "Pars",
         "Bogeys+",
-        "FantasyPoints",
+        "TotalPoints",
         "MajorMultiplierUsed",
         "Rounds",
         "HolesCounted",
