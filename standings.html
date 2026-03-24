@@ -247,7 +247,7 @@
       if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
       const events = await res.json();
       if (!Array.isArray(events)) throw new Error("events.json must be an array");
-      return events.filter(e => e && e.id && e.csv);
+      return events.filter(e => e && e.id && e.stats_csv);
     }
 
     async function loadRosters(){
@@ -495,7 +495,7 @@
 
       const pointsByEvent = new Map();
       for (const evt of events) {
-        pointsByEvent.set(evt.id, await loadEventPointsMap(evt.csv));
+        pointsByEvent.set(evt.id, await loadEventPointsMap(evt.stats_csv));
       }
 
       const teams = computeTeams(events, roster, pointsByEvent);
