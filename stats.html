@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,11 +40,11 @@
       <div class="bar-left">
         <label class="muted" for="eventSelect">View:</label>
         <select id="eventSelect"></select>
-        <input id="searchInput" placeholder="Search player…" />
+        <input id="searchInput" placeholder="Search player…">
       </div>
       <div class="bar-right">
         <button id="refreshBtn">Refresh</button>
-        <button id="downloadBtn">Download CSV</button>
+        <button id="downloadBtn" title="Points fields intentionally blank for now">Download CSV</button>
       </div>
     </div>
 
@@ -69,7 +70,459 @@
         else link.classList.remove('active');
       });
     })();
+
+    const TOTALS_VALUE = "__TOTALS__";
+    const DEFAULT_SORT_KEY = "Total Points";
+
+    const COLUMN_DEFS = [
+      { key: "MDGFL Ranking", label: "MDGFL Ranking", numeric: false },
+      { key: "Player", label: "Player", numeric: false },
+      { key: "Total", label: "Total", numeric: true },
+      { key: "Finish", label: "Finish", numeric: true },
+      { key: "Aces", label: "Aces", numeric: true },
+      { key: "Albatrosses", label: "Albatrosses", numeric: true },
+      { key: "Eagles", label: "Eagles", numeric: true },
+      { key: "Birdies", label: "Birdies", numeric: true },
+      { key: "Pars", label: "Pars", numeric: true },
+      { key: "Bogeys+", label: "Bogeys+", numeric: true },
+      { key: "Wins", label: "Wins", numeric: true },
+      { key: "Top 3s", label: "Top 3s", numeric: true },
+      { key: "Top 10s", label: "Top 10s", numeric: true },
+      { key: "Top 20s", label: "Top 20s", numeric: true },
+      { key: "Total Points", label: "Total Points", numeric: true }
+    ];
+
+    let state = {
+      events: [],
+      rows: {},
+      selectedEvent: TOTALS_VALUE,
+      search: "",
+      sortKey: DEFAULT_SORT_KEY,
+      sortDir: "desc",
+      updatedAt: null
+    };
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+
+        if (c === '"' && inQuotes && next === '"') {
+          cur += '"';
+          i++;
+          continue;
+        }
+        if (c === '"') {
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if (!inQuotes && c === ",") {
+          row.push(cur);
+          cur = "";
+          continue;
+        }
+        if (!inQuotes && (c === "\n" || c === "\r")) {
+          if (c === "\r" && next === "\n") i++;
+          row.push(cur);
+          cur = "";
+          if (row.some(v => String(v).trim() !== "")) rows.push(row);
+          row = [];
+          continue;
+        }
+        cur += c;
+      }
+
+      row.push(cur);
+      if (row.some(v => String(v).trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function norm(value) {
+      return String(value ?? "").trim().toLowerCase().replace(/[_\s#]+/g, " ");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toNumber(value) {
+      const cleaned = String(value ?? "").trim().replace(/,/g, "");
+      if (cleaned === "") return null;
+      const n = Number(cleaned);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleString();
+    }
+
+    function safeEventLabel(evt) {
+      return evt?.name || String(evt?.id || "").toUpperCase();
+    }
+
+    function buildEventSelect(events) {
+      const select = document.getElementById("eventSelect");
+      select.innerHTML = "";
+
+      const totalOpt = document.createElement("option");
+      totalOpt.value = TOTALS_VALUE;
+      totalOpt.textContent = "Total Stats (Auto)";
+      select.appendChild(totalOpt);
+
+      events.forEach(evt => {
+        const opt = document.createElement("option");
+        opt.value = evt.id;
+        opt.textContent = safeEventLabel(evt);
+        select.appendChild(opt);
+      });
+
+      select.value = state.selectedEvent;
+    }
+
+    function mapHeaderIndexes(header) {
+      const normalized = header.map(norm);
+      const find = (...candidates) => {
+        for (const candidate of candidates) {
+          const want = norm(candidate);
+          const exact = normalized.indexOf(want);
+          if (exact >= 0) return exact;
+        }
+        for (const candidate of candidates) {
+          const want = norm(candidate);
+          const loose = normalized.findIndex(h => h.includes(want) || want.includes(h));
+          if (loose >= 0) return loose;
+        }
+        return -1;
+      };
+
+      return {
+        player: find("Player", "Name"),
+        total: find("Total"),
+        place: find("Place", "Finish"),
+        aces: find("Aces"),
+        albatrosses: find("Albatrosses"),
+        eagles: find("Eagles"),
+        birdies: find("Birdies"),
+        pars: find("Pars"),
+        bogeys: find("Bogeys+", "Bogeys"),
+        wins: find("Wins"),
+        top3: find("Top 3s", "Top3s", "Top 3"),
+        top10: find("Top 10s", "Top10s", "Top 10"),
+        top20: find("Top 20s", "Top20s", "Top 20"),
+        totalPoints: find("Total Points","TotalPoints")
+      };
+    }
+
+    function createBlankPointsRow(base) {
+      return {
+        "MDGFL Ranking": "",
+        "Player": base["Player"] || "",
+        "Total": base["Total"] || "",
+        "Finish": base["Finish"] || "",
+        "Aces": base["Aces"] || 0,
+        "Albatrosses": base["Albatrosses"] || 0,
+        "Eagles": base["Eagles"] || 0,
+        "Birdies": base["Birdies"] || 0,
+        "Pars": base["Pars"] || 0,
+        "Bogeys+": base["Bogeys+"] || 0,
+        "Wins": base["Wins"] || 0,
+        "Top 3s": base["Top 3s"] || 0,
+        "Top 10s": base["Top 10s"] || 0,
+        "Top 20s": base["Top 20s"] || 0,
+        "Total Points": "",
+        "_sort_total_points": null
+      };
+    }
+
+    function rowFromCsvRow(row, idx) {
+      const totalPoints = idx.totalPoints >= 0 ? (toNumber(row[idx.totalPoints]) ?? 0) : 0;
+      return {
+        "MDGFL Ranking": "",
+        "Player": row[idx.player] ?? "",
+        "Total": row[idx.total] ?? "",
+        "Finish": row[idx.place] ?? "",
+        "Aces": toNumber(row[idx.aces]) ?? 0,
+        "Albatrosses": toNumber(row[idx.albatrosses]) ?? 0,
+        "Eagles": toNumber(row[idx.eagles]) ?? 0,
+        "Birdies": toNumber(row[idx.birdies]) ?? 0,
+        "Pars": toNumber(row[idx.pars]) ?? 0,
+        "Bogeys+": toNumber(row[idx.bogeys]) ?? 0,
+        "Wins": toNumber(row[idx.wins]) ?? 0,
+        "Top 3s": toNumber(row[idx.top3]) ?? 0,
+        "Top 10s": toNumber(row[idx.top10]) ?? 0,
+        "Top 20s": toNumber(row[idx.top20]) ?? 0,
+        "Total Points": totalPoints,
+        "_sort_total_points": totalPoints
+      };
+    }
+
+    function parseFinishForSort(value) {
+      const s = String(value ?? "").trim().toUpperCase();
+      if (!s) return 999999;
+      const digits = s.replace(/[^0-9]/g, "");
+      if (!digits) return 999999;
+      return Number(digits);
+    }
+
+    function compareFinish(a, b) {
+      const pa = parseFinishForSort(a["Finish"]);
+      const pb = parseFinishForSort(b["Finish"]);
+      if (pa !== pb) return pa - pb;
+      return String(a["Player"] || "").localeCompare(String(b["Player"] || ""));
+    }
+
+    function totalValue(row, key) {
+      if (key === "Total Points") return row._sort_total_points;
+      if (key === "Finish") return parseFinishForSort(row[key]);
+      const numeric = toNumber(row[key]);
+      return numeric !== null ? numeric : String(row[key] ?? "");
+    }
+
+    function sortRows(rows) {
+      const dir = state.sortDir === "asc" ? 1 : -1;
+      const sortKey = state.sortKey;
+
+      rows.sort((a, b) => {
+        const av = totalValue(a, sortKey);
+        const bv = totalValue(b, sortKey);
+
+        const aNull = av === null || av === "";
+        const bNull = bv === null || bv === "";
+
+        if (aNull && !bNull) return 1;
+        if (!aNull && bNull) return -1;
+
+        if (typeof av === "number" && typeof bv === "number") {
+          if (av !== bv) return (av - bv) * dir;
+        } else {
+          const cmp = String(av).localeCompare(String(bv), undefined, { numeric: true, sensitivity: "base" });
+          if (cmp !== 0) return cmp * dir;
+        }
+
+        return compareFinish(a, b);
+      });
+
+      rows.forEach((row, i) => {
+        row["MDGFL Ranking"] = i + 1;
+      });
+
+      return rows;
+    }
+
+    function buildTotals(allEventRows) {
+      const byPlayer = new Map();
+
+      allEventRows.forEach(row => {
+        const player = String(row["Player"] || "").trim();
+        if (!player) return;
+
+        if (!byPlayer.has(player)) {
+          byPlayer.set(player, createBlankPointsRow({ "Player": player }));
+        }
+
+        const agg = byPlayer.get(player);
+        agg["Player"] = player;
+        agg["Aces"] += toNumber(row["Aces"]) ?? 0;
+        agg["Albatrosses"] += toNumber(row["Albatrosses"]) ?? 0;
+        agg["Eagles"] += toNumber(row["Eagles"]) ?? 0;
+        agg["Birdies"] += toNumber(row["Birdies"]) ?? 0;
+        agg["Pars"] += toNumber(row["Pars"]) ?? 0;
+        agg["Bogeys+"] += toNumber(row["Bogeys+"]) ?? 0;
+        agg["Wins"] += toNumber(row["Wins"]) ?? 0;
+        agg["Top 3s"] += toNumber(row["Top 3s"]) ?? 0;
+        agg["Top 10s"] += toNumber(row["Top 10s"]) ?? 0;
+        agg["Top 20s"] += toNumber(row["Top 20s"]) ?? 0;
+        agg["Total Points"] = (toNumber(agg["Total Points"]) ?? 0) + (toNumber(row["Total Points"]) ?? 0);
+        agg["_sort_total_points"] = agg["Total Points"];
+        const finishVal = parseFinishForSort(row["Finish"]);
+        if (finishVal < 999999) {
+          agg["_finish_sum"] = (agg["_finish_sum"]||0) + finishVal;
+          agg["_finish_count"] = (agg["_finish_count"]||0) + 1;
+        }
+
+        const currentFinish = parseFinishForSort(agg["Finish"]);
+        const candidateFinish = parseFinishForSort(row["Finish"]);
+        if (!agg["Finish"] || candidateFinish < currentFinish) {
+          agg["Finish"] = row["Finish"] || "";
+        }
+
+        const currentTotal = toNumber(agg["Total"]);
+        const candidateTotal = toNumber(row["Total"]);
+        if (candidateTotal !== null) {
+          if (currentTotal === null) agg["Total"] = row["Total"];
+          else agg["Total"] = String(currentTotal + candidateTotal);
+        }
+      });
+
+      const out = Array.from(byPlayer.values());
+      out.forEach(row=>{
+        if(row["_finish_count"]){
+          row["Finish"] = (row["_finish_sum"]/row["_finish_count"]).toFixed(2);
+        }
+      });
+      return out;
+    }
+
+    async function loadEvents() {
+      const res = await fetch("data/events.json", { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load data/events.json (${res.status})`);
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("events.json must be an array");
+      return data.filter(evt => evt && evt.id && evt.stats_csv);
+    }
+
+    async function loadEventRows(event) {
+      const res = await fetch(event.stats_csv, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load ${event.stats_csv} (${res.status})`);
+      const text = await res.text();
+      const parsed = parseCsv(text);
+      if (parsed.length < 2) return [];
+      const header = parsed[0];
+      const idx = mapHeaderIndexes(header);
+      return parsed.slice(1).map(row => rowFromCsvRow(row, idx));
+    }
+
+    async function loadAllRows(events) {
+      const rowsByEvent = {};
+      for (const event of events) {
+        rowsByEvent[event.id] = await loadEventRows(event);
+      }
+      return rowsByEvent;
+    }
+
+    function renderTable(rows) {
+      const thead = document.getElementById("thead");
+      const tbody = document.getElementById("tbody");
+
+      const headHtml = "<tr>" + COLUMN_DEFS.map(col => {
+        const cls = col.numeric ? ' class="num"' : "";
+        return `<th${cls}>${escapeHtml(col.label)}</th>`;
+      }).join("") + "</tr>";
+      thead.innerHTML = headHtml;
+
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="15" class="muted">No rows found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = rows.map(row => {
+        return "<tr>" + COLUMN_DEFS.map(col => {
+          const value = row[col.key] ?? "";
+          const cls = col.key === "MDGFL Ranking" ? ' class="place"' : (col.numeric ? ' class="num"' : "");
+          return `<td${cls}>${escapeHtml(value)}</td>`;
+        }).join("") + "</tr>";
+      }).join("");
+    }
+
+    function updateFooter(rows) {
+      const footer = document.getElementById("footer");
+      const eventLabel = state.selectedEvent === TOTALS_VALUE
+        ? "Total Stats (Auto)"
+        : safeEventLabel(state.events.find(evt => evt.id === state.selectedEvent));
+      footer.textContent = `${eventLabel} • Rows: ${rows.length} • Sorted by ${state.sortKey} • Updated: ${formatDate(state.updatedAt)}`;
+    }
+
+    function downloadCurrentCsv(rows) {
+      const headers = COLUMN_DEFS.map(c => c.label);
+      const lines = [headers.join(",")];
+
+      rows.forEach(row => {
+        const values = COLUMN_DEFS.map(col => {
+          const raw = row[col.key] ?? "";
+          const value = String(raw).replaceAll('"', '""');
+          return /[",\n]/.test(value) ? `"${value}"` : value;
+        });
+        lines.push(values.join(","));
+      });
+
+      const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const selected = state.selectedEvent === TOTALS_VALUE ? "total_stats" : state.selectedEvent;
+      a.href = url;
+      a.download = `${selected}_stats_view.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function applySearch(rows) {
+      const q = state.search.trim().toLowerCase();
+      if (!q) return rows;
+      return rows.filter(row => String(row["Player"] || "").toLowerCase().includes(q));
+    }
+
+    function currentRows() {
+      let rows;
+
+      if (state.selectedEvent === TOTALS_VALUE) {
+        rows = buildTotals(Object.values(state.rows).flat());
+      } else {
+        rows = (state.rows[state.selectedEvent] || []).map(row => ({ ...row }));
+      }
+
+      rows = applySearch(rows);
+      rows = sortRows(rows);
+      return rows;
+    }
+
+    function render() {
+      const rows = currentRows();
+      renderTable(rows);
+      updateFooter(rows);
+    }
+
+    async function refresh() {
+      const events = await loadEvents();
+      state.events = events;
+      buildEventSelect(events);
+
+      const rowsByEvent = await loadAllRows(events);
+      state.rows = rowsByEvent;
+      state.updatedAt = new Date().toISOString();
+      render();
+    }
+
+    document.getElementById("eventSelect").addEventListener("change", (e) => {
+      state.selectedEvent = e.target.value;
+      render();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      state.search = e.target.value || "";
+      render();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      refresh().catch(showError);
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      downloadCurrentCsv(currentRows());
+    });
+
+    function showError(err) {
+      console.error(err);
+      document.getElementById("thead").innerHTML = "";
+      document.getElementById("tbody").innerHTML = `<tr><td colspan="15" class="muted">${escapeHtml(err?.message || "Unable to load stats.")}</td></tr>`;
+      document.getElementById("footer").textContent = "Check your data and file paths.";
+    }
+
+    refresh().catch(showError);
   </script>
-  <script src="assets/app.js"></script>
 </body>
 </html>
