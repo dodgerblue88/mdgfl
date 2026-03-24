@@ -269,7 +269,7 @@
 
       const header = rows[0];
       const idxPdga = findColumnIndex(header, ["PDGA", "PDGA #", "PDGA Number", "PDGANumber"]);
-      const idxPts = findColumnIndex(header, ["Total Points", "Points", "Fantasy Points", "Event Points"]);
+      const idxPts = findColumnIndex(header, ["Total Points", "TotalPoints"]);
 
       if (idxPdga < 0) throw new Error(`${csvPath}: missing PDGA column`);
       if (idxPts < 0) throw new Error(`${csvPath}: missing points column`);
