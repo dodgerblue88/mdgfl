@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -221,7 +222,7 @@
         top3: find("Top 3s", "Top3s", "Top 3"),
         top10: find("Top 10s", "Top10s", "Top 10"),
         top20: find("Top 20s", "Top20s", "Top 20"),
-        totalPoints: find("Total Points")
+        totalPoints: find("Total Points", "TotalPoints")
       };
     }
 
@@ -242,7 +243,9 @@
         "Top 10s": base["Top 10s"] || 0,
         "Top 20s": base["Top 20s"] || 0,
         "Total Points": "",
-        "_sort_total_points": null
+        "_sort_total_points": null,
+        "_finish_sum": 0,
+        "_finish_count": 0
       };
     }
 
@@ -261,9 +264,26 @@
         "Wins": toNumber(row[idx.wins]) ?? 0,
         "Top 3s": toNumber(row[idx.top3]) ?? 0,
         "Top 10s": toNumber(row[idx.top10]) ?? 0,
+        const totalPoints = idx.totalPoints >= 0 ? (toNumber(row[idx.totalPoints]) ?? 0) : 0;
+      return {
+        "MDGFL Ranking": "",
+        "Player": row[idx.player] ?? "",
+        "Total": row[idx.total] ?? "",
+        "Finish": row[idx.place] ?? "",
+        "Aces": toNumber(row[idx.aces]) ?? 0,
+        "Albatrosses": toNumber(row[idx.albatrosses]) ?? 0,
+        "Eagles": toNumber(row[idx.eagles]) ?? 0,
+        "Birdies": toNumber(row[idx.birdies]) ?? 0,
+        "Pars": toNumber(row[idx.pars]) ?? 0,
+        "Bogeys+": toNumber(row[idx.bogeys]) ?? 0,
+        "Wins": toNumber(row[idx.wins]) ?? 0,
+        "Top 3s": toNumber(row[idx.top3]) ?? 0,
+        "Top 10s": toNumber(row[idx.top10]) ?? 0,
         "Top 20s": toNumber(row[idx.top20]) ?? 0,
-        "Total Points": "",
-        "_sort_total_points": null
+        "Total Points": totalPoints,
+        "_sort_total_points": totalPoints,
+        "_finish_sum": parseFinishForSort(row[idx.place]) < 999999 ? parseFinishForSort(row[idx.place]) : 0,
+        "_finish_count": parseFinishForSort(row[idx.place]) < 999999 ? 1 : 0
       };
     }
 
@@ -343,11 +363,13 @@
         agg["Top 3s"] += toNumber(row["Top 3s"]) ?? 0;
         agg["Top 10s"] += toNumber(row["Top 10s"]) ?? 0;
         agg["Top 20s"] += toNumber(row["Top 20s"]) ?? 0;
+        agg["Total Points"] = (toNumber(agg["Total Points"]) ?? 0) + (toNumber(row["Total Points"]) ?? 0);
+        agg["_sort_total_points"] = agg["Total Points"];
 
-        const currentFinish = parseFinishForSort(agg["Finish"]);
-        const candidateFinish = parseFinishForSort(row["Finish"]);
-        if (!agg["Finish"] || candidateFinish < currentFinish) {
-          agg["Finish"] = row["Finish"] || "";
+        const finishVal = parseFinishForSort(row["Finish"]);
+        if (finishVal < 999999) {
+          agg["_finish_sum"] += finishVal;
+          agg["_finish_count"] += 1;
         }
 
         const currentTotal = toNumber(agg["Total"]);
@@ -358,7 +380,15 @@
         }
       });
 
-      return Array.from(byPlayer.values());
+      const out = Array.from(byPlayer.values());
+      out.forEach(row => {
+        if (row["_finish_count"] > 0) {
+          row["Finish"] = (row["_finish_sum"] / row["_finish_count"]).toFixed(2);
+        } else {
+          row["Finish"] = "";
+        }
+      });
+      return out;
     }
 
     async function loadEvents() {
