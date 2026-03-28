@@ -13,5 +13,13 @@
     "event_id": 96402,
     "division": "MPO",
     "stats_csv": "data/stats/beo_stats.csv"
+  },
+
+     {
+    "id": "qcc",
+    "name": "QCC — Queen City Classic",
+    "event_id": 96403,
+    "division": "MPO",
+    "stats_csv": "data/stats/qcc_stats.csv"
   } 
 ]
