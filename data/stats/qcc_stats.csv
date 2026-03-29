@@ -1,6 +1,6 @@
 site_event_id,event_id,Year,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,TotalPoints,MajorMultiplierUsed,Rounds,HolesCounted
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1061,54,-17,1,1,1,1,1,0,0,0,19,14,2,67.0,1.0,2,35
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Evan Smith,101574,1037,53,-15,2,0,1,1,1,0,0,0,18,14,3,45.0,1.0,2,35
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1061,107,-17,1,1,1,1,1,0,0,0,19,15,2,67.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Evan Smith,101574,1037,110,-14,2,0,1,1,1,0,0,0,18,14,4,44.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Austin Turner,54049,1030,112,-12,T3,0,1,1,1,0,0,0,15,18,3,42.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Calvin Heimburg,45971,1051,112,-12,T3,0,1,1,1,0,0,0,16,16,4,42.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Jake Monn,98722,1028,112,-12,T3,0,1,1,1,0,0,0,13,22,1,42.0,1.0,2,36
@@ -10,13 +10,13 @@ qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro T
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Nathan Queen,68286,1027,113,-11,T7,0,0,1,1,0,0,0,14,19,3,31.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Joel Freeman,69509,1035,114,-10,T10,0,0,1,1,0,0,0,17,13,6,31.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Richard Wysocki,38008,1050,114,-10,T10,0,0,1,1,0,0,1,16,12,7,34.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Chris Dickerson,62467,1037,115,-9,12,0,0,0,1,0,0,0,12,21,3,19.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Aaron Gossage,35449,1041,116,-8,T13,0,0,0,1,0,0,0,13,19,4,19.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Casey White,81739,1030,53,-8,T13,0,0,0,1,0,0,0,15,14,6,19.0,1.0,2,35
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Harry Chace,131546,1023,116,-8,T13,0,0,0,1,0,0,0,17,13,6,21.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Joseph Anderson,122356,1032,116,-8,T13,0,0,0,1,0,0,0,12,21,3,19.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Niklas Anttila,91249,1045,116,-8,T13,0,0,0,1,0,0,0,12,20,4,18.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Sullivan Tipton,78817,1040,116,-8,T13,0,0,0,1,0,0,0,13,18,5,18.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Casey White,81739,1030,115,-9,T12,0,0,0,1,0,0,0,16,14,6,20.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Chris Dickerson,62467,1037,115,-9,T12,0,0,0,1,0,0,0,12,21,3,19.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Aaron Gossage,35449,1041,116,-8,T14,0,0,0,1,0,0,0,13,19,4,19.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Harry Chace,131546,1023,116,-8,T14,0,0,0,1,0,0,0,17,13,6,21.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Joseph Anderson,122356,1032,116,-8,T14,0,0,0,1,0,0,0,12,21,3,19.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Niklas Anttila,91249,1045,116,-8,T14,0,0,0,1,0,0,0,12,20,4,18.0,1.0,2,36
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Sullivan Tipton,78817,1040,116,-8,T14,0,0,0,1,0,0,0,13,18,5,18.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Jaden Rye,153363,1028,117,-7,T19,0,0,0,1,0,0,0,11,21,4,17.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Kyle Klein,85132,1045,117,-7,T19,0,0,0,1,0,0,0,13,17,6,17.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Parker Welck,39491,1030,117,-7,T19,0,0,0,1,0,0,0,13,19,4,19.0,1.0,2,36
@@ -26,7 +26,7 @@ qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro T
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Colten Montgomery,35876,1007,119,-5,T25,0,0,0,0,0,0,0,14,14,8,6.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Gavin Babcock,80331,1034,119,-5,T25,0,0,0,0,0,0,0,12,18,6,6.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Ian Krajna,48125,1009,119,-5,T25,0,0,0,0,0,0,0,15,12,9,6.0,1.0,2,36
-qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Kevin Jones,41760,1016,54,-5,T25,0,0,0,0,0,0,0,9,22,4,5.0,1.0,2,35
+qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Kevin Jones,41760,1016,119,-5,T25,0,0,0,0,0,0,0,9,23,4,5.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Kyle Krieckhaus,154511,1011,119,-5,T25,0,0,0,0,0,0,1,11,19,5,11.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Matt Thompson,125969,994,119,-5,T25,0,0,0,0,0,0,0,12,17,7,5.0,1.0,2,36
 qcc,96403,2026,Queen City Classic presented by Another Round,MPO,Disc Golf Pro Tour,Andrew Marwede,75590,1034,120,-4,T31,0,0,0,0,0,0,0,12,17,7,5.0,1.0,2,36
