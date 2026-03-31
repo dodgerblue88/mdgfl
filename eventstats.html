@@ -413,16 +413,20 @@
         if (parsed.length < 2) return false;
 
         const header = parsed[0].map(norm);
-        const startIdx = header.findIndex(h => h === "event start date" || h === "event_start_date");
+        const startIdx = header.findIndex(h => h === "event start date" || h === "event start date");
 
-        // If start-date column doesn't exist, preserve legacy behavior and include it.
-        if (startIdx < 0) return true;
+        // Strict behavior: if we cannot find or parse the start date, do NOT include the event.
+        if (startIdx < 0) return false;
 
-        const firstRow = parsed[1] || [];
-        const startDate = parseDateOnly(firstRow[startIdx]);
-        if (!startDate) return true;
+        for (let i = 1; i < parsed.length; i++) {
+          const row = parsed[i] || [];
+          const startDate = parseDateOnly(row[startIdx]);
+          if (startDate) {
+            return startDate.getTime() <= todayDateOnly().getTime();
+          }
+        }
 
-        return startDate.getTime() <= todayDateOnly().getTime();
+        return false;
       } catch (err) {
         console.error("Failed event start-date check for", event?.id, err);
         return false;
