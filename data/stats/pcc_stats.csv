@@ -1,5 +1,5 @@
 site_event_id,event_id,Year,event_start_date,event_end_date,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,TotalPoints,MajorMultiplierUsed,Rounds,HolesCounted
-pcc,97336,2026,2026-04-09,2026-04-12,2026 PDGA Champions Cup,MPO,Major,Aaron Gossage,35449,1041,0,,,0,0,0,0,0,0,0,0,0,0,0.0,2.0,1,0
+pcc,97336,2026,2026-04-09,2026-04-12,2026 PDGA Champions Cup,MPO,Major,Aaron Gossage,35449,1041,0,,,0,0,0,0,0,0,0,0,0,0,100,2.0,1,0
 pcc,97336,2026,2026-04-09,2026-04-12,2026 PDGA Champions Cup,MPO,Major,Adam Hammes,57365,1036,0,,,0,0,0,0,0,0,0,0,0,0,0.0,2.0,1,0
 pcc,97336,2026,2026-04-09,2026-04-12,2026 PDGA Champions Cup,MPO,Major,Aidan Scott,99246,1023,0,,,0,0,0,0,0,0,0,0,0,0,0.0,2.0,1,0
 pcc,97336,2026,2026-04-09,2026-04-12,2026 PDGA Champions Cup,MPO,Major,Albert Tamm,76669,1020,0,,,0,0,0,0,0,0,0,0,0,0,0.0,2.0,1,0
