@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -376,12 +377,76 @@
       return out;
     }
 
+    function parseDateOnly(value) {
+      const s = String(value ?? "").trim();
+      if (!s) return null;
+
+      const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) {
+        const y = Number(iso[1]);
+        const m = Number(iso[2]);
+        const d = Number(iso[3]);
+        return new Date(y, m - 1, d);
+      }
+
+      const slash = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (slash) {
+        const m = Number(slash[1]);
+        const d = Number(slash[2]);
+        const y = Number(slash[3]);
+        return new Date(y, m - 1, d);
+      }
+
+      const parsed = new Date(s);
+      if (Number.isNaN(parsed.getTime())) return null;
+      return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+    }
+
+    function todayDateOnly() {
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+
+    async function eventHasStarted(event) {
+      if (!event?.stats_csv) return false;
+
+      try {
+        const res = await fetch(event.stats_csv, { cache: "no-store" });
+        if (!res.ok) return false;
+
+        const text = await res.text();
+        const parsed = parseCsv(text);
+        if (parsed.length < 2) return false;
+
+        const header = parsed[0];
+        const idx = mapHeaderIndexes(header);
+        const startIdx = header.map(norm).findIndex(h => h === "event start date" || h === "event_start_date");
+
+        if (startIdx < 0) {
+          // If the file exists but has no start date column, keep legacy behavior.
+          return true;
+        }
+
+        const firstRow = parsed[1] || [];
+        const startDate = parseDateOnly(firstRow[startIdx]);
+        if (!startDate) return true;
+
+        return startDate.getTime() <= todayDateOnly().getTime();
+      } catch (err) {
+        console.error("Failed start-date check for event", event?.id, err);
+        return false;
+      }
+    }
+
     async function loadEvents() {
       const res = await fetch("data/events.json", { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to load data/events.json (${res.status})`);
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("events.json must be an array");
-      return data.filter(evt => evt && evt.id && evt.stats_csv);
+
+      const candidates = data.filter(evt => evt && evt.id && evt.stats_csv);
+      const checks = await Promise.all(candidates.map(eventHasStarted));
+      return candidates.filter((evt, i) => checks[i]);
     }
 
     async function loadEventRows(event) {
@@ -432,7 +497,7 @@
       const eventLabel = state.selectedEvent === TOTALS_VALUE
         ? "Total Stats (Auto)"
         : safeEventLabel(state.events.find(evt => evt.id === state.selectedEvent));
-      footer.textContent = `${eventLabel} • Rows: ${rows.length} • Sorted by ${state.sortKey} • Updated: ${formatDate(state.updatedAt)}`;
+      footer.textContent = `${eventLabel} • Rows: ${rows.length} • Started events only • Sorted by ${state.sortKey} • Updated: ${formatDate(state.updatedAt)}`;
     }
 
     function downloadCurrentCsv(rows) {
