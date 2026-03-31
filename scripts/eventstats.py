@@ -216,6 +216,37 @@ def derive_year(data: Dict[str, Any]) -> Any:
     return ""
 
 
+def derive_event_dates(data: Dict[str, Any]) -> Tuple[str, str]:
+    start_candidates = [
+        "StartDate", "start_date", "DateStart", "date_start",
+        "EventDate", "event_date", "Start", "start",
+    ]
+    end_candidates = [
+        "EndDate", "end_date", "DateEnd", "date_end",
+        "End", "end",
+    ]
+
+    start_date = ""
+    end_date = ""
+
+    for key in start_candidates:
+        value = clean_text(data.get(key))
+        if value:
+            start_date = value
+            break
+
+    for key in end_candidates:
+        value = clean_text(data.get(key))
+        if value:
+            end_date = value
+            break
+
+    if start_date and not end_date:
+        end_date = start_date
+
+    return start_date, end_date
+
+
 def load_events_config(events_json_path: str = DEFAULT_EVENTS_JSON) -> List[Dict[str, Any]]:
     path = Path(events_json_path)
     if not path.exists():
@@ -315,6 +346,8 @@ def init_player_row(
     site_event_id: str,
     year: Any,
     event_name: str,
+    event_start_date: str,
+    event_end_date: str,
     division: str,
     tier: str,
     player_name: str,
@@ -325,6 +358,8 @@ def init_player_row(
         "site_event_id": site_event_id,
         "event_id": pdga_event_id,
         "Year": year,
+        "event_start_date": event_start_date,
+        "event_end_date": event_end_date,
         "event_name": event_name,
         "division": division,
         "Tier": tier,
@@ -384,6 +419,7 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
 
     event_name = clean_text(data.get("Name")) or clean_text(event_cfg.get("name")) or f"Event {event_id}"
     year = derive_year(data)
+    event_start_date, event_end_date = derive_event_dates(data)
     tier = (
         clean_text(data.get("FormattedTier"))
         or clean_text(data.get("Tier"))
@@ -422,6 +458,8 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
 
     print(f"Event: {event_name}")
     print(f"Year: {year}")
+    print(f"Event start date: {event_start_date}")
+    print(f"Event end date: {event_end_date}")
     print(f"Division: {division}")
     print(f"Tier: {tier}")
     print(f"Reported LatestRound: {reported_latest_round}")
@@ -466,6 +504,8 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
                         site_event_id=site_event_id,
                         year=year,
                         event_name=event_name,
+                        event_start_date=event_start_date,
+                        event_end_date=event_end_date,
                         division=division,
                         tier=tier,
                         player_name=name,
@@ -532,6 +572,8 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
                     site_event_id=site_event_id,
                     year=year,
                     event_name=event_name,
+                    event_start_date=event_start_date,
+                    event_end_date=event_end_date,
                     division=division,
                     tier=tier,
                     player_name=name,
@@ -576,6 +618,8 @@ def process_event(session: requests.Session, event_cfg: Dict[str, Any], scoring:
         "site_event_id",
         "event_id",
         "Year",
+        "event_start_date",
+        "event_end_date",
         "event_name",
         "division",
         "Tier",
