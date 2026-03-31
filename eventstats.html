@@ -383,18 +383,12 @@
 
       const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
       if (iso) {
-        const y = Number(iso[1]);
-        const m = Number(iso[2]);
-        const d = Number(iso[3]);
-        return new Date(y, m - 1, d);
+        return new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
       }
 
       const slash = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
       if (slash) {
-        const m = Number(slash[1]);
-        const d = Number(slash[2]);
-        const y = Number(slash[3]);
-        return new Date(y, m - 1, d);
+        return new Date(Number(slash[3]), Number(slash[1]) - 1, Number(slash[2]));
       }
 
       const parsed = new Date(s);
@@ -418,14 +412,11 @@
         const parsed = parseCsv(text);
         if (parsed.length < 2) return false;
 
-        const header = parsed[0];
-        const idx = mapHeaderIndexes(header);
-        const startIdx = header.map(norm).findIndex(h => h === "event start date" || h === "event_start_date");
+        const header = parsed[0].map(norm);
+        const startIdx = header.findIndex(h => h === "event start date" || h === "event_start_date");
 
-        if (startIdx < 0) {
-          // If the file exists but has no start date column, keep legacy behavior.
-          return true;
-        }
+        // If start-date column doesn't exist, preserve legacy behavior and include it.
+        if (startIdx < 0) return true;
 
         const firstRow = parsed[1] || [];
         const startDate = parseDateOnly(firstRow[startIdx]);
@@ -433,7 +424,7 @@
 
         return startDate.getTime() <= todayDateOnly().getTime();
       } catch (err) {
-        console.error("Failed start-date check for event", event?.id, err);
+        console.error("Failed event start-date check for", event?.id, err);
         return false;
       }
     }
