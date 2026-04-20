@@ -29,5 +29,13 @@
     "event_id": 97336,
     "division": "MPO",
     "stats_csv": "data/stats/pcc_stats.csv"
+  },
+
+  {
+    "id": "jbo",
+    "name": "JBO — Jonesboro Open",
+    "event_id": 96404,
+    "division": "MPO",
+    "stats_csv": "data/stats/jbo_stats.csv"
   }
 ]
