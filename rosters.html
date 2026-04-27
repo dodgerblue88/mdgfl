@@ -1,4 +1,5 @@
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -50,6 +51,23 @@
       gap:14px;
     }
     .controls-grid .full{ grid-column:1 / -1; }
+
+    .event-controls{
+      display:grid;
+      grid-template-columns:minmax(220px, 1fr) auto auto;
+      gap:10px;
+      align-items:end;
+      margin-top:14px;
+    }
+    @media (max-width: 780px){ .event-controls{ grid-template-columns:1fr; } }
+
+    .event-note{
+      color:var(--muted, #aab3c5);
+      font-size:.9rem;
+      margin-top:10px;
+      line-height:1.45;
+    }
+
     @media (max-width: 980px){ .controls-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
     @media (max-width: 640px){ .controls-grid{ grid-template-columns:1fr; } }
 
@@ -145,6 +163,10 @@
           <input id="playersCsv" type="text" value="data/players.csv" />
         </div>
         <div class="field">
+          <label for="eventsJson">Events JSON path</label>
+          <input id="eventsJson" type="text" value="data/events.json" />
+        </div>
+        <div class="field">
           <label for="numTeams">Number of teams</label>
           <input id="numTeams" type="number" min="2" max="50" value="8" />
         </div>
@@ -178,6 +200,20 @@
           <input id="ghToken" type="password" placeholder="Paste token (stored locally only)" />
         </div>
       </div>
+      <div class="event-controls">
+        <div class="field">
+          <label for="eventSelect">Roster week / event</label>
+          <select id="eventSelect"></select>
+        </div>
+        <button id="copyPrevBtn" class="btn" type="button">Copy Previous Event</button>
+        <button id="saveWeekBtn" class="btn primary" type="button">Save This Event</button>
+      </div>
+
+      <p class="event-note">
+        Rosters are now event-based. New events default to the most recent prior event roster until you save a change for that event.
+        The base <code>teams</code> roster remains the active/current roster.
+      </p>
+
       <p class="muted muted-block" style="margin:14px 0 0;">
         Tip: keep the <b>Storage key</b> stable (for example <code>rosters:2026</code>) for local use. For cross-device sync, configure GitHub and save to <code>data/rosters.json</code>.
       </p>
@@ -198,9 +234,7 @@
       });
     })();
 
-    // ---------- CSV parsing ----------
     function parseCsv(text) {
-      // Minimal CSV parser (handles commas + quoted fields)
       const rows = [];
       let row = [];
       let cur = "";
@@ -208,10 +242,8 @@
       for (let i = 0; i < text.length; i++) {
         const c = text[i];
         const next = text[i + 1];
-
         if (c === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
         if (c === '"') { inQuotes = !inQuotes; continue; }
-
         if (!inQuotes && c === ",") { row.push(cur); cur = ""; continue; }
         if (!inQuotes && (c === "\n" || c === "\r")) {
           if (c === "\r" && next === "\n") i++;
@@ -243,35 +275,31 @@
       }
 
       const players = rows.slice(1)
-        .map(r => ({
-          player: (r[idxName] ?? "").trim(),
-          pdga: (r[idxPdga] ?? "").trim()
-        }))
+        .map(r => ({ player: (r[idxName] ?? "").trim(), pdga: (r[idxPdga] ?? "").trim() }))
         .filter(p => p.player && p.pdga);
 
-      // Sort by name for dropdown UX
       players.sort((a,b) => a.player.localeCompare(b.player));
       return players;
     }
 
-
-    // ---------- GitHub sync (optional) ----------
-    // This writes rosters to a JSON file in your GitHub repo using the GitHub Contents API.
-    // You provide a fine-grained PAT (contents: read/write). The token is stored in localStorage only on this device.
-    // Any device that knows the repo + path and has a token can load/save the same rosters file.
-    //
-    // Endpoint: PUT /repos/{owner}/{repo}/contents/{path}
-    // Docs: https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28
+    async function loadEvents(eventsPath) {
+      const res = await fetch(eventsPath, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to load ${eventsPath} (${res.status})`);
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("events.json must be an array");
+      return data.filter(e => e && e.id).map((e, idx) => ({ ...e, id: String(e.id).toLowerCase(), _order: idx }));
+    }
 
     const GH_TOKEN_KEY = "ghToken:v1";
 
     function getGhCfg() {
-      const owner = document.getElementById("ghOwner").value.trim();
-      const repo = document.getElementById("ghRepo").value.trim();
-      const branch = document.getElementById("ghBranch").value.trim() || "main";
-      const path = document.getElementById("ghPath").value.trim() || "data/rosters.json";
-      const token = (document.getElementById("ghToken").value || "").trim();
-      return { owner, repo, branch, path, token };
+      return {
+        owner: document.getElementById("ghOwner").value.trim(),
+        repo: document.getElementById("ghRepo").value.trim(),
+        branch: document.getElementById("ghBranch").value.trim() || "main",
+        path: document.getElementById("ghPath").value.trim() || "data/rosters.json",
+        token: (document.getElementById("ghToken").value || "").trim()
+      };
     }
 
     function ghHeaders(token) {
@@ -283,7 +311,6 @@
     }
 
     function b64EncodeUnicode(str) {
-      // UTF-8 safe base64
       const bytes = new TextEncoder().encode(str);
       let binary = "";
       bytes.forEach(b => binary += String.fromCharCode(b));
@@ -318,7 +345,7 @@
 
       const res = await fetch(url, {
         method: "PUT",
-        headers: { ...ghHeaders(token), "Content-Type": "application/json" },
+        headers: { ...ghHeaders(token), "Content-Type":"application/json" },
         body: JSON.stringify(body)
       });
       if (!res.ok) {
@@ -343,16 +370,6 @@
       localStorage.setItem(GH_TOKEN_KEY, t);
     }
 
-
-    // ---------- localStorage schema ----------
-    // {
-    //   version: 1,
-    //   updatedAt: ISO,
-    //   numTeams: number,
-    //   playersPerTeam: number,
-    //   teams: [{ name: string, players: [{player,pdga}] }]
-    // }
-
     function nowIso() { return new Date().toISOString(); }
 
     function setPill(text, ok=false) {
@@ -364,34 +381,78 @@
     }
 
     function getKey() {
-      return document.getElementById("storageKey").value.trim() || "rosters:v1";
+      return document.getElementById("storageKey").value.trim() || "rosters:v2";
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj ?? null));
+    }
+
+    function normalizeRosterData(data) {
+      if (!data || typeof data !== "object") return null;
+      return {
+        version: 2,
+        updatedAt: data.updatedAt || nowIso(),
+        numTeams: Number(data.numTeams || data.teams?.length || document.getElementById("numTeams").value || 8),
+        playersPerTeam: Number(data.playersPerTeam || data.teams?.[0]?.players?.length || document.getElementById("playersPerTeam").value || 6),
+        teams: Array.isArray(data.teams) ? clone(data.teams) : [],
+        eventRosters: data.eventRosters && typeof data.eventRosters === "object" ? clone(data.eventRosters) : {}
+      };
+    }
+
+    function emptyRosterData(numTeams, playersPerTeam) {
+      const teams = [];
+      for (let i = 0; i < numTeams; i++) {
+        teams.push({
+          name: `Team ${i + 1}`,
+          players: Array.from({ length: playersPerTeam }, () => ({ player:"", pdga:"" }))
+        });
+      }
+      return { version: 2, updatedAt: nowIso(), numTeams, playersPerTeam, teams, eventRosters: {} };
     }
 
     function readSaved() {
-      const key = getKey();
-      const raw = localStorage.getItem(key);
+      const raw = localStorage.getItem(getKey());
       if (!raw) return null;
-      try { return JSON.parse(raw); } catch { return null; }
+      try { return normalizeRosterData(JSON.parse(raw)); } catch { return null; }
     }
 
     function writeSaved(data) {
-      const key = getKey();
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(getKey(), JSON.stringify(data));
       setPill(`Saved • ${new Date().toLocaleString()}`, true);
     }
 
     function clearSaved() {
-      const key = getKey();
-      localStorage.removeItem(key);
+      localStorage.removeItem(getKey());
       setPill("Cleared", false);
     }
 
-    // ---------- UI build ----------
-    let PLAYERS = [];
-    const teamsEl = document.getElementById("teams");
+    function eventIndex(eventId) {
+      return EVENTS.findIndex(e => e.id === String(eventId || "").toLowerCase());
+    }
+
+    function rosterForEvent(data, eventId) {
+      const normalized = normalizeRosterData(data) || emptyRosterData(8, 6);
+      const id = String(eventId || "").toLowerCase();
+
+      if (normalized.eventRosters?.[id]?.teams) return clone(normalized.eventRosters[id].teams);
+
+      const idx = eventIndex(id);
+      if (idx >= 0) {
+        for (let i = idx - 1; i >= 0; i--) {
+          const prevId = EVENTS[i].id;
+          if (normalized.eventRosters?.[prevId]?.teams) return clone(normalized.eventRosters[prevId].teams);
+        }
+      }
+
+      return clone(normalized.teams || []);
+    }
+
+    function currentEventId() {
+      return String(document.getElementById("eventSelect").value || "__active__").toLowerCase();
+    }
 
     function makePlayerOptions(selectedPdga="") {
-      // First option blank
       const frag = document.createDocumentFragment();
       const opt0 = document.createElement("option");
       opt0.value = "";
@@ -408,7 +469,7 @@
       return frag;
     }
 
-    function collectRosterFromUI() {
+    function collectTeamsFromUI() {
       const numTeams = Number(document.getElementById("numTeams").value);
       const playersPerTeam = Number(document.getElementById("playersPerTeam").value);
 
@@ -429,22 +490,61 @@
         }
         teams.push({ name, players });
       }
+      return teams;
+    }
 
-      return {
-        version: 1,
-        updatedAt: nowIso(),
-        numTeams,
-        playersPerTeam,
-        teams
-      };
+    function collectRosterFromUI() {
+      const seed = normalizeRosterData(CURRENT_DATA) || emptyRosterData(
+        Number(document.getElementById("numTeams").value),
+        Number(document.getElementById("playersPerTeam").value)
+      );
+
+      const eventId = currentEventId();
+      const teams = collectTeamsFromUI();
+
+      seed.version = 2;
+      seed.updatedAt = nowIso();
+      seed.numTeams = Number(document.getElementById("numTeams").value);
+      seed.playersPerTeam = Number(document.getElementById("playersPerTeam").value);
+
+      if (eventId === "__active__") {
+        seed.teams = teams;
+      } else {
+        seed.eventRosters = seed.eventRosters || {};
+        seed.eventRosters[eventId] = { eventId, updatedAt: nowIso(), teams };
+        seed.teams = teams;
+      }
+
+      CURRENT_DATA = seed;
+      return seed;
     }
 
     function saveFromUI() {
-      const data = collectRosterFromUI();
-      writeSaved(data);
+      writeSaved(collectRosterFromUI());
     }
 
-    function buildTeamsUI({ numTeams, playersPerTeam, seed=null }) {
+    function buildEventSelect(data) {
+      const select = document.getElementById("eventSelect");
+      const previous = select.value || "__active__";
+      select.innerHTML = "";
+
+      const active = document.createElement("option");
+      active.value = "__active__";
+      active.textContent = "Active / Current Roster";
+      select.appendChild(active);
+
+      EVENTS.forEach(evt => {
+        const opt = document.createElement("option");
+        opt.value = evt.id;
+        const marker = data?.eventRosters?.[evt.id]?.teams ? " ✓" : "";
+        opt.textContent = `${String(evt.id).toUpperCase()}${evt.name ? " — " + evt.name : ""}${marker}`;
+        select.appendChild(opt);
+      });
+
+      select.value = [...select.options].some(o => o.value === previous) ? previous : "__active__";
+    }
+
+    function buildTeamsUI({ numTeams, playersPerTeam, teams }) {
       teamsEl.innerHTML = "";
 
       for (let t = 0; t < numTeams; t++) {
@@ -452,7 +552,7 @@
         team.className = "card team-card";
         team.dataset.team = String(t);
 
-        const teamName = seed?.teams?.[t]?.name || `Team ${t+1}`;
+        const teamName = teams?.[t]?.name || `Team ${t+1}`;
 
         team.innerHTML = `
           <div class="team-head">
@@ -470,8 +570,7 @@
         for (let s = 0; s < playersPerTeam; s++) {
           const slot = document.createElement("div");
           slot.className = "slot";
-
-          const selectedPdga = seed?.teams?.[t]?.players?.[s]?.pdga || "";
+          const selectedPdga = teams?.[t]?.players?.[s]?.pdga || "";
 
           slot.innerHTML = `
             <div class="slot-label">P${s+1}</div>
@@ -480,20 +579,70 @@
 
           const sel = slot.querySelector("select");
           sel.appendChild(makePlayerOptions(selectedPdga));
-
-          // save on change
           sel.addEventListener("change", saveFromUI);
           body.appendChild(slot);
         }
 
-        // save when team name changes
         team.querySelector("input[data-teamname]").addEventListener("input", debounce(saveFromUI, 250));
-
         teamsEl.appendChild(team);
       }
     }
 
-    // ---------- helpers ----------
+    function renderRoster(data) {
+      const normalized = normalizeRosterData(data) || emptyRosterData(
+        Number(document.getElementById("numTeams").value),
+        Number(document.getElementById("playersPerTeam").value)
+      );
+      CURRENT_DATA = normalized;
+
+      document.getElementById("numTeams").value = normalized.numTeams;
+      document.getElementById("playersPerTeam").value = normalized.playersPerTeam;
+
+      buildEventSelect(normalized);
+
+      const eventId = currentEventId();
+      const teams = eventId === "__active__" ? normalized.teams : rosterForEvent(normalized, eventId);
+
+      buildTeamsUI({
+        numTeams: normalized.numTeams,
+        playersPerTeam: normalized.playersPerTeam,
+        teams
+      });
+
+      const rosterLabel = eventId === "__active__" ? "Active roster" : `${eventId.toUpperCase()} event roster`;
+      const savedForEvent = eventId !== "__active__" && normalized.eventRosters?.[eventId]?.teams;
+      document.getElementById("footer").textContent =
+        `${rosterLabel} • ${normalized.numTeams} team(s) • ${normalized.playersPerTeam} player slots` +
+        (eventId !== "__active__" && !savedForEvent ? " • defaulted from previous event" : "");
+    }
+
+    function copyPreviousEventRoster() {
+      const data = normalizeRosterData(CURRENT_DATA);
+      const eventId = currentEventId();
+      if (!data || eventId === "__active__") {
+        setPill("Select an event first", false);
+        return;
+      }
+
+      const idx = eventIndex(eventId);
+      let copied = null;
+      for (let i = idx - 1; i >= 0; i--) {
+        const prevId = EVENTS[i].id;
+        if (data.eventRosters?.[prevId]?.teams) {
+          copied = clone(data.eventRosters[prevId].teams);
+          break;
+        }
+      }
+      if (!copied) copied = clone(data.teams || []);
+
+      data.eventRosters = data.eventRosters || {};
+      data.eventRosters[eventId] = { eventId, updatedAt: nowIso(), teams: copied };
+      CURRENT_DATA = data;
+      renderRoster(data);
+      writeSaved(data);
+      setPill(`Copied previous roster to ${eventId.toUpperCase()}`, true);
+    }
+
     function debounce(fn, ms) {
       let t;
       return (...args) => {
@@ -511,45 +660,50 @@
         .replaceAll("'","&#039;");
     }
 
-    // ---------- actions ----------
+    let PLAYERS = [];
+    let EVENTS = [];
+    let CURRENT_DATA = null;
+    const teamsEl = document.getElementById("teams");
+
     async function init(loadSaved=true) {
       loadGhTokenIntoInput();
+      setPill("Loading players/events…", false);
 
-      setPill("Loading players…", false);
-
-      const csvPath = document.getElementById("playersCsv").value.trim();
-      PLAYERS = await loadPlayers(csvPath);
+      PLAYERS = await loadPlayers(document.getElementById("playersCsv").value.trim());
+      EVENTS = await loadEvents(document.getElementById("eventsJson").value.trim());
 
       const numTeams = Number(document.getElementById("numTeams").value);
       const playersPerTeam = Number(document.getElementById("playersPerTeam").value);
 
       let seed = null;
       if (loadSaved) seed = readSaved();
+      if (!seed) seed = emptyRosterData(numTeams, playersPerTeam);
 
-      if (seed && seed.numTeams && seed.playersPerTeam) {
-        // if saved config differs, mirror it so UI matches
-        document.getElementById("numTeams").value = seed.numTeams;
-        document.getElementById("playersPerTeam").value = seed.playersPerTeam;
-        buildTeamsUI({ numTeams: seed.numTeams, playersPerTeam: seed.playersPerTeam, seed });
-        setPill(`Loaded saved • ${new Date(seed.updatedAt).toLocaleString()}`, true);
-        document.getElementById("footer").textContent = `Loaded ${seed.numTeams} team(s) • ${seed.playersPerTeam} player slots`;
-      } else {
-        buildTeamsUI({ numTeams, playersPerTeam, seed: null });
-        setPill("Ready (nothing saved yet)", false);
-        document.getElementById("footer").textContent = `Loaded ${numTeams} team(s) • ${playersPerTeam} player slots`;
-      }
-
-      // Save immediately after build so a blank structure exists (optional)
-      // saveFromUI();
+      renderRoster(seed);
+      setPill(seed.updatedAt ? `Loaded • ${new Date(seed.updatedAt).toLocaleString()}` : "Ready", !!seed);
     }
 
     document.getElementById("buildBtn").addEventListener("click", async () => {
-      await init(false);
-      saveFromUI(); // persist the new structure
+      CURRENT_DATA = emptyRosterData(Number(document.getElementById("numTeams").value), Number(document.getElementById("playersPerTeam").value));
+      renderRoster(CURRENT_DATA);
+      saveFromUI();
     });
 
     document.getElementById("loadBtn").addEventListener("click", async () => {
       await init(true);
+    });
+
+    document.getElementById("saveWeekBtn").addEventListener("click", () => {
+      saveFromUI();
+      renderRoster(CURRENT_DATA);
+    });
+
+    document.getElementById("copyPrevBtn").addEventListener("click", () => {
+      copyPreviousEventRoster();
+    });
+
+    document.getElementById("eventSelect").addEventListener("change", () => {
+      renderRoster(CURRENT_DATA);
     });
 
     document.getElementById("loadGhBtn").addEventListener("click", async () => {
@@ -563,16 +717,10 @@
         const file = await ghGetFile(cfg);
         if (!file) throw new Error("No rosters file found at that path (404). Save once to create it.");
 
-        const seed = JSON.parse(file.text);
-        // mirror saved config into UI
-        if (seed?.numTeams) document.getElementById("numTeams").value = seed.numTeams;
-        if (seed?.playersPerTeam) document.getElementById("playersPerTeam").value = seed.playersPerTeam;
-
-        buildTeamsUI({ numTeams: Number(document.getElementById("numTeams").value), playersPerTeam: Number(document.getElementById("playersPerTeam").value), seed });
-        // also store locally (so it works offline)
+        const seed = normalizeRosterData(JSON.parse(file.text));
+        renderRoster(seed);
         writeSaved(seed);
         setPill(`Loaded from GitHub • ${new Date(seed.updatedAt || Date.now()).toLocaleString()}`, true);
-        document.getElementById("footer").textContent = `Loaded ${seed.numTeams} team(s) • ${seed.playersPerTeam} player slots`;
       } catch (err) {
         console.error(err);
         setPill(`Error: ${err.message}`, false);
@@ -588,10 +736,8 @@
         if (!cfg.token) throw new Error("Enter a GitHub token (fine‑grained PAT).");
 
         const data = collectRosterFromUI();
-        // always keep local in sync too
         writeSaved(data);
 
-        // fetch existing sha (if any), then put
         const existing = await ghGetFile(cfg);
         const jsonText = JSON.stringify(data, null, 2);
         await ghPutFile(cfg, jsonText, existing?.sha);
@@ -608,18 +754,17 @@
       document.getElementById("footer").textContent = "Local roster data cleared";
     });
 
-    // If player CSV path or storageKey changes, re-init (so it can load correct dataset)
     document.getElementById("playersCsv").addEventListener("change", () => init(true));
+    document.getElementById("eventsJson").addEventListener("change", () => init(true));
     document.getElementById("storageKey").addEventListener("change", () => init(true));
     document.getElementById("ghToken").addEventListener("change", () => persistGhTokenFromInput());
 
-    // First load
     init(true).catch(err => {
       console.error(err);
       setPill(`Error: ${err.message}`, false);
       teamsEl.innerHTML = `<div class="card" style="padding:16px;">
-        <b>Could not load players</b><div style="color:var(--muted);margin-top:6px">${escapeHtml(err.message)}</div>
-        <div style="color:var(--muted);margin-top:10px">Check that <code>data/players.csv</code> exists and has headers <code>Player,PDGA</code>.</div>
+        <b>Could not load roster editor</b><div style="color:var(--muted);margin-top:6px">${escapeHtml(err.message)}</div>
+        <div style="color:var(--muted);margin-top:10px">Check that <code>data/players.csv</code> and <code>data/events.json</code> exist.</div>
       </div>`;
     });
   </script>
