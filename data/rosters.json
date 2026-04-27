@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updatedAt": "2026-03-09T04:17:16.706Z",
+  "version": 2,
+  "updatedAt": "2026-04-27T20:35:06.963Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -12,8 +12,8 @@
           "pdga": "45971"
         },
         {
-          "player": "Paul McBeth",
-          "pdga": "27523"
+          "player": "Raven Newsom",
+          "pdga": "88212"
         },
         {
           "player": "Simon Lizotte",
@@ -28,8 +28,8 @@
           "pdga": "75590"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Silas Schultz",
+          "pdga": "79047"
         }
       ]
     },
@@ -149,5 +149,158 @@
         }
       ]
     }
-  ]
+  ],
+  "eventRosters": {
+    "kcw": {
+      "eventId": "kcw",
+      "updatedAt": "2026-04-27T20:35:06.963Z",
+      "teams": [
+        {
+          "name": "John",
+          "players": [
+            {
+              "player": "Calvin Heimburg",
+              "pdga": "45971"
+            },
+            {
+              "player": "Raven Newsom",
+              "pdga": "88212"
+            },
+            {
+              "player": "Simon Lizotte",
+              "pdga": "8332"
+            },
+            {
+              "player": "Ezra Aderhold",
+              "pdga": "121715"
+            },
+            {
+              "player": "Andrew Marwede",
+              "pdga": "75590"
+            },
+            {
+              "player": "Silas Schultz",
+              "pdga": "79047"
+            }
+          ]
+        },
+        {
+          "name": "Zack",
+          "players": [
+            {
+              "player": "Richard Wysocki",
+              "pdga": "38008"
+            },
+            {
+              "player": "Niklas Anttila",
+              "pdga": "91249"
+            },
+            {
+              "player": "Luke Taylor",
+              "pdga": "102119"
+            },
+            {
+              "player": "Cole Redalen",
+              "pdga": "79748"
+            },
+            {
+              "player": "Evan Smith",
+              "pdga": "101574"
+            },
+            {
+              "player": "",
+              "pdga": ""
+            }
+          ]
+        },
+        {
+          "name": "Kevin",
+          "players": [
+            {
+              "player": "Ezra Robinson",
+              "pdga": "50671"
+            },
+            {
+              "player": "Sullivan Tipton",
+              "pdga": "78817"
+            },
+            {
+              "player": "Adam Hammes",
+              "pdga": "57365"
+            },
+            {
+              "player": "Joseph Anderson",
+              "pdga": "122356"
+            },
+            {
+              "player": "Paul Krans",
+              "pdga": "132521"
+            },
+            {
+              "player": "",
+              "pdga": ""
+            }
+          ]
+        },
+        {
+          "name": "Jon",
+          "players": [
+            {
+              "player": "Gannon Buhr",
+              "pdga": "75412"
+            },
+            {
+              "player": "Kyle Klein",
+              "pdga": "85132"
+            },
+            {
+              "player": "Aaron Gossage",
+              "pdga": "35449"
+            },
+            {
+              "player": "Gavin Babcock",
+              "pdga": "80331"
+            },
+            {
+              "player": "Corey Ellis",
+              "pdga": "44512"
+            },
+            {
+              "player": "",
+              "pdga": ""
+            }
+          ]
+        },
+        {
+          "name": "Mike",
+          "players": [
+            {
+              "player": "Isaac Robinson",
+              "pdga": "50670"
+            },
+            {
+              "player": "Anthony Barela",
+              "pdga": "44382"
+            },
+            {
+              "player": "Eagle McMahon",
+              "pdga": "37817"
+            },
+            {
+              "player": "James Conrad",
+              "pdga": "17295"
+            },
+            {
+              "player": "Chris Dickerson",
+              "pdga": "62467"
+            },
+            {
+              "player": "",
+              "pdga": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
