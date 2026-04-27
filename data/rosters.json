@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-04-27T20:57:11.744Z",
+  "updatedAt": "2026-04-27T20:57:18.598Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -153,7 +153,7 @@
   "eventRosters": {
     "kcw": {
       "eventId": "kcw",
-      "updatedAt": "2026-04-27T20:35:06.963Z",
+      "updatedAt": "2026-04-27T20:57:18.598Z",
       "teams": [
         {
           "name": "John",
