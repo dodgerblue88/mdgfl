@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-04-27T20:35:06.963Z",
+  "updatedAt": "2026-04-27T20:44:48.465Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -12,8 +12,8 @@
           "pdga": "45971"
         },
         {
-          "player": "Raven Newsom",
-          "pdga": "88212"
+          "player": "Paul McBeth",
+          "pdga": "27523"
         },
         {
           "player": "Simon Lizotte",
@@ -28,8 +28,8 @@
           "pdga": "75590"
         },
         {
-          "player": "Silas Schultz",
-          "pdga": "79047"
+          "player": "",
+          "pdga": ""
         }
       ]
     },
