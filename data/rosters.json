@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-04-27T21:00:07.230Z",
+  "updatedAt": "2026-04-27T22:42:13.073Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -57,8 +57,8 @@
           "pdga": "101574"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Zachary Nash",
+          "pdga": "101197"
         }
       ]
     },
@@ -82,12 +82,12 @@
           "pdga": "122356"
         },
         {
-          "player": "Paul Krans",
-          "pdga": "132521"
+          "player": "Mauri Villmann",
+          "pdga": "107197"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Austin Turner",
+          "pdga": "54049"
         }
       ]
     },
@@ -115,8 +115,8 @@
           "pdga": "44512"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Braeden Sides",
+          "pdga": "129963"
         }
       ]
     },
@@ -136,16 +136,16 @@
           "pdga": "37817"
         },
         {
-          "player": "James Conrad",
-          "pdga": "17295"
+          "player": "Jesse Nieminen",
+          "pdga": "58923"
         },
         {
           "player": "Chris Dickerson",
           "pdga": "62467"
         },
         {
-          "player": "",
-          "pdga": ""
+          "player": "Jake Monn",
+          "pdga": "98722"
         }
       ]
     }
@@ -153,7 +153,7 @@
   "eventRosters": {
     "kcw": {
       "eventId": "kcw",
-      "updatedAt": "2026-04-27T20:57:18.598Z",
+      "updatedAt": "2026-04-27T22:42:13.073Z",
       "teams": [
         {
           "name": "John",
@@ -208,8 +208,8 @@
               "pdga": "101574"
             },
             {
-              "player": "",
-              "pdga": ""
+              "player": "Zachary Nash",
+              "pdga": "101197"
             }
           ]
         },
@@ -233,12 +233,12 @@
               "pdga": "122356"
             },
             {
-              "player": "Paul Krans",
-              "pdga": "132521"
+              "player": "Mauri Villmann",
+              "pdga": "107197"
             },
             {
-              "player": "",
-              "pdga": ""
+              "player": "Austin Turner",
+              "pdga": "54049"
             }
           ]
         },
@@ -266,8 +266,8 @@
               "pdga": "44512"
             },
             {
-              "player": "",
-              "pdga": ""
+              "player": "Braeden Sides",
+              "pdga": "129963"
             }
           ]
         },
@@ -287,16 +287,16 @@
               "pdga": "37817"
             },
             {
-              "player": "James Conrad",
-              "pdga": "17295"
+              "player": "Jesse Nieminen",
+              "pdga": "58923"
             },
             {
               "player": "Chris Dickerson",
               "pdga": "62467"
             },
             {
-              "player": "",
-              "pdga": ""
+              "player": "Jake Monn",
+              "pdga": "98722"
             }
           ]
         }
