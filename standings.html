@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,6 +45,11 @@
     td.excluded-score {
       text-decoration: line-through;
       opacity: 0.55;
+    }
+
+    .inactive-player {
+      text-decoration: line-through;
+      opacity: 0.62;
     }
 
     .col-rank,
@@ -303,68 +309,159 @@
       return map;
     }
 
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj ?? null));
+    }
+
+    function normalizeRosterData(roster) {
+      return {
+        ...roster,
+        eventRosters: roster?.eventRosters && typeof roster.eventRosters === "object" ? roster.eventRosters : {},
+        teams: Array.isArray(roster?.teams) ? roster.teams : []
+      };
+    }
+
+    function eventRosterTeams(roster, eventId, events) {
+      const data = normalizeRosterData(roster);
+      const id = String(eventId || "").toLowerCase();
+
+      if (data.eventRosters?.[id]?.teams) {
+        return clone(data.eventRosters[id].teams);
+      }
+
+      const idx = events.findIndex(evt => String(evt.id).toLowerCase() === id);
+      for (let i = idx - 1; i >= 0; i--) {
+        const prevId = String(events[i].id).toLowerCase();
+        if (data.eventRosters?.[prevId]?.teams) {
+          return clone(data.eventRosters[prevId].teams);
+        }
+      }
+
+      return clone(data.teams || []);
+    }
+
+    function activeRosterPlayerSet(roster) {
+      const data = normalizeRosterData(roster);
+      const active = new Set();
+      (data.teams || []).forEach(team => {
+        (team.players || []).forEach(p => {
+          const id = String(p?.pdga || "").trim();
+          if (id) active.add(id);
+        });
+      });
+      return active;
+    }
+
+    function makeTeamShells(roster, events) {
+      const data = normalizeRosterData(roster);
+      const byName = new Map();
+
+      (data.teams || []).forEach((team, idx) => {
+        const name = team?.name || `Team ${idx + 1}`;
+        if (!byName.has(name)) byName.set(name, { index: idx, name, playersById: new Map() });
+      });
+
+      events.forEach(evt => {
+        eventRosterTeams(data, evt.id, events).forEach((team, idx) => {
+          const name = team?.name || `Team ${idx + 1}`;
+          if (!byName.has(name)) byName.set(name, { index: idx, name, playersById: new Map() });
+        });
+      });
+
+      return Array.from(byName.values());
+    }
+
     function computeTeams(events, roster, pointsByEvent) {
-      const teams = (roster?.teams || []).map((t, idx) => ({
-        index: idx,
-        name: (t?.name || `Team ${idx + 1}`),
-        players: (t?.players || []).filter(p => p && p.pdga).map(p => ({ ...p }))
-      }));
+      const activePlayers = activeRosterPlayerSet(roster);
+      const teams = makeTeamShells(roster, events);
 
       for (const team of teams) {
-        for (const p of team.players) {
-          p._id = String(p.pdga || p.player || "");
-          p._perEvent = events.map(evt => {
-            const eventMap = pointsByEvent.get(evt.id);
-            if (!eventMap) return 0;
-            const raw = eventMap.get(String(p.pdga));
-            return Number.isFinite(Number(raw)) ? Number(raw) : 0;
+        team._countedByEvent = [];
+        team._perEvent = [];
+
+        events.forEach((evt, eventIdx) => {
+          const eventTeams = eventRosterTeams(roster, evt.id, events);
+          const eventTeam = eventTeams.find(t => (t?.name || "") === team.name) || { players: [] };
+
+          const eventPlayers = (eventTeam.players || [])
+            .filter(p => p && p.pdga)
+            .map(p => ({
+              ...p,
+              _id: String(p.pdga || p.player || ""),
+              _isActive: activePlayers.has(String(p.pdga || ""))
+            }));
+
+          const eventMap = pointsByEvent.get(evt.id);
+
+          eventPlayers.forEach(p => {
+            const raw = eventMap ? eventMap.get(String(p.pdga)) : 0;
+            const score = Number.isFinite(Number(raw)) ? Number(raw) : 0;
+
+            if (!team.playersById.has(p._id)) {
+              team.playersById.set(p._id, {
+                ...p,
+                _perEvent: events.map(() => 0),
+                _countedSeason: 0,
+                _rawSeason: 0,
+                _isActive: p._isActive
+              });
+            }
+
+            const stored = team.playersById.get(p._id);
+            stored.player = stored.player || p.player;
+            stored.pdga = stored.pdga || p.pdga;
+            stored._isActive = activePlayers.has(String(stored.pdga || ""));
+            stored._perEvent[eventIdx] = score;
           });
-          p._rawSeason = sum(p._perEvent);
-        }
 
-        team._countedByEvent = events.map((evt, i) => {
-          const scored = team.players.map(p => ({
-            id: p._id,
-            score: Number(p._perEvent[i] ?? 0),
-            rawSeason: Number(p._rawSeason ?? 0),
-            name: String(p.player || "")
-          }));
+          const scored = eventPlayers.map(p => {
+            const stored = team.playersById.get(p._id);
+            return {
+              id: p._id,
+              score: Number(stored?._perEvent[eventIdx] ?? 0),
+              name: String(p.player || "")
+            };
+          });
 
-          scored.sort((a, b) => (b.score - a.score) || (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
+          scored.sort((a, b) => (b.score - a.score) || a.name.localeCompare(b.name));
 
           const keep = new Set();
           if (scored.length <= 5) {
             scored.forEach(s => keep.add(s.id));
-            return keep;
+          } else {
+            const cutoffScore = scored[4].score;
+            const above = scored.filter(s => s.score > cutoffScore);
+            above.forEach(s => keep.add(s.id));
+
+            const remainingSlots = 5 - above.length;
+            const tied = scored
+              .filter(s => s.score === cutoffScore)
+              .sort((a, b) => a.name.localeCompare(b.name));
+
+            tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
           }
 
-          const cutoffScore = scored[4].score;
-          const above = scored.filter(s => s.score > cutoffScore);
-          above.forEach(s => keep.add(s.id));
-
-          const remainingSlots = 5 - above.length;
-          const tied = scored
-            .filter(s => s.score === cutoffScore)
-            .sort((a, b) => (b.rawSeason - a.rawSeason) || a.name.localeCompare(b.name));
-
-          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.id));
-          return keep;
+          team._countedByEvent[eventIdx] = keep;
+          team._perEvent[eventIdx] = eventPlayers.reduce((acc, p) => {
+            const stored = team.playersById.get(p._id);
+            return acc + (keep.has(p._id) ? Number(stored?._perEvent[eventIdx] ?? 0) : 0);
+          }, 0);
         });
 
-        team._perEvent = events.map((evt, i) => {
-          const keep = team._countedByEvent[i];
-          return team.players.reduce((acc, p) => acc + (keep.has(p._id) ? Number(p._perEvent[i] ?? 0) : 0), 0);
-        });
-
-        team._season = sum(team._perEvent);
+        team.players = Array.from(team.playersById.values());
 
         for (const p of team.players) {
+          p._rawSeason = sum(p._perEvent);
           p._countedSeason = team._countedByEvent.reduce((acc, keep, i) => {
             return acc + (keep.has(p._id) ? Number(p._perEvent[i] ?? 0) : 0);
           }, 0);
         }
 
-        team.players.sort((a, b) => (b._countedSeason - a._countedSeason) || String(a.player || "").localeCompare(String(b.player || "")));
+        team._season = sum(team._perEvent);
+        team.players.sort((a, b) =>
+          (b._countedSeason - a._countedSeason) ||
+          String(a.player || "").localeCompare(String(b.player || ""))
+        );
       }
 
       teams.sort((a, b) => (b._season - a._season) || a.name.localeCompare(b.name));
@@ -460,7 +557,7 @@
 
           const tdPlayer = document.createElement("td");
           tdPlayer.className = "col-team";
-          tdPlayer.innerHTML = `<span class="muted">${escapeHtml(p.player || "(Unnamed)")}</span>`;
+          tdPlayer.innerHTML = `<span class="muted ${p._isActive ? "" : "inactive-player"}" title="${p._isActive ? "" : "No longer on active roster"}">${escapeHtml(p.player || "(Unnamed)")}</span>`;
           trP.appendChild(tdPlayer);
 
           const tdPSeason = document.createElement("td");
