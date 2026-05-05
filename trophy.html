@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- saved from url=(0048)https://dodgerblue88.github.io/mdgfl/trophy.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -388,10 +389,10 @@
 
 <body>
   <nav class="subnav">
-    <a href="https://dodgerblue88.github.io/mdgfl/index.html" class="nav-link">Home</a>
-    <a href="https://dodgerblue88.github.io/mdgfl/standings.html" class="nav-link">Standings</a>
-    <a href="https://dodgerblue88.github.io/mdgfl/stats.html" class="nav-link">Stats</a>
-    <a href="https://dodgerblue88.github.io/mdgfl/trophy.html" class="nav-link active">Trophy Room</a>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="standings.html" class="nav-link">Standings</a>
+    <a href="stats.html" class="nav-link">Stats</a>
+    <a href="trophy.html" class="nav-link active">Trophy Room</a>
   </nav>
 
   <div class="wrap trophy-wrap">
@@ -683,27 +684,111 @@
       return Object.entries(obj).map(([k,v]) => `${k}:${v}`).join(';');
     }
 
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj ?? null));
+    }
+
+    function normalizeRosterData(roster) {
+      return {
+        ...roster,
+        eventRosters: roster?.eventRosters && typeof roster.eventRosters === "object" ? roster.eventRosters : {},
+        teams: Array.isArray(roster?.teams) ? roster.teams : []
+      };
+    }
+
+    function eventRosterTeams(roster, eventId, events) {
+      const data = normalizeRosterData(roster);
+      const id = String(eventId || "").toLowerCase();
+
+      if (data.eventRosters?.[id]?.teams) {
+        return clone(data.eventRosters[id].teams);
+      }
+
+      const idx = events.findIndex(evt => String(evt.id).toLowerCase() === id);
+      for (let i = idx - 1; i >= 0; i--) {
+        const prevId = String(events[i].id).toLowerCase();
+        if (data.eventRosters?.[prevId]?.teams) {
+          return clone(data.eventRosters[prevId].teams);
+        }
+      }
+
+      return clone(data.teams || []);
+    }
+
+    function makeTeamShelfMap(roster, events) {
+      const data = normalizeRosterData(roster);
+      const byName = new Map();
+
+      (data.teams || []).forEach((team, idx) => {
+        const name = team?.name || `Team ${idx + 1}`;
+        if (!byName.has(name)) byName.set(name, { name, trophies: [] });
+      });
+
+      events.forEach(evt => {
+        eventRosterTeams(data, evt.id, events).forEach((team, idx) => {
+          const name = team?.name || `Team ${idx + 1}`;
+          if (!byName.has(name)) byName.set(name, { name, trophies: [] });
+        });
+      });
+
+      return byName;
+    }
+
+    function scoreEventTeamsLikeStandings(event, events, roster, pointsMap) {
+      const eventTeams = eventRosterTeams(roster, event.id, events);
+
+      return eventTeams.map((team, idx) => {
+        const name = team?.name || `Team ${idx + 1}`;
+        const players = (team?.players || [])
+          .filter(p => p && p.pdga)
+          .map(p => {
+            const pdga = String(p.pdga || "").trim();
+            const score = Number(pointsMap.get(pdga) || 0);
+            return {
+              pdga,
+              player: String(p.player || ""),
+              score: Number.isFinite(score) ? score : 0
+            };
+          });
+
+        const scored = players
+          .map(p => ({ ...p }))
+          .sort((a, b) => (b.score - a.score) || a.player.localeCompare(b.player));
+
+        const keep = new Set();
+        if (scored.length <= 5) {
+          scored.forEach(s => keep.add(s.pdga));
+        } else {
+          const cutoffScore = scored[4].score;
+          const above = scored.filter(s => s.score > cutoffScore);
+          above.forEach(s => keep.add(s.pdga));
+
+          const remainingSlots = 5 - above.length;
+          const tied = scored
+            .filter(s => s.score === cutoffScore)
+            .sort((a, b) => a.player.localeCompare(b.player));
+
+          tied.slice(0, Math.max(0, remainingSlots)).forEach(s => keep.add(s.pdga));
+        }
+
+        const countedTotal = players.reduce((acc, p) => acc + (keep.has(p.pdga) ? p.score : 0), 0);
+        const rawTotal = players.reduce((acc, p) => acc + p.score, 0);
+
+        return {
+          name,
+          countedTotal,
+          rawTotal
+        };
+      });
+    }
+
     async function computeTrophyData(){
       const [events, roster] = await Promise.all([loadEvents(), loadRosters()]);
-      const teams = (roster.teams || []).map(t => ({
-        name: t.name,
-        players: (t.players || []).map(p => String(p?.pdga ?? '').trim()).filter(Boolean),
-        trophies: []
-      }));
+      const teamShelves = makeTeamShelfMap(roster, events);
 
       for (const event of events) {
         const pointsMap = await loadEventPointsMap(event.stats_csv);
-
-        const teamScores = teams.map(team => {
-          const playerScores = team.players.map(pdga => Number(pointsMap.get(pdga) || 0));
-          const counted = [...playerScores].sort((a,b) => b-a).slice(0, 5);
-          return {
-            name: team.name,
-            seasonEventId: String(event.id || '').toUpperCase(),
-            countedTotal: sum(counted),
-            rawTotal: sum(playerScores)
-          };
-        });
+        const teamScores = scoreEventTeamsLikeStandings(event, events, roster, pointsMap);
 
         teamScores.sort((a,b) => (
           b.countedTotal - a.countedTotal ||
@@ -712,17 +797,20 @@
         ));
 
         const winner = teamScores[0];
-        const team = teams.find(t => t.name === winner.name);
-        if (team) {
-          team.trophies.push({
-            eventId: winner.seasonEventId,
-            score: winner.countedTotal,
-            team: team.name
-          });
+        if (!winner) continue;
+
+        if (!teamShelves.has(winner.name)) {
+          teamShelves.set(winner.name, { name: winner.name, trophies: [] });
         }
+
+        teamShelves.get(winner.name).trophies.push({
+          eventId: String(event.id || '').toUpperCase(),
+          score: winner.countedTotal,
+          team: winner.name
+        });
       }
 
-      teams.sort((a,b) => (
+      const teams = Array.from(teamShelves.values()).sort((a,b) => (
         b.trophies.length - a.trophies.length ||
         a.name.localeCompare(b.name)
       ));
