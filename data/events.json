@@ -45,13 +45,5 @@
     "event_id": 96407,
     "division": "MPO",
     "stats_csv": "data/stats/kcw_stats.csv"
-  },
-
-  {
-    "id": "oaa",
-    "name": "OAA — Open at Austin",
-    "event_id": 96408,
-    "division": "MPO",
-    "stats_csv": "data/stats/oaa_stats.csv"
   }
 ]
