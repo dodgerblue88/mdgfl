@@ -14,6 +14,38 @@
     "division": "MPO",
     "stats_csv": "data/stats/beo_stats.csv"
   },
+
+  {
+    "id": "qcc",
+    "name": "QCC — Queen City Classic",
+    "event_id": 96403,
+    "division": "MPO",
+    "stats_csv": "data/stats/qcc_stats.csv"
+  },
+
+  {
+    "id": "pcc",
+    "name": "PCC — PDGA Champions Cup",
+    "event_id": 97336,
+    "division": "MPO",
+    "stats_csv": "data/stats/pcc_stats.csv"
+  },
+
+  {
+    "id": "jbo",
+    "name": "JBO — Jonesboro Open",
+    "event_id": 96404,
+    "division": "MPO",
+    "stats_csv": "data/stats/jbo_stats.csv"
+  },
+
+  {
+    "id": "kcw",
+    "name": "KCW — Kansas City Wide Open",
+    "event_id": 96407,
+    "division": "MPO",
+    "stats_csv": "data/stats/kcw_stats.csv"
+  },
   
   {
     "id": "oaa",
