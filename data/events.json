@@ -38,14 +38,6 @@
     "division": "MPO",
     "stats_csv": "data/stats/jbo_stats.csv"
   },
-
-  {
-    "id": "kcw",
-    "name": "KCW — Kansas City Wide Open",
-    "event_id": 96407,
-    "division": "MPO",
-    "stats_csv": "data/stats/kcw_stats.csv"
-  },
   
   {
     "id": "oaa",
