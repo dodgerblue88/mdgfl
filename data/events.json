@@ -23,7 +23,7 @@
     "stats_csv": "data/stats/qcc_stats.csv"
   },
 
-     {
+  {
     "id": "pcc",
     "name": "PCC — PDGA Champions Cup",
     "event_id": 97336,
@@ -53,5 +53,16 @@
     "event_id": 96408,
     "division": "MPO",
     "stats_csv": "data/stats/oaa_stats.csv"
+  },
+  
+  {
+    "id": "otb",
+    "name": "OTB — OTB Open",
+    "event_id": 96409,
+    "division": "MPO",
+    "stats_csv": "data/stats/otb_stats.csv"
   }
+
+
+  
 ]
