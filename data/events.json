@@ -45,6 +45,14 @@
     "event_id": 96408,
     "division": "MPO",
     "stats_csv": "data/stats/oaa_stats.csv"
+  },
+
+  {
+    "id": "otb",
+    "name": "OTB — Open at Austin",
+    "event_id": 96409,
+    "division": "MPO",
+    "stats_csv": "data/stats/otb_stats.csv"
   }
   
 ]
