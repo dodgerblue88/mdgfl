@@ -61,6 +61,14 @@
     "event_id": 96409,
     "division": "MPO",
     "stats_csv": "data/stats/otb_stats.csv"
+  },
+
+  {
+    "id": "nwc",
+    "name": "NWC — Northwest Championship",
+    "event_id": 96410,
+    "division": "MPO",
+    "stats_csv": "data/stats/nwc_stats.csv"
   }
   
 ]
