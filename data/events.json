@@ -4,7 +4,7 @@
     "name": "ALE — Ale Open",
     "event_id": 96412,
     "division": "MPO",
-    "stats_csv": "data/stats/sfo_stats.csv"
+    "stats_csv": "data/stats/ale_stats.csv"
   },
 
    {
@@ -12,7 +12,7 @@
     "name": "HNO — Heinola Open",
     "event_id": 96413,
     "division": "MPO",
-    "stats_csv": "data/stats/beo_stats.csv"
+    "stats_csv": "data/stats/hno_stats.csv"
   },
 
   {
@@ -20,7 +20,7 @@
     "name": "LSO — Ledgestone Open",
     "event_id": 96414,
     "division": "MPO",
-    "stats_csv": "data/stats/qcc_stats.csv"
+    "stats_csv": "data/stats/lso_stats.csv"
   }
   
 ]
