@@ -1,0 +1,113 @@
+site_event_id,event_id,Year,event_start_date,event_end_date,event_name,division,Tier,Player,PDGA,player_rating,tournament_total_strokes,Total,Place,Wins,Top 3s,Top 10s,Top 20s,Aces,Albatrosses,Eagles,Birdies,Pars,Bogeys+,TotalPoints,MajorMultiplierUsed,Rounds,HolesCounted
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Richard Wysocki,38008,1051,161,-28,1,1,1,1,1,0,0,0,32,19,3,79.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Calvin Heimburg,45971,1052,163,-26,T2,0,1,1,1,0,0,0,29,22,3,56.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Cole Redalen,79748,1036,163,-26,T2,0,1,1,1,0,0,1,26,25,2,59.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Silas Schultz,79047,1032,164,-25,4,0,0,1,1,0,0,0,32,15,7,45.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Anthony Barela,44382,1041,165,-24,T5,0,0,1,1,0,0,0,28,22,4,44.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Isaac Robinson,50670,1047,165,-24,T5,0,0,1,1,0,0,0,32,15,7,45.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Hjalte Jensen,129061,1028,168,-21,T7,0,0,1,1,0,0,0,32,14,8,44.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jesse Nieminen,58923,1031,168,-21,T7,0,0,1,1,0,0,0,26,24,4,42.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Miio Hämäläinen,201845,1020,169,-20,9,0,0,1,1,0,0,0,29,19,6,43.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Albert Tamm,76669,1022,170,-19,T10,0,0,1,1,0,0,0,24,25,5,39.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Braeden Sides,129963,1028,170,-19,T10,0,0,1,1,0,0,0,25,24,5,40.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Eagle McMahon,37817,1045,170,-19,T10,0,0,1,1,0,0,1,26,18,9,42.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Gannon Buhr,75412,1063,170,-19,T10,0,0,1,1,0,0,1,25,21,7,43.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Lauri Lehtinen,82297,1036,170,-19,T10,0,0,1,1,0,0,0,25,23,6,39.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Rasmus Saukkoriipi,136325,1021,170,-19,T10,0,0,1,1,0,0,1,24,22,7,42.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Raven Newsom,88212,1030,170,-19,T10,0,0,1,1,0,0,0,26,22,6,40.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jakub Semerád,91925,1028,171,-18,T17,0,0,0,1,0,0,0,23,26,5,28.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Sullivan Tipton,78817,1039,171,-18,T17,0,0,0,1,0,0,0,24,24,6,28.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Maico Rimmel,75444,1022,172,-17,T19,0,0,0,1,0,0,0,25,23,6,29.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Nestori Tuhkanen,110462,1026,172,-17,T19,0,0,0,1,0,0,0,24,24,6,28.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Rainers Balodis,158640,1024,172,-17,T19,0,0,0,1,0,0,0,26,21,7,29.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Björn Marrandi,180865,1014,173,-16,T22,0,0,0,0,0,0,0,25,20,9,16.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Bradley Williams,31644,1032,173,-16,T22,0,0,0,0,1,0,1,19,29,5,29.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Fritiof Fagergren,135125,1016,173,-16,T22,0,0,0,0,0,0,0,23,24,7,16.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Hjalmar Fredriksson,116137,1016,173,-16,T22,0,0,0,0,0,0,0,25,21,8,17.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Aaron Gossage,35449,1037,174,-15,T26,0,0,0,0,0,0,0,22,26,6,16.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Daniel Davidsson,76456,1035,174,-15,T26,0,0,0,0,0,0,0,21,29,4,17.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Eetu Tuominen,131056,1036,174,-15,T26,0,0,0,0,0,0,0,21,29,4,17.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Harry Chace,131546,1026,174,-15,T26,0,0,0,0,0,0,0,24,21,9,15.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Hugo Fröjdlund,135258,1009,174,-15,T26,0,0,0,0,0,0,0,21,28,5,16.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Luke Taylor,102119,1037,174,-15,T26,0,0,0,0,0,0,1,20,26,7,18.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Teemu Talikainen,155087,1010,174,-15,T26,0,0,0,0,0,0,0,18,33,3,15.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Clay Edwards,91397,1021,175,-14,T33,0,0,0,0,0,0,0,18,32,4,14.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ezra Aderhold,121715,1023,175,-14,T33,0,0,0,0,0,0,0,22,25,7,15.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Väinö Mäkelä,59635,1033,175,-14,T33,0,0,0,0,0,0,0,20,28,6,14.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Evan Scott,89394,1027,176,-13,36,0,0,0,0,0,0,0,19,30,5,14.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Arvid Håkansson,119628,1016,177,-12,T37,0,0,0,0,0,0,0,19,29,6,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Elias Gripler,79004,1013,177,-12,T37,0,0,0,0,0,0,0,20,27,7,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Henrik Haaland,174255,1013,177,-12,T37,0,0,0,0,0,0,0,21,24,9,12.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Justus Sarvi,165010,1023,177,-12,T37,0,0,0,0,0,0,0,23,21,10,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Knut Valen Håland,35070,1001,177,-12,T37,0,0,0,0,0,0,0,19,28,7,12.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Otto Mäkinen,159317,1021,177,-12,T37,0,0,0,0,0,0,0,22,25,7,15.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Roland Kõur,108695,1022,177,-12,T37,0,0,0,0,0,0,0,20,26,8,12.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ryan Monn,144929,1019,177,-12,T37,0,0,0,0,0,0,0,23,22,9,14.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Gavin Babcock,80331,1038,178,-11,T45,0,0,0,0,0,0,0,21,24,9,12.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Harper Thompson,60259,1025,178,-11,T45,0,0,0,0,0,0,0,20,27,7,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Øyvind Jarnes,41884,1012,178,-11,T45,0,0,0,0,0,0,0,19,27,8,11.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Levi Stout,118179,1020,179,-10,T48,0,0,0,0,0,0,0,24,19,11,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Niklas Anttila,91249,1044,179,-10,T48,0,0,0,0,0,0,0,23,21,10,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Onni Ruusunen,131002,1031,179,-10,T48,0,0,0,0,0,0,0,19,26,9,10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Alexander Karanzas,204855,993,180,-9,T51,0,0,0,0,0,0,0,17,30,7,10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Dennis Augustsson,98130,1017,180,-9,T51,0,0,0,0,0,0,0,21,23,10,11.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Linus Carlsson,82098,1017,180,-9,T51,0,0,0,0,0,0,0,22,21,11,11.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Nikola Arkko,199203,1018,180,-9,T51,0,0,0,0,0,0,0,21,22,11,10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Oiva Päivänsalo,157441,1015,180,-9,T51,0,0,0,0,0,0,0,18,27,9,9.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Peter Lunde,72576,1015,180,-9,T51,0,0,0,0,0,0,0,18,29,7,11.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Simon Lizotte,8332,1031,180,-9,T51,0,0,0,0,0,0,1,15,31,7,13.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Alden Harris,98091,1019,181,-8,T58,0,0,0,0,0,0,0,18,27,9,9.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Teemu Lampainen,107567,1025,181,-8,T58,0,0,0,0,0,0,0,18,27,9,9.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ville Parpala,110596,1012,181,-8,T58,0,0,0,0,0,0,0,17,28,9,8.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Eli Swansen,128050,994,182,-7,T61,0,0,0,0,0,0,0,15,32,7,8.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,James Conrad,17295,1018,182,-7,T61,0,0,0,0,0,0,0,18,27,9,9.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Julius Mølgaard,165751,1003,182,-7,T61,0,0,0,0,0,0,1,19,20,14,10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Mauri Villmann,107197,1042,182,-7,T61,0,0,0,0,0,0,0,20,26,8,12.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Noah Meintsma,56555,1023,183,-6,65,0,0,0,0,0,0,0,21,22,11,10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Andrew Miranda,118426,1023,184,-5,T66,0,0,0,0,0,0,0,18,25,11,7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ben Holding,174343,981,184,-5,T66,0,0,0,0,0,0,0,18,26,10,8.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ezra Robinson,50671,1038,184,-5,T66,0,0,0,0,0,0,0,19,24,11,8.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Gustav Dahlén,102051,1007,184,-5,T66,0,0,0,0,0,0,0,17,26,11,6.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Max Ringbom,91175,1002,184,-5,T66,0,0,0,0,0,0,0,16,29,9,7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jake Monn,98722,1030,185,-4,T71,0,0,0,0,0,0,0,18,24,12,6.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Severi Saviniemi,80974,1003,185,-4,T71,0,0,0,0,0,0,0,17,27,10,7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Halvard Solberg,235882,982,186,-3,T73,0,0,0,0,0,0,0,18,25,11,7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Herman Bentzen Hinkel,113749,976,186,-3,T73,0,0,0,0,0,0,0,15,29,10,5.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Morten Brenna,79859,1007,186,-3,T73,0,0,0,0,0,0,0,16,26,12,4.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Adam Hammes,57365,1037,187,-2,T76,0,0,0,0,0,0,0,17,25,12,5.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jaden Rye,153363,1030,187,-2,T76,0,0,0,0,0,0,0,17,24,13,4.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Samuel Hänninen,87964,998,187,-2,T76,0,0,0,0,0,0,1,14,27,12,7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ville Von Hertzen,211404,1007,187,-2,T76,0,0,0,0,0,0,0,18,21,15,3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Alexander Standal Borgersrud,182130,999,188,-1,T80,0,0,0,0,0,0,0,14,29,11,3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Blær Örn Ásgeirsson,80554,998,188,-1,T80,0,0,0,0,0,0,0,13,30,11,2.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Joseph Anderson,122356,1031,188,-1,T80,0,0,0,0,0,0,0,16,27,11,5.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Axel Wernborg,162717,999,189,0,T83,0,0,0,0,0,0,0,12,33,9,3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Eetu Salomäki,117593,1011,189,0,T83,0,0,0,0,0,0,0,10,36,8,2.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Henric Hagman,59769,1006,189,0,T83,0,0,0,0,1,0,1,11,31,11,15.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Luke Humphries,69424,1013,189,0,T83,0,0,0,0,0,0,0,16,25,13,3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Luukas Rokkanen,64917,1014,189,0,T83,0,0,0,0,0,0,0,15,25,14,1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jakub Knápek,68237,1023,190,1,T88,0,0,0,0,0,0,0,18,22,14,4.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Tobias Hjorteland Schjølberg,165236,992,190,1,T88,0,0,0,0,0,0,0,14,27,13,1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Elias Luukkonen,106059,1012,191,2,T90,0,0,0,0,0,0,0,16,27,11,5.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Elias Nordberg,278842,968,191,2,T90,0,0,0,0,0,0,0,13,28,13,0.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Calvin Lonnquist,145206,1017,192,3,T92,0,0,0,0,0,0,0,13,30,11,2.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Florian Lingenhel,77589,1004,192,3,T92,0,0,0,0,0,0,0,12,32,10,2.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Isak Andersson,123433,993,192,3,T92,0,0,0,0,0,0,0,15,27,12,3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Matt Bell,48950,1015,192,3,T92,0,0,0,0,0,0,0,14,27,13,1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Emil Karlsson,190064,992,193,4,T96,0,0,0,0,0,0,0,12,29,13,-1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Joey Temali,100818,995,193,4,T96,0,0,0,0,0,0,0,10,34,10,0.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Ture Valtonen,101609,990,193,4,T96,0,0,0,0,0,0,0,14,25,15,-1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Anton Bergqvist,266496,985,194,5,T99,0,0,0,0,0,0,0,11,31,12,-1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Silas Evald Wiwe,184512,998,194,5,T99,0,0,0,0,0,0,0,11,29,14,-3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Morten Kristiansen,111626,992,195,6,101,0,0,0,0,0,0,0,12,27,15,-3.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Emile Barbe,57366,990,196,7,T102,0,0,0,0,0,0,0,11,30,13,-2.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jakob Grøv,263901,976,196,7,T102,0,0,0,0,0,0,0,12,26,16,-4.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Rienk Kan,89184,993,196,7,T102,0,0,0,0,0,0,0,10,30,14,-4.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Evald Sandermoen Øwre,124269,989,197,8,105,0,0,0,0,0,0,0,13,27,14,-1.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Herman Hatlo,123220,963,198,9,T106,0,0,0,0,0,0,0,7,34,13,-6.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Holger Håkansson,119626,980,198,9,T106,0,0,0,0,0,0,0,8,31,15,-7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Melker Molin,81376,969,199,10,108,0,0,0,0,0,0,0,9,27,18,-9.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Jacob Blair,52785,1004,201,12,T109,0,0,0,0,0,0,0,7,32,15,-8.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Niko Rättyä,52488,969,201,12,T109,0,0,0,0,0,0,0,11,25,18,-7.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Martin Cronacher,229763,985,205,16,111,0,0,0,0,0,0,0,6,32,16,-10.0,1.0,3,54
+ale,96412,2026,2026-07-03,2026-07-05,Ale Open presented by Discraft,MPO,Disc Golf Pro Tour,Espen Normann Paulsen,95645,974,999,8,112,0,0,0,0,0,0,0,5,27,15,-10.0,1.0,3,47
