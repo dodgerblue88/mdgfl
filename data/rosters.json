@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-04-27T22:43:04.300Z",
+  "updatedAt": "2026-08-12T21:37:30.133Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -20,8 +20,8 @@
           "pdga": "8332"
         },
         {
-          "player": "Ezra Aderhold",
-          "pdga": "121715"
+          "player": "Casey White",
+          "pdga": "81739"
         },
         {
           "player": "Andrew Marwede",
@@ -53,8 +53,8 @@
           "pdga": "79748"
         },
         {
-          "player": "Evan Smith",
-          "pdga": "101574"
+          "player": "Paul McBeth",
+          "pdga": "27523"
         },
         {
           "player": "Zachary Nash",
