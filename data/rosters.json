@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-08-12T21:37:30.133Z",
+  "updatedAt": "2026-08-12T21:37:38.502Z",
   "numTeams": 5,
   "playersPerTeam": 6,
   "teams": [
@@ -20,8 +20,8 @@
           "pdga": "8332"
         },
         {
-          "player": "Casey White",
-          "pdga": "81739"
+          "player": "Ezra Aderhold",
+          "pdga": "121715"
         },
         {
           "player": "Andrew Marwede",
@@ -53,8 +53,8 @@
           "pdga": "79748"
         },
         {
-          "player": "Paul McBeth",
-          "pdga": "27523"
+          "player": "Evan Smith",
+          "pdga": "101574"
         },
         {
           "player": "Zachary Nash",
@@ -448,6 +448,157 @@
             {
               "player": "",
               "pdga": ""
+            }
+          ]
+        }
+      ]
+    },
+    "dmc": {
+      "eventId": "dmc",
+      "updatedAt": "2026-08-12T21:37:38.502Z",
+      "teams": [
+        {
+          "name": "John",
+          "players": [
+            {
+              "player": "Calvin Heimburg",
+              "pdga": "45971"
+            },
+            {
+              "player": "Raven Newsom",
+              "pdga": "88212"
+            },
+            {
+              "player": "Simon Lizotte",
+              "pdga": "8332"
+            },
+            {
+              "player": "Ezra Aderhold",
+              "pdga": "121715"
+            },
+            {
+              "player": "Andrew Marwede",
+              "pdga": "75590"
+            },
+            {
+              "player": "Silas Schultz",
+              "pdga": "79047"
+            }
+          ]
+        },
+        {
+          "name": "Zack",
+          "players": [
+            {
+              "player": "Richard Wysocki",
+              "pdga": "38008"
+            },
+            {
+              "player": "Niklas Anttila",
+              "pdga": "91249"
+            },
+            {
+              "player": "Luke Taylor",
+              "pdga": "102119"
+            },
+            {
+              "player": "Cole Redalen",
+              "pdga": "79748"
+            },
+            {
+              "player": "Evan Smith",
+              "pdga": "101574"
+            },
+            {
+              "player": "Zachary Nash",
+              "pdga": "101197"
+            }
+          ]
+        },
+        {
+          "name": "Kevin",
+          "players": [
+            {
+              "player": "Ezra Robinson",
+              "pdga": "50671"
+            },
+            {
+              "player": "Sullivan Tipton",
+              "pdga": "78817"
+            },
+            {
+              "player": "Adam Hammes",
+              "pdga": "57365"
+            },
+            {
+              "player": "Joseph Anderson",
+              "pdga": "122356"
+            },
+            {
+              "player": "Mauri Villmann",
+              "pdga": "107197"
+            },
+            {
+              "player": "Austin Turner",
+              "pdga": "54049"
+            }
+          ]
+        },
+        {
+          "name": "Jon",
+          "players": [
+            {
+              "player": "Gannon Buhr",
+              "pdga": "75412"
+            },
+            {
+              "player": "Kyle Klein",
+              "pdga": "85132"
+            },
+            {
+              "player": "Aaron Gossage",
+              "pdga": "35449"
+            },
+            {
+              "player": "Gavin Babcock",
+              "pdga": "80331"
+            },
+            {
+              "player": "Corey Ellis",
+              "pdga": "44512"
+            },
+            {
+              "player": "Braeden Sides",
+              "pdga": "129963"
+            }
+          ]
+        },
+        {
+          "name": "Mike",
+          "players": [
+            {
+              "player": "Isaac Robinson",
+              "pdga": "50670"
+            },
+            {
+              "player": "Anthony Barela",
+              "pdga": "44382"
+            },
+            {
+              "player": "Eagle McMahon",
+              "pdga": "37817"
+            },
+            {
+              "player": "Jesse Nieminen",
+              "pdga": "58923"
+            },
+            {
+              "player": "Chris Dickerson",
+              "pdga": "62467"
+            },
+            {
+              "player": "Jake Monn",
+              "pdga": "98722"
             }
           ]
         }
