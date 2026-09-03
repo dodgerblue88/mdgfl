@@ -6,4 +6,11 @@
     "division": "MPO",
     "stats_csv": "data/stats/pdc_stats.csv"
   }
+    {
+    "id": "pwc",
+    "name": "PWC — PDGA World Championships",
+    "event_id": 97344,
+    "division": "MPO",
+    "stats_csv": "data/stats/pwc_stats.csv"
+  }
 ]
