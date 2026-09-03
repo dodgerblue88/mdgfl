@@ -117,7 +117,7 @@
     "event_id": 96415,
     "division": "MPO",
     "stats_csv": "data/stats/dmc_stats.csv"
-  }
+  },
     {
     "id": "pdc",
     "name": "PDC — Preserve Doubles Championship",
